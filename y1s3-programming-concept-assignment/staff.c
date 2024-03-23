@@ -9,5 +9,7 @@ struct staff{
 };
 
 void staffmain() {
+  
+	struct staff info;
 
 }
