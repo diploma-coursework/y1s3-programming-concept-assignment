@@ -12,4 +12,6 @@ void staffmain() {
   
 	struct staff info;
 
+	printf("Hi");
+
 }

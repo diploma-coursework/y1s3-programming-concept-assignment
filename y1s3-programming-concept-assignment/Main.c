@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "staff.c"
+#include "staff.h"
 
 int main() {
 
