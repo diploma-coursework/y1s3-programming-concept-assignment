@@ -128,10 +128,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Main.c" />
-    <ClCompile Include="staff.c" />
+    <ClCompile Include="MemberInfoModule.c" />
+    <ClCompile Include="StaffInfoModule.c" />
+    <ClCompile Include="TicketBooking.c" />
+    <ClCompile Include="TrainSchedulingModule.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="staff.h" />
+    <ClInclude Include="StaffInfoModule.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TicketBookings.dat" />
+    <None Include="TrainSchedules.dat" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="MemberInfo.txt" />
+    <Text Include="StaffInfo.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

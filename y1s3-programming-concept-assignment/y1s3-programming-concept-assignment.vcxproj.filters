@@ -18,13 +18,38 @@
     <ClCompile Include="Main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="staff.c">
+    <ClCompile Include="MemberInfoModule.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StaffInfoModule.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TicketBooking.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TrainSchedulingModule.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="staff.h">
+    <ClInclude Include="StaffInfoModule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TrainSchedules.dat">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="TicketBookings.dat">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="MemberInfo.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="StaffInfo.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>
