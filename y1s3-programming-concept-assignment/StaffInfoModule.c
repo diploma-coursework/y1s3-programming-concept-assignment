@@ -35,9 +35,9 @@ void staffmain() {
 	printf("*********************************************************************************\n");
 	printf("*********************************************************************************\n");
 	printf("***                                                                           ***\n");
-	printf("***                                 STAFF MENU                                ***\n");
+	printf("***                                STAFF MENU                                 ***\n");
 	printf("***                                                                           ***\n");
-	printf("***                               POWERED BY LEE                              ***\n");
+	printf("***                              POWERED BY LEE                               ***\n");
 	printf("***                                                                           ***\n");
 	printf("*********************************************************************************\n");
 	printf("*********************************************************************************\n");
@@ -48,18 +48,15 @@ void staffmain() {
 	printf("\n");
 
 	do {
-
 	 printf("Enter a number (1,2,3) to enter a menu >");
 	 scanf("%d", &choice);
 	 printf("\n");
-
 
 		switch (choice) {
 		case 1:
 			staffmainMenu();
 			valid = 1;
 			break;
-
 		case 2:
 			staffloginMenu();
 			valid = 1;
@@ -69,8 +66,8 @@ void staffmain() {
 			valid = 1;
 			break;
 		default:
-			printf("INVALID NUMBER ENTERED!");
-			printf("\n");
+			printf("       INVALID NUMBER ENTERED!\n");
+			printf("========================================\n");
 			break;
 		}
 	} while (!valid);
