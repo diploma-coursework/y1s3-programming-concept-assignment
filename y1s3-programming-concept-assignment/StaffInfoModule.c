@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 
 struct staff{
 	char name[40];
@@ -85,16 +84,4 @@ staffCreateStaffAccMenu() {
 	printf("Hi3");
 }
 
-
-/*
-void scan() {
-	struct staff info;
-
-	printf("Enter Staff info\n\n");
-
-	printf("Name");
-	scanf("%s", &info.name);
-
-}
-*/
 
