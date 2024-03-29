@@ -3,31 +3,13 @@
 #include <string.h>
 
 struct staff{
-	char name[40];
+	char id[40];
 	char pass[30];
 	char passRec[30];
 	char position[30];
 };
 
 void staffmain() {
-  
-	/*
-	struct staff info;
-	FILE* fp;
-
-	scan();
-
-	if ((fp = fopen("Staffinfo.txt", "wb")) == NULL) {
-		printf("UNABLE TO ACCESS THE FILE");
-		return 1;
-	}
-
-	fwrite(&info.name, sizeof(10), 1, fp);
-	printf("\n");
-	printf("ACCOUNT SUCCESSFULLY CREATED\n");
-
-	fclose(fp);
-	*/
 
 	int choice, valid = 0;
 
@@ -41,47 +23,95 @@ void staffmain() {
 	printf("*********************************************************************************\n");
 	printf("*********************************************************************************\n");
 	printf("\n");
-	printf("1. Main Menu\n");
-	printf("2. Login Menu\n");
-	printf("3. Account Registration Menu\n");
+	printf("1. Staff position menu\n");
+	printf("2. Staff searching menu\n");
+	printf("3. Staff account Registration Menu\n");
+	printf("4. Staff Information Menu\n");
+	printf("5. Account Modification Menu\n");
+	printf("6. Account deletion menu \n");
 	printf("\n");
 
 	do {
-	 printf("Enter a number (1,2,3) to enter a menu >");
+	 printf("Enter a number (1,2,3,4,5,6) to enter a menu >");
 	 scanf("%d", &choice);
 	 printf("\n");
-
 		switch (choice) {
 		case 1:
-			staffmainMenu();
+			staffPosition();
 			valid = 1;
 			break;
 		case 2:
-			staffloginMenu();
+			staffSearching();
 			valid = 1;
 			break;
 		case 3:
-			staffCreateStaffAccMenu();
+			staffRegistration();
+			valid = 1;
+			break;
+		case 4:
+			staffInformation();
+			valid = 1;
+			break;
+		case 5:
+			staffModification();
+			valid = 1;
+			break;
+		case 6:
+			staffDeletion();
 			valid = 1;
 			break;
 		default:
-			printf("       INVALID NUMBER ENTERED!\n");
+			printf("\n\033[1;31m        INVALID NUMBER ENTERED! \033[1;0m\n");
 			printf("========================================\n");
 			break;
 		}
 	} while (!valid);
 }
 
-staffmainMenu() {
-	printf("Hi1");
+staffPosition() {
+	system("cls");
 }
 
-staffloginMenu() {
-	printf("Hi2");
+staffSearching() {
+	system("cls");
 }
 
-staffCreateStaffAccMenu() {
-	printf("Hi3");
+staffRegistration() {
+
+	system("cls");
+
+	struct staff info;
+	FILE* fp;
+
+
+	system("cls");
+
+	if ((fp = fopen("StaffInfo.txt", "w")) == NULL) {
+		printf("UNABLE TO ACCESS THE FILE");
+		return 1;
+	}
+
+	printf("ENTER THE STAFF INFORMATION");
+	printf("===========================");
+	printf("Staff Id >");
+
+
+	printf("\n");
+	printf("\n\033[1;32m ACCOUNT SUCCESSFULLY ADDED \033[1;0m");
+
+	fclose(fp);
+}
+
+staffInformation() {
+	system("cls");
+}
+
+staffModification() {
+	system("cls");
+}
+
+staffDeletion() {
+	system("cls");
 }
 
 
