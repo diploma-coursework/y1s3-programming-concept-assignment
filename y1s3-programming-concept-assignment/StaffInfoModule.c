@@ -3,7 +3,8 @@
 #include <string.h>
 
 struct staff{
-	char id[40];
+	char id[7];
+	char name[40];
 	char pass[30];
 	char passRec[30];
 	char position[30];
@@ -87,17 +88,42 @@ staffRegistration() {
 	system("cls");
 
 	if ((fp = fopen("StaffInfo.txt", "w")) == NULL) {
-		printf("UNABLE TO ACCESS THE FILE");
+		printf("AN ERROR OCCUR PLEASE TRY AGAIN!");
 		return 1;
 	}
 
-	printf("ENTER THE STAFF INFORMATION");
-	printf("===========================");
-	printf("Staff Id >");
+	printf("ENTER THE STAFF INFORMATION TO CREATE ACCOUNT\n");
+	printf("=============================================\n");
 
+	while(1) {
+
+		printf("Enter staff Id >");
+		scanf("%s", &info.id);
+
+		if (strstr(&info.id, "PMD") != NULL) {
+			break;
+	    } else {
+			printf("\n\033[1;31mTHE STAFF ID MUST CONTAIN (PMD)\033[1;0m\n");
+			printf("===============================\n");
+		}
+	}
+
+	/*
+	do {	
+		printf("\nEnter staff name >");
+		scanf("%s", &info.name);
+	}
+
+	if (strlen(&info.name) > 0) {
+		printf("\nEnter staff pass >");
+		scanf("%s", &info.pass);
+	}
+	else
+	*/
+	
 
 	printf("\n");
-	printf("\n\033[1;32m ACCOUNT SUCCESSFULLY ADDED \033[1;0m");
+	printf("\n\033[1;32mACCOUNT SUCCESSFULLY ADDED \033[1;0m");
 
 	fclose(fp);
 }
