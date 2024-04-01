@@ -3,7 +3,7 @@
 #include <string.h>
 
 struct staff{
-	char id[7];
+	char id[8];
 	char name[40];
 	char pass[30];
 	char passRec[30];
@@ -83,7 +83,7 @@ staffRegistration() {
 
 	system("cls");
 
-	int length, length2;
+	int length, length2, length3;
 
 	struct staff info;
 	FILE* fp;
@@ -98,11 +98,16 @@ staffRegistration() {
 
 	while (1) {
 
-		printf("Enter staff Id >");
+		printf("Enter staff Id with PMD included >");
 		scanf("%s", &info.id);
+
+		length = strlen(info.id);
 
 		if (strstr(&info.id, "PMD") != NULL) {
 			break;
+		}
+		else if(length > 7){
+			printf("\n\033[1; 31mTHE MAXIMUM ID LENGTH CANNOT EXCEED 8!\033[1;0m\n");
 		}
 		else {
 			printf("\n\033[1;31mTHE STAFF ID MUST CONTAIN (PMD)\033[1;0m\n");
@@ -116,17 +121,17 @@ staffRegistration() {
 		printf("Enter staff name >");
 		scanf("%s", &info.name);
 
-		length = strlen(&info.pass);
+		length2 = strlen(&info.name);
 
-		if (length > 4) {
+		if (length2 < 40) {
 			break;
 		}
 		else {
-			printf("\n\033[1;31mTHE PASSWORD LENGTH MUST EXCEED 4 DIGITS ABOVE\033[1;0m\n");
+			printf("\n\033[1;31mYOUR NAME IS TOO LONG\033[1;0m\n");
 			printf("\n");
 		}
 
-	} while (length < 4);
+	} while (length2 > 40);
 
 
 	do {
@@ -134,9 +139,9 @@ staffRegistration() {
 		printf("Enter staff password >");
 		scanf("%s", &info.pass);
 
-		length2 = strlen(&info.pass);
+		length3 = strlen(&info.pass);
 
-		if (length2 > 4) {
+		if (length3 > 4) {
 			break;
 		}
 		else {
@@ -144,7 +149,7 @@ staffRegistration() {
 			printf("\n");
 		}
 
-	} while(length2 < 4);
+	} while(length3 < 4);
 
 	fprintf(fp, "%s,", info.id);
 	fprintf(fp, "%s,", info.name);
@@ -152,8 +157,6 @@ staffRegistration() {
 	
 	printf("\n");
 	printf("\n\033[1;32mACCOUNT SUCCESSFULLY ADDED \033[1;0m");
-
-
 
 	fclose(fp);
 }
