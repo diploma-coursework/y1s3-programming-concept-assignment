@@ -88,7 +88,7 @@ staffRegistration() {
 	struct staff info;
 	FILE* fp;
 
-	if ((fp = fopen("StaffInfo.txt", "w")) == NULL) {
+	if ((fp = fopen("StaffInfo.txt", "a")) == NULL) {
 		printf("AN ERROR OCCUR PLEASE TRY AGAIN!");
 		return 1;
 	}
@@ -109,8 +109,6 @@ staffRegistration() {
 			printf("===============================\n");
 			printf("\n");
 		}
-
-
 	}
 
 	do {
