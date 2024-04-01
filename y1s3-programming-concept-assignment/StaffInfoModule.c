@@ -7,7 +7,7 @@ struct staff{
 	char name[40];
 	char pass[30];
 	char passRec[30];
-	char position[30];
+	char location[30];
 };
 
 void staffmain() {
@@ -69,9 +69,11 @@ void staffmain() {
 	} while (!valid);
 }
 
+
 staffPosition() {
 	system("cls");
 }
+
 
 staffSearching() {
 	system("cls");
@@ -81,11 +83,10 @@ staffRegistration() {
 
 	system("cls");
 
+	int length, length2;
+
 	struct staff info;
 	FILE* fp;
-
-
-	system("cls");
 
 	if ((fp = fopen("StaffInfo.txt", "w")) == NULL) {
 		printf("AN ERROR OCCUR PLEASE TRY AGAIN!");
@@ -95,35 +96,66 @@ staffRegistration() {
 	printf("ENTER THE STAFF INFORMATION TO CREATE ACCOUNT\n");
 	printf("=============================================\n");
 
-	while(1) {
+	while (1) {
 
 		printf("Enter staff Id >");
 		scanf("%s", &info.id);
 
 		if (strstr(&info.id, "PMD") != NULL) {
 			break;
-	    } else {
+		}
+		else {
 			printf("\n\033[1;31mTHE STAFF ID MUST CONTAIN (PMD)\033[1;0m\n");
 			printf("===============================\n");
+			printf("\n");
 		}
+
+
 	}
 
-	/*
-	do {	
-		printf("\nEnter staff name >");
+	do {
+
+		printf("Enter staff name >");
 		scanf("%s", &info.name);
-	}
 
-	if (strlen(&info.name) > 0) {
-		printf("\nEnter staff pass >");
+		length = strlen(&info.pass);
+
+		if (length > 4) {
+			break;
+		}
+		else {
+			printf("\n\033[1;31mTHE PASSWORD LENGTH MUST EXCEED 4 DIGITS ABOVE\033[1;0m\n");
+			printf("\n");
+		}
+
+	} while (length < 4);
+
+
+	do {
+
+		printf("Enter staff password >");
 		scanf("%s", &info.pass);
-	}
-	else
-	*/
-	
 
+		length2 = strlen(&info.pass);
+
+		if (length2 > 4) {
+			break;
+		}
+		else {
+			printf("\n\033[1;31mTHE PASSWORD LENGTH MUST EXCEED 4 DIGITS ABOVE\033[1;0m\n");
+			printf("\n");
+		}
+
+	} while(length2 < 4);
+
+	fprintf(fp, "%s,", info.id);
+	fprintf(fp, "%s,", info.name);
+	fprintf(fp, "%s", info.pass);
+	
 	printf("\n");
 	printf("\n\033[1;32mACCOUNT SUCCESSFULLY ADDED \033[1;0m");
+
+
 
 	fclose(fp);
 }
