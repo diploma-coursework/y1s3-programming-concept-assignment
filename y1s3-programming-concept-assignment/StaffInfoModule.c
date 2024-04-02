@@ -37,7 +37,7 @@ void staffmain() {
 	printf("\n");
 
 	do {
-	 printf("Enter a number (1,2,3,4,5,6) to enter a menu >");
+	 printf("Enter a number (1,2) to enter a menu >");
 	 scanf("%d", &choice);
 	 printf("\n");
 		switch (choice) {
@@ -80,6 +80,14 @@ staffRegistration() {
 		printf("Enter staff Id with PMD included >");
 		scanf("%s", &info.id);
 
+		//Must not exceed 7 digits length
+		if (strlen(&info.id) > 7) {
+
+			printf("\n\033[1;31mTHE MAXIMUM ID LENGTH CANNOT EXCEED 8!\033[1;0m\n");
+			printf("======================================\n");
+			continue;
+		}
+
 		//Must include "PMD"
 		if (strstr(&info.id, "PMD") != NULL) {
 			break;
@@ -91,13 +99,6 @@ staffRegistration() {
 			printf("\n");
 		}
 
-		//Must not exceed 7 digits length
-		if (strlen(&info.id) > 7) {
-
-			return 0;
-			printf("\n\033[1;31mTHE MAXIMUM ID LENGTH CANNOT EXCEED 8!\033[1;0m\n");
-			printf("======================================\n");
-		}
 	}
 
 	// name validation check
@@ -173,7 +174,7 @@ staffLogin() {
 	fpr = fopen("StaffInfo.txt", "r");
 
 	printf("Login page\n");
-
+	printf("\n");
 	printf("Staff id >");
 	scanf("%s", info2.id);
 	printf("staff password >");
