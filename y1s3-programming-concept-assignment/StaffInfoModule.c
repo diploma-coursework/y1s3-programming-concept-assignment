@@ -26,12 +26,14 @@ void staffmain() {
 	printf("*********************************************************************************\n");
 	printf("*********************************************************************************\n");
 	printf("\n");
-	printf("1. Staff login menu\n");
-	printf("2. Staff searching menu\n");
-	printf("3. Staff account Registration Menu\n");
+	printf("1. Staff account Registration Menu\n"); 
+	printf("2. Staff login menu\n"); 
+	/*
+	printf("3. Staff searching menu\n"); 
 	printf("4. Staff Information Menu\n");
 	printf("5. Account Modification Menu\n");
 	printf("6. Account deletion menu \n");
+	*/
 	printf("\n");
 
 	do {
@@ -40,27 +42,11 @@ void staffmain() {
 	 printf("\n");
 		switch (choice) {
 		case 1:
-			staffLogin();
-			valid = 1;
-			break;
-		case 2:
-			staffSearching();
-			valid = 1;
-			break;
-		case 3:
 			staffRegistration();
 			valid = 1;
 			break;
-		case 4:
-			staffInformation();
-			valid = 1;
-			break;
-		case 5:
-			staffModification();
-			valid = 1;
-			break;
-		case 6:
-			staffDeletion();
+		case 2:
+			staffLogin();
 			valid = 1;
 			break;
 		default:
@@ -69,17 +55,6 @@ void staffmain() {
 			break;
 		}
 	} while (!valid);
-}
-
-
-staffLogin() {
-	system("cls");
-	printf("Test");
-}
-
-
-staffSearching() {
-	system("cls");
 }
 
 staffRegistration() {
@@ -160,7 +135,7 @@ staffRegistration() {
 	} while(length3 < 4);
 
 
-	//
+	// print the information to text file
 	fprintf(fp, "%s, %s, %s", info.id, info.name, info.pass);
 	
 	
@@ -188,6 +163,24 @@ staffRegistration() {
 
 }
 
+staffLogin() {
+
+	system("cls");
+
+	struct staff info2;
+	FILE* fpr;
+
+	fpr = fopen("StaffInfo.txt", "r");
+
+	printf("Login page\n");
+
+	printf("Staff id >");
+	scanf("%s", info2.id);
+	printf("staff password >");
+	scanf("%s", info2.pass);
+
+}
+
 staffInformation() {
 	system("cls");
 }
@@ -200,4 +193,7 @@ staffDeletion() {
 	system("cls");
 }
 
+staffSearching() {
+	system("cls");
+}
 
