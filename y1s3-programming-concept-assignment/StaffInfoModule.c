@@ -78,7 +78,7 @@ staffRegistration() {
 	//Id validation check
 	while (1) {
 		printf("Enter staff Id with PMD included >");
-		scanf("%s", &info.id);
+		scanf("%19s", &info.id);
 
 		//Must not exceed 7 digits length
 		if (strlen(&info.id) > 7) {
@@ -93,10 +93,9 @@ staffRegistration() {
 			break;
 		}
 		else {
-			return 0;
+			printf("\n");
 			printf("\n\033[1;31mTHE STAFF ID MUST CONTAIN (PMD)\033[1;0m\n");
 			printf("===============================\n");
-			printf("\n");
 		}
 
 	}
@@ -104,7 +103,7 @@ staffRegistration() {
 	// name validation check
 	do {
 		printf("Enter staff name >");
-		scanf("%s", &info.name);
+		scanf("%40s", &info.name);
 
 		length2 = strlen(&info.name);
 
@@ -121,7 +120,7 @@ staffRegistration() {
 	//password validation check
 	do {
 		printf("Enter staff password >");
-		scanf("%s", &info.pass);
+		scanf("%40s", &info.pass);
 
 		length3 = strlen(&info.pass);
 
@@ -137,7 +136,7 @@ staffRegistration() {
 
 
 	// print the information to text file
-	fprintf(fp, "%s, %s, %s", info.id, info.name, info.pass);
+	fprintf(fp, "%s, %s, %s\n", info.id, info.name, info.pass);
 	
 	
 	printf("\n");
@@ -147,19 +146,26 @@ staffRegistration() {
 
 	// Enter another pages
 	do {
-	  printf("\nENTER 1 TO GO BACK THE MAIN STAFF PAGE, ENTER 2 TO GO TO LOGIN PAGE >");
+	  printf("ENTER (1) TO GO BACK THE MAIN STAFF PAGE\nENTER (2) TO GO TO LOGIN PAGE\nENTER (3) TO EXIT THE PROGRAM\n\n>");
 	  scanf("%d", &choice2);
 
-		switch (choice2) {
-		case 1:
-			staffmain();
-			valid2 = 1;
-			break;
-		case 2:
-			staffmain();
-			valid2 = 1;
-			break;
-		}
+	  switch (choice2) {
+	  case 1:
+		  staffmain();
+		  valid2 = 1;
+		  break;
+	  case 2:
+		  staffmain();
+		  valid2 = 1;
+		  break;
+	  case 3:
+		  return 0;
+		  break;
+	  default:
+		  printf("INVALID NUMBER ENTERED, PLEASE TRY AGAIN!\n");
+		  printf("=========================================\n");
+		  printf("\n");
+	  }
 	} while (!valid2);
 
 }
