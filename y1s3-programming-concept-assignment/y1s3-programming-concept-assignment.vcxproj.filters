@@ -35,6 +35,12 @@
     <ClInclude Include="StaffInfoModule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GeneralStructs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemEnums.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="TrainSchedules.dat">
