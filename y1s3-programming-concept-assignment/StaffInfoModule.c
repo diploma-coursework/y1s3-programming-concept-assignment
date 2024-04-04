@@ -9,6 +9,7 @@ struct staff{
 	char pass[30];
 };
 
+// staff main
 void staffmain() {
 
 	int choice, valid = 0;
@@ -16,24 +17,18 @@ void staffmain() {
 	system("cls");
 
 	// main page
-	printf("*********************************************************************************\n");
-	printf("*********************************************************************************\n");
-	printf("***                                                                           ***\n");
-	printf("***                                STAFF MENU                                 ***\n");
-	printf("***                                                                           ***\n");
-	printf("***                              POWERED BY LEE                               ***\n");
-	printf("***                                                                           ***\n");
-	printf("*********************************************************************************\n");
-	printf("*********************************************************************************\n");
+	printf("\033[1;34m*********************************************************************************\033[1;0m\n");
+	printf("\033[1;34m*********************************************************************************\033[1;0m\n");
+	printf("\033[1;34m***                                                                           ***\033[1;0m\n");
+	printf("\033[1;34m***                                STAFF MENU                                 ***\033[1;0m\n");
+	printf("\033[1;34m***                                                                           ***\033[1;0m\n");
+	printf("\033[1;34m***                              POWERED BY LEE                               ***\033[1;0m\n");
+	printf("\033[1;34m***                                                                           ***\033[1;0m\n");
+	printf("\033[1;34m*********************************************************************************\033[1;0m\n");
+	printf("\033[1;34m*********************************************************************************\033[1;0m\n");
 	printf("\n");
 	printf("1. Staff account Registration Menu\n"); 
 	printf("2. Staff login menu\n"); 
-	/*
-	printf("3. Staff searching menu\n"); 
-	printf("4. Staff Information Menu\n");
-	printf("5. Account Modification Menu\n");
-	printf("6. Account deletion menu \n");
-	*/
 	printf("\n");
 
 	do {
@@ -97,7 +92,6 @@ staffRegistration() {
 			printf("\n\033[1;31mTHE STAFF ID MUST CONTAIN (PMD)\033[1;0m\n");
 			printf("===============================\n");
 		}
-
 	}
 
 	// name validation check
@@ -124,23 +118,29 @@ staffRegistration() {
 
 		length3 = strlen(&info.pass);
 
-		if (length3 > 4) {
-			break;
+		if (length3 < 4) {
+			printf("\n\033[1;31mTHE PASSWORD LENGTH MUST EXCEED OR EQUAL 4!\033[1;0m\n");
+			printf("===========================================");
+			continue;
 		}
 		else {
-			printf("\n\033[1;31mTHE PASSWORD LENGTH MUST EXCEED 4 DIGITS ABOVE\033[1;0m\n");
-			printf("\n");
+			break;
 		}
 
 	} while(length3 < 4);
 
+	//Create a new line to the file
+	if (ftell(fp) != 0) {
+		fprintf(fp, "\n");
+	}
 
 	// print the information to text file
 	fprintf(fp, "%s, %s, %s\n", info.id, info.name, info.pass);
 	
 	
 	printf("\n");
-	printf("\n\033[1;32mACCOUNT SUCCESSFULLY ADDED \033[1;0m\n");
+	printf("\n\033[1;32mACCOUNT SUCCESSFULLY ADDED\033[1;0m\n");
+	printf("===========================\n");
 
 	fclose(fp);
 
@@ -170,6 +170,7 @@ staffRegistration() {
 
 }
 
+// staff login
 staffLogin() {
 
 	system("cls");
@@ -183,6 +184,7 @@ staffLogin() {
 	printf("\n");
 	printf("Staff id >");
 	scanf("%s", info2.id);
+
 	printf("staff password >");
 	scanf("%s", info2.pass);
 
