@@ -3,11 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 
-struct staff{
-	char id[8];
-	char name[40];
-	char pass[30];
-};
+#include "Staff_struct.h"
 
 // staff main
 void staffmain() {
@@ -28,11 +24,12 @@ void staffmain() {
 	printf("\033[1;34m*********************************************************************************\033[1;0m\n");
 	printf("\n");
 	printf("1. Staff account Registration Menu\n"); 
-	printf("2. Staff login menu\n"); 
+	printf("2. Staff login menu\n");
+	printf("3. Exit\n");
 	printf("\n");
 
 	do {
-	 printf("Enter a number (1,2) to enter a menu >");
+	 printf("Enter a number (1,2,3) to enter a menu >");
 	 scanf("%d", &choice);
 	 printf("\n");
 		switch (choice) {
@@ -44,6 +41,8 @@ void staffmain() {
 			staffLogin();
 			valid = 1;
 			break;
+		case 3:
+			return 0;
 		default:
 			printf("\n\033[1;31m        INVALID NUMBER ENTERED! \033[1;0m\n");
 			printf("========================================\n");
@@ -175,19 +174,34 @@ staffLogin() {
 
 	system("cls");
 
-	struct staff info2;
+	struct login info2;
+	char id[8], pass[30];
 	FILE* fpr;
+
 
 	fpr = fopen("StaffInfo.txt", "r");
 
+	if (fpr == NULL) {
+		printf("Error: Unable to open the database file.\n");
+		return 0; // Failed to check credentials
+	}
+
 	printf("Login page\n");
 	printf("\n");
+
 	printf("Staff id >");
-	scanf("%s", info2.id);
-
+	scanf("%s", &id);
 	printf("staff password >");
-	scanf("%s", info2.pass);
+	scanf("%s", &pass);
 
+	while (fscanf(fpr, "%[^,] %[^,] %s", &info2.id, &info2.name, &info2.pass) != EOF) {
+		if (strcmp(id, info2.id) == 0 && strcmp(pass, info2.pass) == 0) {
+			fclose(fpr);
+			printf("Successful login!");
+			return;
+		}
+	}
+		
 }
 
 staffInformation() {

@@ -136,6 +136,7 @@
   <ItemGroup>
     <ClInclude Include="GeneralStructs.h" />
     <ClInclude Include="StaffInfoModule.h" />
+    <ClInclude Include="Staff_struct.h" />
     <ClInclude Include="SystemEnums.h" />
   </ItemGroup>
   <ItemGroup>
