@@ -23,12 +23,10 @@ void staffmain() {
 	printf("\033[1;34m*********************************************************************************\033[1;0m\n");
 	printf("\033[1;34m*********************************************************************************\033[1;0m\n");
 	printf("\n"); 
-	printf("1. Staff login menu\n");
-	printf("2. Exit\n");
-	printf("\n");
+	printf("1. Staff login menu\n2. Exit\n\n");
 
 	do {
-	 printf("Enter a number (1,2,3) to enter a menu >");
+	 printf("Enter a number (1,2) to enter a menu >");
 	 scanf("%d", &choice);
 	 printf("\n");
 		switch (choice) {
@@ -52,7 +50,7 @@ staffRegistration() {
 	system("cls");
 
 	int length, length2, length3;
-	int choice2, valid2 = 0;
+	int choice, valid = 0;
 	char id_check[30];
 
 	struct staff info;
@@ -168,16 +166,16 @@ staffRegistration() {
 	// Enter another pages
 	do {
 	  printf("ENTER (1) TO GO BACK THE MAIN STAFF PAGE\nENTER (2) TO GO TO LOGIN PAGE\nENTER (3) TO EXIT THE PROGRAM\n\n>");
-	  scanf("%d", &choice2);
+	  scanf("%d", &choice);
 
-	  switch (choice2) {
+	  switch (choice) {
 	  case 1:
 		  staffmain();
-		  valid2 = 1;
+		  valid = 1;
 		  break;
 	  case 2:
 		  staffLogin();
-		  valid2 = 1;
+		  valid = 1;
 		  break;
 	  case 3:
 		  return 0;
@@ -187,7 +185,7 @@ staffRegistration() {
 		  printf("=========================================\n");
 		  printf("\n");
 	  }
-	} while (!valid2);
+	} while (!valid);
 
 }
 
@@ -198,6 +196,7 @@ staffLogin() {
 
 	struct login info2;
 	char id[8], pass[30];
+	int choice, valid = 0;
 	FILE* fpr;
 
 
@@ -221,13 +220,46 @@ staffLogin() {
 		if (strcmp(id, info2.id) == 0 && strcmp(pass, info2.pass) == 0) {
 			fclose(fpr);
 			printf("\n");
-			printf("Successful login as %s !", info2.name);
+			system("cls");
+			printf("Successful login as %s !\n\n", info2.name);
+			printf("1. Staff registration\n2. Staff Modification\n3. Staff deletion\n4. Staff searching\n5. exit to the main page\n\n");
+			do {
+				printf("Enter a number (1,2,3,4,5) to enter a menu > ");
+				scanf("%d", &choice);
+
+				switch(choice) {
+				case 1:
+					staffRegistration();
+					valid = 1;
+					break;
+				case 2:
+					staffModification();
+					valid = 1;
+					break;
+				case 3:
+					staffDeletion();
+					valid = 1;
+					break;
+				case 4:
+					staffSearching();
+					valid = 1;
+					break;
+				case 5:
+					staffmain();
+					valid = 1;
+					break;
+				default:
+					printf("\n\033[1;31m        INVALID NUMBER ENTERED! \033[1;0m\n");
+					printf("========================================\n");
+					break;
+				}
+			} while (!valid);
+
 			return;
 		}
 	}
 
-	printf("\n");
-	printf("Login failed. Please check your ID and password.\n");
+	printf("\n\033[1;31mLogin failed. Please check your ID and password.\n\033[1;0m\n");
 	fclose(fpr);
 		
 }
