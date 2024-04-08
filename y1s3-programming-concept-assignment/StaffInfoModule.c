@@ -50,7 +50,7 @@ staffRegistration() {
 	system("cls");
 
 	int length, length2, length3;
-	int choice, valid = 0;
+	int choice, exist, valid = 0;
 	char id_check[30];
 
 	struct staff info;
@@ -66,7 +66,8 @@ staffRegistration() {
 	printf("=============================================\n");
 
 	//Id validation check
-	while (1) {
+	do {
+
 		printf("Enter staff Id with PMD included >");
 		scanf("%s", &info.id);
 
@@ -79,39 +80,34 @@ staffRegistration() {
 		}
 
 		//Must include "PMD"
-		if (strstr(&info.id, "PMD") != NULL) {
-			break;
-		}
-		else {
+		if (strstr(&info.id, "PMD") == NULL) {
 			printf("\n");
 			printf("\n\033[1;31mTHE STAFF ID MUST CONTAIN (PMD)\033[1;0m\n");
 			printf("===============================\n");
 			continue;
 		}
 		
-		
 		//The staff number cannot be the same
-		/*
+		
 		if ((fptr = fopen("StaffInfo.txt", "r")) == NULL) {
 			printf("CAN'T OPEN FILE TO READ!");
+			return 1;
 		}
 
-		int exist = 0;
+		exist = 0;
+		rewind(fptr);
+		struct staff validate;
 
-		struct staff validate[10];
-
-
-		for (int x = 0; x < 10; x++) {
-		   (fscanf(fp, "%[^,], %[^,], %s\n", validate[x].id, validate[x].name, validate[x].pass) != 3) {
-
-		   }
-		   if (strcmp(validate[x].id, info.id) == 0) {
-			   int exist = 1;
-			   break;
-		   }
+		while (fscanf(fptr, "%[^,], %[^,], %s", &validate.id, &validate.name, &validate.pass) != EOF) {
+			if (strcmp(validate.id, info.id) == 0) {
+				printf("\033[1;31mTHE ID ALREADY EXIST PLEASE CHOOSE ANOTHER ID!\033[1;0m\n==============================================\n");
+				exist = 1;
+				break;
+			}
 		}
-		*/
-	}
+	} while(exist);
+
+	fclose(fptr);
 
 	// name validation check
 	do {
@@ -191,43 +187,41 @@ staffRegistration() {
 
 // staff login
 staffLogin() {
-
 	system("cls");
 
 	struct login info2;
 	char id[8], pass[30];
-	int choice, valid = 0;
+	int choice, attempts = 3, valid = 0;
 	FILE* fpr;
-
 
 	fpr = fopen("StaffInfo.txt", "r");
 
 	if (fpr == NULL) {
-		printf("Error: Unable to open the database file.\n");
-		return 0; 
+		printf("Error: Unable to open the file.\n");
+		return;
 	}
 
-	printf("Login page\n");
-	printf("\n");
+	printf("Login page\n\n");
 
-	printf("Staff id >");
-	scanf("%s", &id);
-	printf("staff password >");
-	scanf("%s", &pass);
+	while (attempts > 0) {
+		printf("Remaining attempts: %d\n", attempts);
+	    printf("Staff id: ");
+	    scanf("%s", &id); 
+	    printf("Staff password: ");
+	    scanf("%s", &pass);
 
-	//reading the file to retrieve the values
-	while (fscanf(fpr, "%[^,] , %[^,] , %s", &info2.id, &info2.name, &info2.pass) != EOF) {
-		if (strcmp(id, info2.id) == 0 && strcmp(pass, info2.pass) == 0) {
+	  // Reading the file to retrieve the values
+	  while (fscanf(fpr, "%[^,], %[^,], %s\n", &info2.id, &info2.name, &info2.pass) != EOF) {
+		 if (strcmp(id, info2.id) == 0 && strcmp(pass, info2.pass) == 0) {
 			fclose(fpr);
-			printf("\n");
 			system("cls");
-			printf("Successful login as %s !\n\n", info2.name);
-			printf("1. Staff registration\n2. Staff Modification\n3. Staff deletion\n4. Staff searching\n5. exit to the main page\n\n");
+			printf("Successfully login as %s!\n\n", info2.name);
+			printf("1. Staff registration\n2. Staff Modification\n3. Staff deletion\n4. Staff searching\n5. Exit to the main page\n\n");
+			/*
 			do {
-				printf("Enter a number (1,2,3,4,5) to enter a menu > ");
+				printf("Enter a number (1, 2, 3, 4, 5) to enter a menu: ");
 				scanf("%d", &choice);
-
-				switch(choice) {
+				switch (choice) {
 				case 1:
 					staffRegistration();
 					valid = 1;
@@ -249,19 +243,19 @@ staffLogin() {
 					valid = 1;
 					break;
 				default:
-					printf("\n\033[1;31m        INVALID NUMBER ENTERED! \033[1;0m\n");
+					printf("\n\033[1;31mInvalid number entered!\033[1;0m\n");
 					printf("========================================\n");
 					break;
 				}
 			} while (!valid);
-
+			*/
 			return;
-		}
-	}
-
-	printf("\n\033[1;31mLogin failed. Please check your ID and password.\n\033[1;0m\n");
-	fclose(fpr);
-		
+		 }
+	  }
+	  printf("\n\033[1;31mLogin failed. Please check your ID and password.\033[1;0m\n\n");
+	  attempts--;
+    }
+	printf("You have exceeded the maximum number of login attempts.\n");
 }
 
 staffInformation() {
