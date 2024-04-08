@@ -22,10 +22,9 @@ void staffmain() {
 	printf("\033[1;34m***                                                                           ***\033[1;0m\n");
 	printf("\033[1;34m*********************************************************************************\033[1;0m\n");
 	printf("\033[1;34m*********************************************************************************\033[1;0m\n");
-	printf("\n");
-	printf("1. Staff account Registration Menu\n"); 
-	printf("2. Staff login menu\n");
-	printf("3. Exit\n");
+	printf("\n"); 
+	printf("1. Staff login menu\n");
+	printf("2. Exit\n");
 	printf("\n");
 
 	do {
@@ -34,15 +33,12 @@ void staffmain() {
 	 printf("\n");
 		switch (choice) {
 		case 1:
-			staffRegistration();
-			valid = 1;
-			break;
-		case 2:
 			staffLogin();
 			valid = 1;
 			break;
-		case 3:
+		case 2:
 			return 0;
+			break;
 		default:
 			printf("\n\033[1;31m        INVALID NUMBER ENTERED! \033[1;0m\n");
 			printf("========================================\n");
@@ -57,9 +53,11 @@ staffRegistration() {
 
 	int length, length2, length3;
 	int choice2, valid2 = 0;
+	char id_check[30];
 
 	struct staff info;
-	FILE* fp;
+	FILE* fp, *fptr;
+
 
 	if ((fp = fopen("StaffInfo.txt", "a")) == NULL) {
 		printf("AN ERROR OCCUR PLEASE TRY AGAIN!");
@@ -72,7 +70,7 @@ staffRegistration() {
 	//Id validation check
 	while (1) {
 		printf("Enter staff Id with PMD included >");
-		scanf("%19s", &info.id);
+		scanf("%s", &info.id);
 
 		//Must not exceed 7 digits length
 		if (strlen(&info.id) > 7) {
@@ -90,13 +88,37 @@ staffRegistration() {
 			printf("\n");
 			printf("\n\033[1;31mTHE STAFF ID MUST CONTAIN (PMD)\033[1;0m\n");
 			printf("===============================\n");
+			continue;
 		}
+		
+		
+		//The staff number cannot be the same
+		/*
+		if ((fptr = fopen("StaffInfo.txt", "r")) == NULL) {
+			printf("CAN'T OPEN FILE TO READ!");
+		}
+
+		int exist = 0;
+
+		struct staff validate[10];
+
+
+		for (int x = 0; x < 10; x++) {
+		   (fscanf(fp, "%[^,], %[^,], %s\n", validate[x].id, validate[x].name, validate[x].pass) != 3) {
+
+		   }
+		   if (strcmp(validate[x].id, info.id) == 0) {
+			   int exist = 1;
+			   break;
+		   }
+		}
+		*/
 	}
 
 	// name validation check
 	do {
 		printf("Enter staff name >");
-		scanf("%40s", &info.name);
+		scanf("%s", &info.name);
 
 		length2 = strlen(&info.name);
 
@@ -113,7 +135,7 @@ staffRegistration() {
 	//password validation check
 	do {
 		printf("Enter staff password >");
-		scanf("%40s", &info.pass);
+		scanf("%s", &info.pass);
 
 		length3 = strlen(&info.pass);
 
@@ -154,7 +176,7 @@ staffRegistration() {
 		  valid2 = 1;
 		  break;
 	  case 2:
-		  staffmain();
+		  staffLogin();
 		  valid2 = 1;
 		  break;
 	  case 3:
@@ -183,7 +205,7 @@ staffLogin() {
 
 	if (fpr == NULL) {
 		printf("Error: Unable to open the database file.\n");
-		return 0; // Failed to check credentials
+		return 0; 
 	}
 
 	printf("Login page\n");
@@ -194,13 +216,19 @@ staffLogin() {
 	printf("staff password >");
 	scanf("%s", &pass);
 
-	while (fscanf(fpr, "%[^,] %[^,] %s", &info2.id, &info2.name, &info2.pass) != EOF) {
+	//reading the file to retrieve the values
+	while (fscanf(fpr, "%[^,] , %[^,] , %s", &info2.id, &info2.name, &info2.pass) != EOF) {
 		if (strcmp(id, info2.id) == 0 && strcmp(pass, info2.pass) == 0) {
 			fclose(fpr);
-			printf("Successful login!");
+			printf("\n");
+			printf("Successful login as %s !", info2.name);
 			return;
 		}
 	}
+
+	printf("\n");
+	printf("Login failed. Please check your ID and password.\n");
+	fclose(fpr);
 		
 }
 
