@@ -54,10 +54,10 @@ staffRegistration() {
 	char id_check[30];
 
 	struct staff info;
-	FILE* fp, *fptr;
+	FILE* fp;
 
 
-	if ((fp = fopen("StaffInfo.txt", "a")) == NULL) {
+	if ((fp = fopen("StaffInfo.txt", "a+")) == NULL) {
 		printf("AN ERROR OCCUR PLEASE TRY AGAIN!");
 		return 1;
 	}
@@ -88,26 +88,21 @@ staffRegistration() {
 		}
 		
 		//The staff number cannot be the same
-		
-		if ((fptr = fopen("StaffInfo.txt", "r")) == NULL) {
-			printf("CAN'T OPEN FILE TO READ!");
-			return 1;
-		}
 
 		exist = 0;
-		rewind(fptr);
+		rewind(fp);
 		struct staff validate;
 
-		while (fscanf(fptr, "%[^,], %[^,], %s", &validate.id, &validate.name, &validate.pass) != EOF) {
-			if (strcmp(validate.id, info.id) == 0) {
+		while (fscanf(fp, "%[^,], %[^,], %s", &validate.id, &validate.name, &validate.pass) != EOF) {
+			if (strcmp(&validate.id, &info.id) == 0) {
 				printf("\033[1;31mTHE ID ALREADY EXIST PLEASE CHOOSE ANOTHER ID!\033[1;0m\n==============================================\n");
 				exist = 1;
 				break;
 			}
 		}
+
 	} while(exist);
 
-	fclose(fptr);
 
 	// name validation check
 	do {
@@ -212,12 +207,11 @@ staffLogin() {
 
 	  // Reading the file to retrieve the values
 	  while (fscanf(fpr, "%[^,], %[^,], %s\n", &info2.id, &info2.name, &info2.pass) != EOF) {
-		 if (strcmp(id, info2.id) == 0 && strcmp(pass, info2.pass) == 0) {
+		 if (strcmp(&id, &info2.id) == 0 && strcmp(&pass, &info2.pass) == 0) {
 			fclose(fpr);
 			system("cls");
 			printf("Successfully login as %s!\n\n", info2.name);
 			printf("1. Staff registration\n2. Staff Modification\n3. Staff deletion\n4. Staff searching\n5. Exit to the main page\n\n");
-			/*
 			do {
 				printf("Enter a number (1, 2, 3, 4, 5) to enter a menu: ");
 				scanf("%d", &choice);
@@ -248,7 +242,6 @@ staffLogin() {
 					break;
 				}
 			} while (!valid);
-			*/
 			return;
 		 }
 	  }
