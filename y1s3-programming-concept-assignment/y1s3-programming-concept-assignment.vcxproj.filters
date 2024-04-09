@@ -44,6 +44,12 @@
     <ClInclude Include="Staff_struct.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Ticket_struct.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Ticket_Header.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="TrainSchedules.dat">
