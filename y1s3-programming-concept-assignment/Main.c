@@ -4,8 +4,8 @@
 
 int main() {
 
- // staffmain();
-	mainTicket();
+  staffmain();
+  //mainTicket();
 
 
 }

@@ -5,28 +5,36 @@
 
 #include "Staff_struct.h"
 
+#define blue "\033[1;34m"
+#define green "\033[1;32m"
+#define yellow "\033[1;33m"
+#define reset "\033[0m"
+#define bold "\033[1;0m"
+
 // staff main
-void staffmain() {
+int staffmain() {
 
 	int choice, valid = 0;
 
 	system("cls");
 
-	// main page
-	printf("\033[1;34m*********************************************************************************\033[1;0m\n");
-	printf("\033[1;34m*********************************************************************************\033[1;0m\n");
-	printf("\033[1;34m***                                                                           ***\033[1;0m\n");
-	printf("\033[1;34m***                                STAFF MENU                                 ***\033[1;0m\n");
-	printf("\033[1;34m***                                                                           ***\033[1;0m\n");
-	printf("\033[1;34m***                              POWERED BY LEE                               ***\033[1;0m\n");
-	printf("\033[1;34m***                                                                           ***\033[1;0m\n");
-	printf("\033[1;34m*********************************************************************************\033[1;0m\n");
-	printf("\033[1;34m*********************************************************************************\033[1;0m\n");
-	printf("\n"); 
-	printf("1. Staff login menu\n2. Exit\n\n");
+	printf(blue);
+	printf("*********************************************************************************\n");
+	printf("*********************************************************************************\n");
+	printf("***                                                                           ***\n");
+	printf("***                                STAFF MENU                                 ***\n");
+	printf("***                                                                           ***\n");
+	printf("***                              POWERED BY LEE                               ***\n");
+	printf("***                                                                           ***\n");
+	printf("*********************************************************************************\n");
+	printf("*********************************************************************************\n");
+	printf(reset);
+	
+	printf("\n");
+	printf(green"1. Staff login menu\n2. Exit\n\n"reset);
 
 	do {
-	 printf("Enter a number (1,2) to enter a menu >");
+	 printf(yellow"Enter a number (1,2) to enter a menu >"reset);
 	 scanf("%d", &choice);
 	 printf("\n");
 		switch (choice) {
@@ -80,7 +88,7 @@ staffRegistration() {
 		}
 
 		//Must include "PMD"
-		if (strstr(&info.id, "PMD") == NULL) {
+		if (strstr(&info.id, "TRS") == NULL) {
 			printf("\n");
 			printf("\n\033[1;31mTHE STAFF ID MUST CONTAIN (PMD)\033[1;0m\n");
 			printf("===============================\n");
@@ -95,7 +103,8 @@ staffRegistration() {
 
 		while (fscanf(fp, "%[^,], %[^,], %s", &validate.id, &validate.name, &validate.pass) != EOF) {
 			if (strcmp(&validate.id, &info.id) == 0) {
-				printf("\033[1;31mTHE ID ALREADY EXIST PLEASE CHOOSE ANOTHER ID!\033[1;0m\n==============================================\n");
+				printf("\n\033[1;31mTHE ID ALREADY EXIST PLEASE CHOOSE ANOTHER ID!\033[1;0m\n==============================================\n");
+	
 				exist = 1;
 				break;
 			}
@@ -199,8 +208,9 @@ staffLogin() {
 	printf("Login page\n\n");
 
 	while (attempts > 0) {
-		printf("Remaining attempts: %d\n", attempts);
-	    printf("Staff id: ");
+
+		printf("IMPORTANT NOTES!\nyou only have %d attempts for login!\n\n", attempts);
+	    printf("Staff id: "); 
 	    scanf("%s", &id); 
 	    printf("Staff password: ");
 	    scanf("%s", &pass);
@@ -210,7 +220,7 @@ staffLogin() {
 		 if (strcmp(&id, &info2.id) == 0 && strcmp(&pass, &info2.pass) == 0) {
 			fclose(fpr);
 			system("cls");
-			printf("Successfully login as %s!\n\n", info2.name);
+			printf("Welcome to staff menu %s!\n\n", info2.name);
 			printf("1. Staff registration\n2. Staff Modification\n3. Staff deletion\n4. Staff searching\n5. Exit to the main page\n\n");
 			do {
 				printf("Enter a number (1, 2, 3, 4, 5) to enter a menu: ");
@@ -229,7 +239,7 @@ staffLogin() {
 					valid = 1;
 					break;
 				case 4:
-					staffSearching();
+					staffSeacrhing();
 					valid = 1;
 					break;
 				case 5:
@@ -248,11 +258,12 @@ staffLogin() {
 	  printf("\n\033[1;31mLogin failed. Please check your ID and password.\033[1;0m\n\n");
 	  attempts--;
     }
-	printf("You have exceeded the maximum number of login attempts.\n");
+	printf("You have locked from login to this account!\n");
 }
 
 staffInformation() {
 	system("cls");
+
 }
 
 staffModification() {
@@ -263,7 +274,9 @@ staffDeletion() {
 	system("cls");
 }
 
-staffSearching() {
+staffSeacrhing() {
 	system("cls");
+
+	printf("Welcome");
 }
 
