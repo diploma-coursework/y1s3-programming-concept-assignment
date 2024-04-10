@@ -220,10 +220,11 @@ staffLogin() {
 		 if (strcmp(&id, &info2.id) == 0 && strcmp(&pass, &info2.pass) == 0) {
 			fclose(fpr);
 			system("cls");
-			printf("Welcome to staff menu %s!\n\n", info2.name);
-			printf("1. Staff registration\n2. Staff Modification\n3. Staff deletion\n4. Staff searching\n5. Exit to the main page\n\n");
+			printf(blue"Welcome to staff menu %s!\n\n", info2.name);
+			printf(reset);
+			printf(green"1. Staff registration\n2. Staff Modification\n3. Staff deletion\n4. Staff searching\n5. Exit to the main page\n\n"reset);
 			do {
-				printf("Enter a number (1, 2, 3, 4, 5) to enter a menu: ");
+				printf(yellow"Enter a number (1, 2, 3, 4, 5) to enter a menu: " reset);
 				scanf("%d", &choice);
 				switch (choice) {
 				case 1:
