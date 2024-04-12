@@ -2,7 +2,7 @@
 #ifndef staff_dot_h
 #define staff_dot_h
 
-void staffmain();
+int staffmain();
 
 #endif 
 

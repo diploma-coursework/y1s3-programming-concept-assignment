@@ -17,3 +17,5 @@ struct Train {
 	char departure_time[10];
 	char arrival_time[10];
 };
+
+

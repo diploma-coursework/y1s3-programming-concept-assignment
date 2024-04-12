@@ -138,7 +138,7 @@
     <ClInclude Include="StaffInfoModule.h" />
     <ClInclude Include="Staff_struct.h" />
     <ClInclude Include="SystemEnums.h" />
-    <ClInclude Include="Ticket_Header.h" />
+    <ClInclude Include="TicketModule.h" />
     <ClInclude Include="Ticket_struct.h" />
   </ItemGroup>
   <ItemGroup>
