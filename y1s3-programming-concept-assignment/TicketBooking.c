@@ -12,11 +12,6 @@
 #define cyan "\033[1;36m"
 #define pink "\033[1;35m"   
 
-
-char name[20];
-char pass[20];
-int option ,validity = 0;
-
 int bookTicket() {
     
     // Main Screen Banner
@@ -31,34 +26,49 @@ int bookTicket() {
     printf(" "green" 2. Exit         \n\n");
 
 
-    // Statement For Entering Value From User
-    printf(yellow"Enter number (1,2) > "white);
-    scanf("%d", &option);
+    //Variables
+    int option, valid = 0;              
 
-
-    // Loop For User To Enter Stated Values
     do {
+        printf(yellow"Enter your option (1,2) > ");
+        printf(white);
+        if (scanf("%d", &option) != 1)     // Check if scanf fails to read an integer
+        { 
+            printf(red"Invalid input. Please enter a number.\n");
+            printf("\n");
+            while (getchar() != '\n');    // Clear input buffer
+            continue;                    // Restart the loop
+        }
+
         switch (option) {
 
         case 1:                 // Proceed to Next Menu
             memberLogin();
-            validity = 1;
+            valid = 1;
             break;
 
         case 2:                // Exit Program
             return 0;
 
-        default:              // Other Values Repeat Loop
-            printf(red"You have not entered the stated values" white);
-            printf("\n"); 
+        default:              // Other Values
+            printf(red"Invalid input. Please re-enter again.\n");
+            printf("\n");
             break;
         }
-    } while (!validity);
+    } while (!valid);
 };
 
 int memberLogin() {
 
     system("cls");
 
-    printf("Some random bullshit here i dont know");
+    // Variables
+    char name[20];
+    char pass[20];
+    char id[10];
+
+    printf("This Is The Login Page!\n");
+    printf("Enter Your Member ID: ", id);
+    scanf("%c\n", &id);
+
 };
