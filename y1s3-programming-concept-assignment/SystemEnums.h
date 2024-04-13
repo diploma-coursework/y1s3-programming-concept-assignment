@@ -1,15 +1,15 @@
 #pragma once
 enum TrainStations {
-	tokyo = 0,
-	nagoya = 1,
-	kanazawa = 2,
-	kyoto = 3,
-	shinosaka = 4,
-	ueno = 5,
-	shinyokohama = 6,
-	odawara = 7,
-	okayama = 8,
-	sendai = 9,
-	tsurumai = 10,
-	akihabara = 11
+	TOKYO = 0,
+	NAGOYA = 1,
+	KANAZAWA = 2,
+	KYOTO = 3,
+	SHINOSAKA = 4,
+	UENO = 5,
+	SHINYOKOHAMA = 6,
+	ODAWARA = 7,
+	OKAYAMA = 8,
+	SENDAI = 9,
+	TSURUMAI = 10,
+	AKIHABARA = 11
 };

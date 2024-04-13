@@ -20,44 +20,21 @@ void displayTrainStations() {
     );
 }
 
-void displayTrainStations(enum TrainStations trainStation) {
+const char* trainStationToString(enum TrainStations trainStation) {
     switch (trainStation) {
-        case tokyo:
-            printf("Tokyo");
-            break;
-        case nagoya:
-            printf("Nagoya");
-            break;
-        case kanazawa:
-            printf("Kanazawa");
-            break;
-        case kyoto:
-            printf("Kyoto");
-            break;
-        case shinosaka:
-            printf("Shin-Osaka");
-            break;
-        case ueno:
-            printf("Ueno");
-            break;
-        case shinyokohama:
-            printf("Shin-Yokohama");
-            break;
-        case odawara:
-            printf("Odawara");
-            break;
-        case okayama:
-            printf("Okayama");
-            break;
-        case sendai:
-            printf("Sendai");
-            break;
-        case tsurumai:
-            printf("Tsurumai");
-            break;
-        case akihabara:
-            printf("Akihabara");
-            break;
+        case TOKYO: return "Tokyo";
+        case NAGOYA: return "Nagoya";
+        case KANAZAWA: return "Kanazawa";
+        case KYOTO: return "Kyoto";
+        case SHINOSAKA: return "Shin-Osaka";
+        case UENO: return "Ueno";
+        case SHINYOKOHAMA: return "Shin-Yokohama";
+        case ODAWARA: return "Odawara";
+        case OKAYAMA: return "Okayama";
+        case SENDAI: return "Sendai";
+        case TSURUMAI: return "Tsurumai";
+        case AKIHABARA: return "Akihabara";
+        default: return "Invalid";
     }
 }
 
