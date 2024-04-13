@@ -21,6 +21,7 @@ struct TrainScheduleRecord {
  */
 bool scheduleTrainMenu() {
 	struct TrainScheduleRecord newTrainScheduleRecord;
+	int inputStation;
 
 	system("cls");
 	printf(
@@ -31,11 +32,12 @@ bool scheduleTrainMenu() {
 
 	displayTrainStations();
 	printf("Departure station: ");
-	scanf(" %d", newTrainScheduleRecord.departureStation);
-
+	scanf(" %d", &inputStation);
+	newTrainScheduleRecord.departureStation = (enum TrainStations)inputStation;
 
 	printf("Arrival station: ");
-	scanf(" %d", newTrainScheduleRecord.arrivalStation);
+	scanf(" %d", &inputStation);
+	newTrainScheduleRecord.arrivalStation = (enum TrainStations)inputStation;
 
 	return true;
 }
