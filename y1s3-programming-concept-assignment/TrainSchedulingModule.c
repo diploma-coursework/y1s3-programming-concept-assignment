@@ -3,6 +3,7 @@
 #include <stdlib.h>
 
 #include "GeneralStructs.h"
+#include "GeneralUtils.h"
 #include "SystemEnums.h"
 
 struct TrainScheduleRecord {
@@ -18,10 +19,23 @@ struct TrainScheduleRecord {
 /**
  * For staff to schedule a train
  */
-bool scheduleTrain() {
+bool scheduleTrainMenu() {
 	struct TrainScheduleRecord newTrainScheduleRecord;
 
-	printf("Schedule a Train\n");
-	printf("Day of arrival (dd/mm/yyyy): ");
-	scanf(" %d/%d/%d");
+	system("cls");
+	printf(
+		"Schedule a Train\n"
+		"================\n\n"
+		"Please enter the details for the following.\n"
+	);
+
+	displayTrainStations();
+	printf("Departure station: ");
+	scanf(" %d", newTrainScheduleRecord.departureStation);
+
+
+	printf("Arrival station: ");
+	scanf(" %d", newTrainScheduleRecord.arrivalStation);
+
+	return true;
 }

@@ -127,6 +127,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GeneralUtils.c" />
+    <ClCompile Include="GeneralUtils.h" />
     <ClCompile Include="Main.c" />
     <ClCompile Include="MemberInfoModule.c" />
     <ClCompile Include="StaffInfoModule.c" />
@@ -140,6 +142,7 @@
     <ClInclude Include="SystemEnums.h" />
     <ClInclude Include="TicketModule.h" />
     <ClInclude Include="Ticket_struct.h" />
+    <ClInclude Include="TrainSchedulingModule.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="TicketBookings.dat" />
