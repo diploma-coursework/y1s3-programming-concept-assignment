@@ -20,13 +20,15 @@ bool scheduleTrainMenu() {
 	// to store user input for station selection
 	int inputStation;
 
+
+	// start getting schedule details
 	system("cls");
 	printf(
 		"Schedule a Train\n"
 		"================\n\n"
 		"Please enter the details for the following.\n"
 	);
-
+	
 	displayTrainStations();
 	printf("Departure station: ");
 	scanf(" %d", &inputStation);
@@ -47,8 +49,21 @@ bool scheduleTrainMenu() {
 
 	printf("Arrival time (hh:mm): ");
 	scanf(" %d:%d", &newTrainScheduleRecord.arrivalTime.hour, &newTrainScheduleRecord.arrivalTime.minute);
+	
 
+	// let user confirm details keyed in
+	system("cls");
 	displayTrainScheduleMetadata(&newTrainScheduleRecord);
 
+	char inputChoice;
+	printf("\nPlease confirm the details entered (y/n): ");
+	scanf(" %c", &inputChoice);
+	if (!(inputChoice == 'y' || inputChoice == 'Y')) {
+		// user does not confirm details
+		printf("Canceled the scheduling process. You may re-enter the information.");
+	}
+
+	// TODO: store into TrainSchedules.dat
+	
 	return true;
 }
