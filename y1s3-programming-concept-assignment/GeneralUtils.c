@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <time.h>
 #include "GeneralStructs.h"
 
 void displayTrainStations() {
@@ -16,4 +17,11 @@ void displayTrainStations() {
         "10 - Tsurumai\n"
         "11 - Akihabara\n\n"
     );
+}
+
+int getCurrentTimestamp() {
+    time_t currentTime;
+    time(&currentTime);
+
+    return (int)currentTime;
 }

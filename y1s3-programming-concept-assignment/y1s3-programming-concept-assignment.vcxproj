@@ -134,6 +134,7 @@
     <ClCompile Include="StaffInfoModule.c" />
     <ClCompile Include="TicketBooking.c" />
     <ClCompile Include="TrainSchedulingModule.c" />
+    <ClCompile Include="TrainSchedulingModuleUtils.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneralStructs.h" />
@@ -143,6 +144,7 @@
     <ClInclude Include="TicketModule.h" />
     <ClInclude Include="Ticket_struct.h" />
     <ClInclude Include="TrainSchedulingModule.h" />
+    <ClInclude Include="TrainSchedulingModuleUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="TicketBookings.dat" />

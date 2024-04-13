@@ -36,6 +36,9 @@
     <ClCompile Include="GeneralUtils.h">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="TrainSchedulingModuleUtils.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StaffInfoModule.h">
@@ -57,6 +60,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TrainSchedulingModule.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TrainSchedulingModuleUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
