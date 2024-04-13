@@ -2,6 +2,6 @@
 #ifndef tick
 #define tick
 
-int bookTicket();
+int Ticket();
 
 #endif 

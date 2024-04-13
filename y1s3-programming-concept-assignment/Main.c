@@ -5,7 +5,7 @@
 int main() {
 
   //staffmain();
-  bookTicket();
+  Ticket();
 
 
 }

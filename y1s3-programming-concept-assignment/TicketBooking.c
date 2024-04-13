@@ -1,7 +1,7 @@
-#include "Ticket_struct.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "Ticket_struct.h"
 
 // Colours
 #define white "\033[0m"
@@ -12,7 +12,7 @@
 #define cyan "\033[1;36m"
 #define pink "\033[1;35m"   
 
-int bookTicket() {
+int Ticket() {
     
     // Main Screen Banner
     printf(yellow);
@@ -22,15 +22,22 @@ int bookTicket() {
     printf("||          "cyan"         POWERED BY SHURIYA                    "yellow"|| \n");
     printf("=============================================================\n\n");
 
-    printf(" "green" 1. Login        \n");
-    printf(" "green" 2. Exit         \n\n");
+    printf(green); 
+    printf("-------------------------------------------------------------\n");
+    printf("|                                                           |\n");
+    printf("|             "blue" 1. Book Ticket                              "green" | \n");
+    printf("|             "blue" 2. View Booking                             "green" | \n");
+    printf("|             "blue" 3. Cancel Booking                           "green" | \n");
+    printf("|             "blue" 4. Exit                                     "green" | \n");
+    printf("|                                                           |\n");
+    printf("-------------------------------------------------------------\n");
+    printf("\n");
 
-
-    //Variables
+    // Variables
     int option, valid = 0;              
 
     do {
-        printf(yellow"Enter your option (1,2) > ");
+        printf(cyan"Enter your option (1,2,3,4) > ");
         printf(white);
         if (scanf("%d", &option) != 1)     // Check if scanf fails to read an integer
         { 
@@ -43,11 +50,21 @@ int bookTicket() {
         switch (option) {
 
         case 1:                 // Proceed to Next Menu
-            memberLogin();
+            bookTicket();
             valid = 1;
             break;
 
         case 2:                // Exit Program
+            displayTicket();
+            valid = 1;
+            break;
+
+        case 3:
+            deleteTicket();
+            valid = 1;
+            break;
+        
+        case 4:
             return 0;
 
         default:              // Other Values
@@ -58,17 +75,59 @@ int bookTicket() {
     } while (!valid);
 };
 
-int memberLogin() {
+// Functions 
 
+int bookTicket() {
     system("cls");
-
-    // Variables
-    char name[20];
-    char pass[20];
-    char id[10];
-
-    printf("This Is The Login Page!\n");
-    printf("Enter Your Member ID: ", id);
-    scanf("%c\n", &id);
-
+    
+    // add
+    // modify/edit
+    // display seat
+    // payment
 };
+
+int addTicket() {               // Booking
+    system("cls");
+    printf("This is the add ticket page");
+};
+
+int modifyTicket() {             // Booking
+    system("cls");
+    printf("This is the modify ticket page");
+};
+
+int displaySeats() {             // Booking
+    system("cls");
+    printf("This is the display seats page");
+};
+
+int paymentProcessing() {        // Booking
+    system("cls");
+    printf("This is the payment ticket page");
+};
+
+
+
+
+
+int displayTicket() {            // View Booking
+    system("cls");
+    printf("This is the display ticket page");
+};
+
+
+
+
+
+int deleteTicket() {             // Cancel Booking
+    system("cls");
+    printf("This is the delete ticket page");
+};
+
+
+
+int searchTicket() {            // IDK
+    system("cls");
+    printf("This is the search ticket page");
+};
+
