@@ -27,8 +27,7 @@ int Ticket() {
     printf("|                                                           |\n");
     printf("|             "blue" 1. Book Ticket                              "green" | \n");
     printf("|             "blue" 2. View All Bookings                        "green" | \n");
-    printf("|             "blue" 3. Cancel Booking                           "green" | \n");
-    printf("|             "blue" 4. Exit                                     "green" | \n");
+    printf("|             "blue" 3. Exit                                     "green" | \n");
     printf("|                                                           |\n");
     printf("-------------------------------------------------------------\n");
     printf("\n");
@@ -37,9 +36,9 @@ int Ticket() {
     int option, valid = 0;              
 
     do {
-        printf(cyan"Enter your option (1,2,3,4) > ");
+        printf(cyan"Enter your option (1,2,3) > ");
         printf(white);
-        if (scanf("%d", &option) != 1)     // Check if scanf fails to read an integer
+        if (scanf("%d", &option) != 1)     // Char is entered
         { 
             printf(red"Invalid input. Please enter a number.\n");
             printf("\n");
@@ -60,14 +59,9 @@ int Ticket() {
             break;
 
         case 3:
-            deleteTicket();
-            valid = 1;
-            break;
-        
-        case 4:
             return 0;
 
-        default:              // Other Values
+        default:              // Other Integer Values
             printf(red"Invalid input. Please re-enter again.\n");
             printf("\n");
             break;
@@ -80,14 +74,15 @@ int Ticket() {
 int bookTicket() {
     system("cls");
     
-    printf("Welcome to The Booking Menu!\n");
-    printf("Choose an Option below:\n");
-
-    printf(cyan"1. Add Ticket\n");
-    printf(cyan"2. Edit Ticket\n");
-    printf(cyan"3. Display Seat\n");
-    printf(cyan"4. Make Payment\n");
-    printf(cyan"5. Back to Main Menu\n");
+    printf(yellow"----------------------------"cyan);
+    printf("\nWelcome to The Booking Menu!\n");
+    printf(yellow"----------------------------\n\n"cyan);
+    printf(green"1. Add Ticket\n");
+    printf(green"2. Edit Ticket\n");
+    printf(green"3. Display Seat\n");
+    printf(green"4. Make Payment\n");
+    printf(green"5. Back to Main Menu");
+    printf("\n\n");
 
 
     // Variables
@@ -127,7 +122,8 @@ int bookTicket() {
                 break;
 
             case 5:
-                return;
+                system("cls");
+                return main();
 
             default:              // Other Values
                 printf(red"Invalid input. Please re-enter again.\n");
@@ -169,6 +165,8 @@ int paymentProcessing() {        // Booking
 int displayTicket() {            // View Booking
     system("cls");
     printf("This is the display ticket page");
+
+    deleteTicket();            // Cancel comes in here
 };
 
 
