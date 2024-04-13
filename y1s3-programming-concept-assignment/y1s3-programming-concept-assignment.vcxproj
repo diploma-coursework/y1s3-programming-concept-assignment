@@ -147,7 +147,9 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="MemberInfo.txt" />
-    <Text Include="StaffInfo.txt" />
+    <Text Include="staffData.txt" />
+    <Text Include="staffInfo.txt" />
+    <Text Include="temp.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
