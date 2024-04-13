@@ -1,5 +1,6 @@
 #include "TrainSchedulingModuleUtils.h"
 
-void displayTrainScheduleMetadata(struct TrainScheduleRecord record) {
+void displayTrainScheduleMetadata(struct TrainScheduleRecord *record) {
+	printf("Schedule Record Details:\n");
 
 }

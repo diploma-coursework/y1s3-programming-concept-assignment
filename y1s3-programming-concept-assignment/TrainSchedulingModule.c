@@ -48,7 +48,7 @@ bool scheduleTrainMenu() {
 	printf("Arrival time (hh:mm): ");
 	scanf(" %d:%d", &newTrainScheduleRecord.arrivalTime.hour, &newTrainScheduleRecord.arrivalTime.minute);
 
-
+	displayTrainScheduleMetadata(&newTrainScheduleRecord);
 
 	return true;
 }
