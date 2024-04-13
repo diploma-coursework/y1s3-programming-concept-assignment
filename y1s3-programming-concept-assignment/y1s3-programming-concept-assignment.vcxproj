@@ -138,6 +138,8 @@
     <ClInclude Include="StaffInfoModule.h" />
     <ClInclude Include="Staff_struct.h" />
     <ClInclude Include="SystemEnums.h" />
+    <ClInclude Include="TicketModule.h" />
+    <ClInclude Include="Ticket_struct.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="TicketBookings.dat" />
@@ -145,7 +147,9 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="MemberInfo.txt" />
-    <Text Include="StaffInfo.txt" />
+    <Text Include="staffData.txt" />
+    <Text Include="staffInfo.txt" />
+    <Text Include="temp.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
