@@ -26,7 +26,7 @@ int Ticket() {
     printf("-------------------------------------------------------------\n");
     printf("|                                                           |\n");
     printf("|             "blue" 1. Book Ticket                              "green" | \n");
-    printf("|             "blue" 2. View Booking                             "green" | \n");
+    printf("|             "blue" 2. View All Bookings                        "green" | \n");
     printf("|             "blue" 3. Cancel Booking                           "green" | \n");
     printf("|             "blue" 4. Exit                                     "green" | \n");
     printf("|                                                           |\n");
@@ -80,11 +80,67 @@ int Ticket() {
 int bookTicket() {
     system("cls");
     
+    printf("Welcome to The Booking Menu!\n");
+    printf("Choose an Option below:\n");
+
+    printf(cyan"1. Add Ticket\n");
+    printf(cyan"2. Edit Ticket\n");
+    printf(cyan"3. Display Seat\n");
+    printf(cyan"4. Make Payment\n");
+    printf(cyan"5. Back to Main Menu\n");
+
+
+    // Variables
+    int o, i = 0;
+
+    do {
+        printf(cyan"Enter your option (1,2,3,4,5) > ");
+        printf(white);
+        if (scanf("%d", &o) != 1)     // Check if scanf fails to read an integer
+        {
+        printf(red"Invalid input. Please enter a number.\n");
+        printf("\n");
+        while (getchar() != '\n');    // Clear input buffer
+        continue;                    // Restart the loop
+        }
+
+        switch (o) {
+
+        case 1:
+          addTicket();
+          i = 1;
+          break;
+
+            case 2:
+                modifyTicket();
+                i = 1;
+                break;
+
+            case 3:
+                displaySeats();
+                i = 1;
+                break;
+
+            case 4:
+                paymentProcessing();
+                i = 1;
+                break;
+
+            case 5:
+                return;
+
+            default:              // Other Values
+                printf(red"Invalid input. Please re-enter again.\n");
+                printf("\n");
+                break;
+            }
+        } while (!o);
+    };
+
     // add
     // modify/edit
     // display seat
     // payment
-};
 
 int addTicket() {               // Booking
     system("cls");
