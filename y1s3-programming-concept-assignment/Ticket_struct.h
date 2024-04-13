@@ -6,14 +6,15 @@ struct Member {
 	char name[20];
 	char pass[10];
 	int age;
-	char ticket_number[20];
 };
 
-// Struct for Train
-struct Train {
-	char train_number[20];
-	char origin[50];
-	char destination[50];
-	char departure_time[10];
-	char arrival_time[10];
+// Struct for Ticket
+struct Ticket {
+	char bookingDate[20];
+	char departureDate[50];
+	char seatSelect[50];
+	char payment[10];
+	char ticketstats[10];
 };
+
+

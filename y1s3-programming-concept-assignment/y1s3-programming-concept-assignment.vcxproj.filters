@@ -47,7 +47,7 @@
     <ClInclude Include="Ticket_struct.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Ticket_Header.h">
+    <ClInclude Include="TicketModule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
