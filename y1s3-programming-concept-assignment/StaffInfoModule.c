@@ -55,7 +55,7 @@ int staffmain() {
 }
 
 //register the staff account, only staff can register staff
-staffRegistration() {
+staffRegistration(const char* name) {
 
 	system("cls");
 
@@ -161,7 +161,7 @@ staffRegistration() {
 
 	// Enter another pages
 	do {
-	  printf(green"ENTER (1) TO GO BACK THE MAIN STAFF PAGE\nENTER (2) TO GO TO LOGIN PAGE\nENTER (3) TO CONTINUE ADDING THE ACCOUNT\nENTER (4) TO EXIT THE PROGRAM\n\n>"reset);
+	  printf(green"ENTER (1) TO GO BACK THE MAIN STAFF PAGE\nENTER (2) TO GO TO BACK\nENTER (3) TO CONTINUE ADDING THE ACCOUNT\nENTER (4) TO EXIT THE PROGRAM\n\n>"reset);
 	  scanf("%d", &choice);
 
 	  switch (choice) {
@@ -170,7 +170,7 @@ staffRegistration() {
 		  valid = 1;
 		  break;
 	  case 2:
-		  staffLogin();
+		  staffloginmain(name);
 		  valid = 1;
 		  break;
 	  case 3:
@@ -229,41 +229,7 @@ staffLogin() {
 	  while (fscanf(fpr, "%[^,], %[^,], %s\n", &login.id, &login.name, &login.pass) != EOF) {
 		 if (strcmp(&id, &login.id) == 0 && strcmp(&pass, &login.pass) == 0) {
 			fclose(fpr);
-			system("cls");
-			printf(blue"Welcome to staff menu %s!\n\n", login.name);
-			printf(reset);
-			printf(green"1. Staff registration\n2. Staff Modification\n3. Staff deletion\n4. Staff searching\n5. Exit to the main page\n\n"reset);
-			do {
-				printf(yellow"Enter a number (1, 2, 3, 4, 5) to enter a menu: ");
-				scanf("%d", &choice);
-				printf(reset);
-				switch (choice) {
-				case 1:
-					staffRegistration();
-					valid = 1;
-					break;
-				case 2:
-					staffModification();
-					valid = 1;
-					break;
-				case 3:
-					staffDeletion();
-					valid = 1;
-					break;
-				case 4:
-					staffsearching();
-					valid = 1;
-					break;
-				case 5:
-					staffmain();
-					valid = 1;
-					break;
-				default:
-					printf("\n\033[1;31mInvalid number entered!\033[1;0m\n");
-					printf("========================================\n");
-					break;
-				}
-			} while (!valid);
+			staffloginmain(login.name);
 			return;
 		 }
 	  }
@@ -274,12 +240,54 @@ staffLogin() {
 	fclose(fpr);
 }
 
+staffloginmain(const char* name) {
+	system("cls");
+
+	int choice, valid = 0;
+
+	printf(blue"Welcome to staff menu %s!\n\n", name);
+	printf(reset);
+	printf(green"1. Staff registration\n2. Staff Modification\n3. Staff deletion\n4. Staff searching\n5.Staff\n6. Exit to the main page\n\n"reset);
+	do {
+		printf(yellow"Enter a number (1, 2, 3, 4, 5, 6) to enter a menu: ");
+		scanf("%d", &choice);
+		printf(reset);
+		switch (choice) {
+		case 1:
+			staffRegistration(name);
+			valid = 1;
+			break;
+		case 2:
+			staffModification();
+			valid = 1;
+			break;
+		case 3:
+			staffDeletion(name);
+			valid = 1;
+			break;
+		case 4:
+			staffsearching();
+			valid = 1;
+			break;
+		case 5:
+			staffmain();
+			valid = 1;
+			break;
+		default:
+			printf("\n\033[1;31mInvalid number entered!\033[1;0m\n");
+			printf("========================================\n");
+			break;
+		}
+	} while (!valid);
+}
+
 //Delete the account of the staff, only staff can delete staff
-staffDeletion() {
+staffDeletion(const char* name) {
 	system("cls");
 
 	char id[10], line[100];
 	struct staff deletion;
+	int valid = 0, choice;
 
 	SYSTEMTIME t;
 
@@ -318,6 +326,26 @@ staffDeletion() {
 	GetLocalTime(&t);
 
 	printf(green"Staff record with ID %s has been deleted successfully on %d-%d-%d.\n"reset, id, t.wDay, t.wMonth, t.wYear);
+
+	do {
+		printf(yellow"\nEnter a number (1) to continue delete, Enter (2) to go back: ");
+		scanf("%d", &choice);
+		printf(reset);
+		switch (choice) {
+		case 1:
+			valid = 1;
+			break;
+		case 2:
+			staffloginmain(name);
+			valid = 1;
+			break;
+		default:
+			printf("\n\033[1;31mInvalid number entered!\033[1;0m\n");
+			printf("========================================\n");
+			break;
+		}
+	} while (!valid);
+
 }
 
 staffsearching() {
