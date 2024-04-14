@@ -349,7 +349,8 @@ staffDeletion(const char* name) {
 		printf(reset);
 		switch (delete.choice) {
 		case 1:
-			staffdeletion(name);
+			// TOFIX
+			//staffdeletion(name);
 			valid = true;
 			break;
 		case 2:

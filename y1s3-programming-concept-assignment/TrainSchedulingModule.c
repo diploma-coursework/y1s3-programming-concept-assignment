@@ -11,8 +11,6 @@
 /**
  * For staff to schedule a train
  */
-
-
 bool scheduleTrainMenu() {
 	// record to be stored into TrainSchedules.dat
 	struct TrainScheduleRecord newTrainScheduleRecord;
@@ -27,8 +25,9 @@ bool scheduleTrainMenu() {
 	// start getting schedule details
 	system("cls");
 	printf(
-		"Schedule a Train\n"
-		"================\n\n"
+		"+------------------------+\n"
+		"|  Schedule a Train:     |\n"
+		"+------------------------+\n\n"
 		"Please enter the details for the following.\n"
 	);
 	
