@@ -47,3 +47,13 @@ int getTrainSchedulesFromFile(struct TrainScheduleRecord *records, int maxNumOfR
 	fclose(filePtr);
 	return i + 1;
 }
+
+bool removeTrainScheduleFromFile(int scheduleId) {
+	FILE* filePtr = fopen("TrainSchedules.dat", "rb");
+	if (filePtr == NULL) {
+		printf("Error opening file for reading.\n");
+		return 0;
+	}
+
+	// TODO: copy every struct to temp file except matched id, then rename to replace original file.
+}

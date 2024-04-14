@@ -74,7 +74,10 @@ bool scheduleTrainMenu() {
 	return true;
 }
 
-void paginateTrainScheduleRecords() {
+/**
+ * Display train schedules in multi-page format
+ */
+void paginateTrainScheduleRecordsMenu() {
 	struct TrainScheduleRecord records[100];
 	int numOfSchedule = getTrainSchedulesFromFile(records, 100);
 
@@ -104,4 +107,11 @@ void paginateTrainScheduleRecords() {
 		else if (userInput == 'x' || userInput == 'X') break;
 		system("cls");
 	}
+}
+
+/**
+ * Remove a train schedule with given id
+ */
+bool removeTrainScheduleRecord() {
+
 }
