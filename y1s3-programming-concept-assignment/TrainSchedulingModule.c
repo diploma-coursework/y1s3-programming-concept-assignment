@@ -10,6 +10,8 @@
 /**
  * For staff to schedule a train
  */
+
+
 bool scheduleTrainMenu() {
 	// record to be stored into TrainSchedules.dat
 	struct TrainScheduleRecord newTrainScheduleRecord;
