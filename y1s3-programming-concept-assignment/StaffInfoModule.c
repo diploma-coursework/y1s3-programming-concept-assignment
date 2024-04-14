@@ -407,7 +407,7 @@ staffModification() {
 		printf("Staff information modified successfully!\n");
 	}
 	else {
-		printf("Staff ID not found!\n");
+		printf("Staff ID is not found!\n");
 	}
 
 
