@@ -14,3 +14,7 @@ struct TrainScheduleRecord {
 };
 
 void displayTrainScheduleMetadata(struct TrainScheduleRecord *record);
+
+bool writeTrainScheduleToFile(struct TrainScheduleRecord* record);
+
+void debugPrintTrainScheduleFromFile();

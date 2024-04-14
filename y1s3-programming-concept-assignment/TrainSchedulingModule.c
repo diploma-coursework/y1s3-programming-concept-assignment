@@ -63,9 +63,12 @@ bool scheduleTrainMenu() {
 	if (!(inputChoice == 'y' || inputChoice == 'Y')) {
 		// user does not confirm details
 		printf("Canceled the scheduling process. You may re-enter the information.");
+		system("pause");
+		return false;
 	}
 
-	// TODO: store into TrainSchedules.dat
-	
+	writeTrainScheduleToFile(&newTrainScheduleRecord);
+	printf("Schedule is saved successfully.\n");
+	system("pause");
 	return true;
 }
