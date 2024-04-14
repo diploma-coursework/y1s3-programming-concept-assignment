@@ -17,4 +17,4 @@ void displayTrainScheduleMetadata(struct TrainScheduleRecord *record);
 
 bool writeTrainScheduleToFile(struct TrainScheduleRecord* record);
 
-void debugPrintTrainScheduleFromFile();
+int getTrainSchedulesFromFile(struct TrainScheduleRecord* records, int maxNumOfRecords);

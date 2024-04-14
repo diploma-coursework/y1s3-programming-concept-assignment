@@ -6,7 +6,6 @@
 
 
 void displayTrainScheduleMetadata(struct TrainScheduleRecord *record) {
-	printf("Schedule Record Details:\n");
 	printf("ID: %d\n", (*record).id);
 
 	printf("\nDeparture\n");
@@ -22,6 +21,7 @@ void displayTrainScheduleMetadata(struct TrainScheduleRecord *record) {
 	printf("Station: %s\n", trainStationToString((*record).arrivalStation));
 }
 
+
 bool writeTrainScheduleToFile(struct TrainScheduleRecord *record) {
 	FILE* filePtr = fopen("TrainSchedules.dat", "wb");
 	if (filePtr == NULL) {
@@ -32,21 +32,18 @@ bool writeTrainScheduleToFile(struct TrainScheduleRecord *record) {
 	return true;
 }
 
-void debugPrintTrainScheduleFromFile() {
+// returns number of records found in TrainSchedules.dat
+int getTrainSchedulesFromFile(struct TrainScheduleRecord *records, int maxNumOfRecords) {
 	FILE* filePtr = fopen("TrainSchedules.dat", "rb");
 	if (filePtr == NULL) {
 		printf("Error opening file for reading.\n");
-		return;
+		return 0;
 	}
 
-	struct TrainScheduleRecord record;
-	while (fread(&record, sizeof(struct TrainScheduleRecord), 1, filePtr) == 1) {
-		displayTrainScheduleMetadata(&record);
-		printf("%d\n", record.id);
+	int i = 0;
+	while (i < maxNumOfRecords && fread(&records[i], sizeof(struct TrainScheduleRecord), 1, filePtr) == 1) {
+		++i;
 	}
-
 	fclose(filePtr);
-	// Pause the program until user presses Enter
-	printf("Press Enter to continue...");
-	while (getchar() != '\n');
+	return i + 1;
 }

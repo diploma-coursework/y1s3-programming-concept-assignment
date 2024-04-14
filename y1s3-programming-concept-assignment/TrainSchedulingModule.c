@@ -1,6 +1,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 #include "TrainSchedulingModuleUtils.h"
 #include "GeneralUtils.h"
@@ -53,6 +54,7 @@ bool scheduleTrainMenu() {
 
 	// let user confirm details keyed in
 	system("cls");
+	printf("Schedule Record Details:\n");
 	displayTrainScheduleMetadata(&newTrainScheduleRecord);
 
 	char inputChoice;
@@ -69,4 +71,36 @@ bool scheduleTrainMenu() {
 	printf("Schedule is saved successfully.\n");
 	system("pause");
 	return true;
+}
+
+void paginateTrainScheduleRecords() {
+	struct TrainScheduleRecord records[100];
+	int numOfSchedule = getTrainSchedulesFromFile(records, 100);
+
+	int currentPageIndex = 0, maxRecordPerPage = 4, maxPage = ceil(numOfSchedule / 4.0);
+	char userInput = 'a';
+
+	while (1) {
+		printf(
+			"+------------------------+\n"
+			"|  Train Schedules:      |\n"
+			"+------------------------+\n"
+		);
+
+		int i = 0;
+		while (i < maxRecordPerPage && (i + currentPageIndex * maxRecordPerPage) != (numOfSchedule - 1)) {
+			displayTrainScheduleMetadata(&records[i + currentPageIndex * maxRecordPerPage]);
+			printf("++++++++++++++++++++++++++++++++++++++++++++\n");
+			i++;
+		}
+		printf("\nPage %d / %d\n\n", currentPageIndex + 1, maxPage);
+		printf("l = left, x = exit, r = right > ");
+		userInput = getchar();
+
+		// calculate user page control
+		if ((userInput == 'l' || userInput == 'L') && currentPageIndex + 1 > 1) --currentPageIndex;
+		else if ((userInput == 'r' || userInput == 'R') && currentPageIndex + 1 < maxPage) ++currentPageIndex;
+		else if (userInput == 'x' || userInput == 'X') break;
+		system("cls");
+	}
 }
