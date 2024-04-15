@@ -2,9 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include <windows.h>
+#include <time.h>
 
 #include "Staff_def.h"
+#include "GeneralUtils.h"
+#include "GeneralStructs.h"
 
 // staff main
 void staffmain() {
@@ -19,7 +21,7 @@ void staffmain() {
 	printf("*********************************************************************************\n");
 	printf("*********************************************************************************\n");
 	printf("***                                                                           ***\n");
-	printf("***                                STAFF MENU                                 ***\n");
+	printf("***                                STAFF MAIN                                 ***\n");
 	printf("***                                                                           ***\n");
 	printf("***                              POWERED BY LEE                               ***\n");
 	printf("***                                                                           ***\n");
@@ -48,6 +50,7 @@ void staffmain() {
 			}
 		}
 		else { 
+			clearInputBuffer();
 			printf(red"\nInvalid input! Please enter a valid number.\n"reset);
 			printf("===========================================\n");
 			continue;
@@ -74,6 +77,8 @@ staffRegistration(const char* name) {
 		return 1;
 	}
 
+	rewind(fp);
+
 	printf(blue"ENTER THE STAFF INFORMATION TO CREATE ACCOUNT\n"reset);
 	printf("=============================================\n");
 
@@ -85,10 +90,10 @@ staffRegistration(const char* name) {
 		printf(reset);
 
 		//Must not exceed 7 digits length and must include "TRS"
-		if ((strlen(&info.id) != 7) || (strstr(&info.id, "TRS") == NULL)) {
+		if ((strlen(info.id) != 7) || (strstr(&info.id, "TRS") == NULL)) {
 			printf("\n");
 			printf(red"\nTHE ID LENGHT MUST BE 7 AND MUST CONTAIN 'TRS' !\n"reset);
-			printf("======================================\n");
+			printf("================================================\n");
 			continue;
 		}
 
@@ -147,7 +152,7 @@ staffRegistration(const char* name) {
 	}
 
 	// print the information to text file
-	fprintf(fp, "%s, %s, %s\n", info.id, info.name, info.pass);
+	fprintf(fp, "%s, %s, %s", info.id, info.name, info.pass);
 
 	printf("\n");
 	printf(green"ACCOUNT SUCCESSFULLY ADDED\n"reset);
@@ -170,7 +175,7 @@ staffRegistration(const char* name) {
 			  valid = true;
 			  break;
 		  case 3:
-			  staffRegistration(name);
+			  valid = true;
 			  break;
 		  case 4:
 			  return 0;
@@ -182,6 +187,7 @@ staffRegistration(const char* name) {
 		  }
 	  }
 	  else {
+		  clearInputBuffer();
 		  printf(red"\nInvalid input! Please enter a valid number.\n"reset);
 		  printf("===========================================\n");
 		  continue;
@@ -197,9 +203,8 @@ staffLogin() {
 
 	char id[8], pass[30];
 	int attempts = 3;
-	FILE* fpr;
 
-	fpr = fopen("staffInfo.txt", "r");
+	FILE* fpr = fopen("staffInfo.txt", "r");
 
 	if (fpr == NULL) {
 		printf("Error: Unable to open the file.\n");
@@ -287,6 +292,7 @@ staffloginmain(const char* name) {
 			}
 		}
 		else {
+			clearInputBuffer();
 			printf(red"\nInvalid input! Please enter a valid number.\n"reset);
 			printf("===========================================\n");
 			continue;
@@ -301,14 +307,18 @@ staffDeletion(const char* name) {
 
 	char id[10], line[100];
 	valid = false;
+
 	struct staff deletion;
 	struct menu delete;
+	struct Date x;
+	struct Time y;
 
-	SYSTEMTIME t;
+	struct Date currentDate = getCurrentDate();
+	struct Time currentTime = getCurrentTime();
 
-	FILE* fptr, *fpr;
+	FILE* fptr, *fpr, *fdel;
 
-	if ((fptr = fopen("staffInfo.txt", "r")) == NULL || (fpr = fopen("temp.txt", "w")) == NULL) {
+	if ((fptr = fopen("staffInfo.txt", "r")) == NULL || (fpr = fopen("temp.txt", "w")) == NULL || (fdel = fopen("Deleted_record.txt", "a")) == NULL) {
 		printf("AN ERROR OCCUR PLEASE TRY AGAIN!");
 		return 1;
 	}
@@ -327,6 +337,9 @@ staffDeletion(const char* name) {
 			if (strcmp(deletion.id, id) != 0) {
 				fprintf(fpr, "%s, %s, %s\n", deletion.id, deletion.name, deletion.pass);
 			}
+			else {
+				fprintf(fdel, "Staff record with ID %s was deleted by %s on %d-%02d-%02d at %02d:%02d\n", deletion.id, name, currentDate.day, currentDate.month, currentDate.year, currentTime.hour, currentTime.minute);
+			}
 		}
 	}
 
@@ -334,14 +347,15 @@ staffDeletion(const char* name) {
 
 	fclose(fpr);
 	fclose(fptr);
+	fclose(fdel);
 
 	remove("staffInfo.txt");
 	rename("temp.txt", "staffInfo.txt");
 
-	
-	GetLocalTime(&t);
 
-	printf(green"Staff record with ID %s has been deleted successfully on %d-%d-%d.\n"reset, id, t.wDay, t.wMonth, t.wYear);
+	printf(green"Staff record with ID %s has been deleted by %s successfully!\nDate: %d/%d/%d\nTime: %02d:%02d\n"reset, id, name, currentDate.day, currentDate.month, currentDate.year, currentTime.hour, currentTime.minute);
+
+
 
 	do {
 		printf(yellow"\nEnter a number (1) to continue delete, Enter (2) to go back: ");
@@ -349,8 +363,6 @@ staffDeletion(const char* name) {
 		printf(reset);
 		switch (delete.choice) {
 		case 1:
-			// TOFIX
-			//staffdeletion(name);
 			valid = true;
 			break;
 		case 2:
@@ -414,7 +426,7 @@ staffModification() {
 
 }
 
-staffInformation() {
+staffDisplay() {
 	system("cls");
 
 	struct menu info;

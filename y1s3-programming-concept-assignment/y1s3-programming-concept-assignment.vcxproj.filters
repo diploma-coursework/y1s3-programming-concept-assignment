@@ -87,5 +87,8 @@
     <Text Include="staffData.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="Deleted_record.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

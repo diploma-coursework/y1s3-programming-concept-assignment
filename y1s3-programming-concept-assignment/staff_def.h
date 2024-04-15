@@ -1,4 +1,5 @@
 #pragma once
+#include "GeneralStructs.h"
 
 #ifndef staff_def
 #define staff_def
@@ -23,6 +24,43 @@ struct menu {
 
 bool valid;
 
-char buffer[100];
+void clearInputBuffer() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
+
+struct Date getCurrentDate() {
+    struct Date currentDate;
+    time_t currentTime;
+    struct tm* localTime;
+
+    // Get the current time
+    time(&currentTime);
+    localTime = localtime(&currentTime);
+
+    // Extract date components
+    currentDate.day = localTime->tm_mday;
+    currentDate.month = localTime->tm_mon + 1;  // Months are 0-indexed
+    currentDate.year = localTime->tm_year + 1900; // Years since 1900
+
+    return currentDate;
+}
+
+// Function to get the current time
+struct Time getCurrentTime() {
+    struct Time currentTime;
+    time_t rawtime;
+    struct tm* timeinfo;
+
+    // Get the current time
+    time(&rawtime);
+    timeinfo = localtime(&rawtime);
+
+    // Extract time components
+    currentTime.hour = timeinfo->tm_hour;
+    currentTime.minute = timeinfo->tm_min;
+
+    return currentTime;
+}
 
 #endif
