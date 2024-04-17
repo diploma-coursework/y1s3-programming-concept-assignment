@@ -39,6 +39,9 @@
     <ClCompile Include="TrainSchedulingModuleUtils.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Members.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StaffInfoModule.h">

@@ -131,6 +131,7 @@
     <ClCompile Include="GeneralUtils.h" />
     <ClCompile Include="Main.c" />
     <ClCompile Include="MemberInfoModule.c" />
+    <ClCompile Include="Members.c" />
     <ClCompile Include="StaffInfoModule.c" />
     <ClCompile Include="TicketBooking.c" />
     <ClCompile Include="TrainSchedulingModule.c" />
