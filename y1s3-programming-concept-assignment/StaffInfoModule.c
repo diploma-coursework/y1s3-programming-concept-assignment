@@ -5,8 +5,8 @@
 #include <time.h>
 
 #include "Staff_def.h"
-#include "GeneralUtils.h"
 #include "GeneralStructs.h"
+#include "GeneralUtils.h"
 
 // staff main
 void staffmain() {
@@ -61,8 +61,6 @@ void staffmain() {
 //register the staff account, only staff can register staff
 staffRegistration(const char* name) {
 
-	system("cls");
-
 	int exist, x;
 	char id_check[30];
 	valid = false;
@@ -79,120 +77,120 @@ staffRegistration(const char* name) {
 
 	rewind(fp);
 
-	printf(blue"ENTER THE STAFF INFORMATION TO CREATE ACCOUNT\n"reset);
-	printf("=============================================\n");
-
-	//Id validation check
 	do {
+		system("cls");
+	    printf(blue"ENTER THE STAFF INFORMATION TO CREATE ACCOUNT\n"reset);
+	    printf("=============================================\n");
 
-		printf(green"Enter staff Id with 'TRS' included >");
-		scanf("%10s", &info.id);
-		printf(reset);
+	    //Id validation check
+		do {
 
-		//Must not exceed 7 digits length and must include "TRS"
-		if ((strlen(info.id) != 7) || (strstr(&info.id, "TRS") == NULL)) {
-			printf("\n");
-			printf(red"\nTHE ID LENGHT MUST BE 7 AND MUST CONTAIN 'TRS' !\n"reset);
-			printf("================================================\n");
-			continue;
-		}
+			printf(green"Enter staff Id with 'TRS' included >");
+			scanf("%10s", &info.id);
+			printf(reset);
 
-		//The staff number cannot be the same
+			//Must not exceed 7 digits length and must include "TRS"
+			if ((strlen(info.id) != 7) || (strstr(&info.id, "TRS") == NULL)) {
+				printf("\n");
+				printf(red"\nTHE ID LENGHT MUST BE 7 AND MUST CONTAIN 'TRS' !\n"reset);
+				printf("================================================\n");
+				continue;
+			}
 
-		exist = 0;
-		rewind(fp);
-		struct staff validate;
+			//The staff number cannot be the same
 
-		while (fscanf(fp, "%[^,], %[^,], %s", &validate.id, &validate.name, &validate.pass) != EOF) {
-			if (strcmp(&validate.id, &info.id) == 0) {
-				printf("\n\033[1;31mTHE ID ALREADY EXIST PLEASE CHOOSE ANOTHER ID!\033[1;0m\n==============================================\n");
-				exist = 1;
+			exist = 0;
+			rewind(fp);
+			struct staff validate;
+
+			while (fscanf(fp, "%[^,], %[^,], %s", &validate.id, &validate.name, &validate.pass) != EOF) {
+				if (strcmp(&validate.id, &info.id) == 0) {
+					printf("\n\033[1;31mTHE ID ALREADY EXIST PLEASE CHOOSE ANOTHER ID!\033[1;0m\n==============================================\n");
+					exist = 1;
+					break;
+				}
+			}
+		} while (exist);
+
+		// name validation check
+		do {
+			printf(green"Enter staff name >");
+			scanf("%39s", &info.name);
+			printf(reset);
+
+			if (strlen(&info.name) >= 40) {
+				printf(red "\nYOUR NAME IS TOO LONG\n" reset);
+				printf("\n");
+			}
+			else {
 				break;
 			}
+		} while (1);
+
+		//password validation check
+		do {
+			printf(green"Enter staff password >");
+			scanf("%20s", &info.pass);
+			printf(reset);
+
+			if (strlen(&info.pass) < 4) {
+				printf(red "\nTHE PASSWORD LENGTH MUST BE AT LEAST 4 CHARACTERS!\n" reset);
+				printf("===========================================\n");
+			}
+			else {
+				break;
+			}
+
+		} while (1);
+
+		//Create a new line to the file
+		if (ftell(fp) != 0) {
+			fprintf(fp, "\n");
 		}
 
-	} while(exist);
+		// print the information to text file
+		fprintf(fp, "%s, %s, %s", info.id, info.name, info.pass);
 
+		printf("\n");
+		printf(green"ACCOUNT SUCCESSFULLY ADDED\n"reset);
+		printf("===========================\n");
 
-	// name validation check
-	do {
-		printf(green"Enter staff name >");
-		scanf("%39s", &info.name);
-		printf(reset);
+		fclose(fp);
 
-		if (strlen(&info.name) >= 40) {
-			printf(red "\nYOUR NAME IS TOO LONG\n" reset);
-			printf("\n");
-		}
-		else {
-			break;
-		}
-	} while(1);
-
-
-	//password validation check
-	do {
-		printf(green"Enter staff password >");
-		scanf("%20s", &info.pass);
-		printf(reset);
-
-		if (strlen(&info.pass) < 4) {
-			printf(red "\nTHE PASSWORD LENGTH MUST BE AT LEAST 4 CHARACTERS!\n" reset);
-			printf("===========================================\n");
-		}
-		else {
-			break;
-		}
-
-	} while(1);
-
-	//Create a new line to the file
-	if (ftell(fp) != 0) {
-		fprintf(fp, "\n");
-	}
-
-	// print the information to text file
-	fprintf(fp, "%s, %s, %s", info.id, info.name, info.pass);
-
-	printf("\n");
-	printf(green"ACCOUNT SUCCESSFULLY ADDED\n"reset);
-	printf("===========================\n");
-	
-	fclose(fp);
-
-	// Enter another pages
-	do {
-	  printf(green"ENTER (1) TO GO BACK THE MAIN STAFF PAGE\nENTER (2) TO GO TO BACK\nENTER (3) TO CONTINUE ADDING THE ACCOUNT\nENTER (4) TO EXIT THE PROGRAM\n\n>");
-	  if (scanf("%d", &reg.choice) == 1) {
-		  printf(reset);
-		  switch (reg.choice) {
-		  case 1:
-			  staffmain();
-			  valid = true;
-			  break;
-		  case 2:
-			  staffloginmain(name);
-			  valid = true;
-			  break;
-		  case 3:
-			  valid = true;
-			  break;
-		  case 4:
-			  return 0;
-			  break;
-		  default:
-			  printf(red"INVALID NUMBER ENTERED, PLEASE TRY AGAIN!\n"reset);
-			  printf("=========================================\n");
-			  printf("\n");
-		  }
-	  }
-	  else {
-		  clearInputBuffer();
-		  printf(red"\nInvalid input! Please enter a valid number.\n"reset);
-		  printf("===========================================\n");
-		  continue;
-	  }
-	} while (!valid);
+		// Enter another pages
+		do {
+			printf(green"ENTER (1) TO GO BACK THE MAIN STAFF PAGE\nENTER (2) TO GO TO BACK\nENTER (3) TO CONTINUE ADDING THE ACCOUNT\nENTER (4) TO EXIT THE PROGRAM\n\n>");
+			if (scanf("%d", &reg.choice) == 1) {
+				printf(reset);
+				switch (reg.choice) {
+				case 1:
+					staffmain();
+					valid = true;
+					break;
+				case 2:
+					staffloginmain(name);
+					valid = true;
+					break;
+				case 3:
+					valid = true;
+					break;
+				case 4:
+					return 0;
+					break;
+				default:
+					printf(red"INVALID NUMBER ENTERED, PLEASE TRY AGAIN!\n"reset);
+					printf("=========================================\n");
+					printf("\n");
+				}
+			}
+			else {
+				clearInputBuffer();
+				printf(red"\nInvalid input! Please enter a valid number.\n"reset);
+				printf("===========================================\n");
+				continue;
+			}
+		} while (!valid);
+	}while (reg.choice == 3);
 }
 
 // staff login
@@ -256,9 +254,9 @@ staffloginmain(const char* name) {
 
 	printf(blue"Welcome to staff menu %s!\n\n", name);
 	printf(reset);
-	printf(green"1. Staff registration\n2. Staff Modification\n3. Staff deletion\n4. Staff searching\n5. Exit to main page\n6. Exit the program\n\n"reset);
+	printf(green"1. Staff registration\n2. Staff Modification\n3. Staff deletion\n4. Staff searching\n5. staff Information\n6. Exit to main page\n7. Exit the program\n\n"reset);
 	do {
-		printf(yellow"Enter a number (1, 2, 3, 4, 5, 6) to enter a menu: ");
+		printf(yellow"Enter a number (1, 2, 3, 4, 5, 6, 7) to enter a menu: ");
 		if (scanf("%d", &login.choice) == 1) {
 			printf("\n"reset);
 			switch (login.choice) {
@@ -267,7 +265,7 @@ staffloginmain(const char* name) {
 				valid = true;
 				break;
 			case 2:
-				staffModification();
+				staffModification(name);
 				valid = true;
 				break;
 			case 3:
@@ -279,10 +277,14 @@ staffloginmain(const char* name) {
 				valid = true;
 				break;
 			case 5:
-				staffmain();
+				staffInformation();
 				valid = true;
 				break;
 			case 6:
+				staffmain();
+				valid = true;
+				break;
+			case 7:
 				return 0;
 				break;
 			default:
@@ -310,58 +312,129 @@ staffDeletion(const char* name) {
 
 	struct staff deletion;
 	struct menu delete;
-	struct Date x;
-	struct Time y;
 
 	struct Date currentDate = getCurrentDate();
 	struct Time currentTime = getCurrentTime();
 
 	FILE* fptr, *fpr, *fdel;
 
-	if ((fptr = fopen("staffInfo.txt", "r")) == NULL || (fpr = fopen("temp.txt", "w")) == NULL || (fdel = fopen("Deleted_record.txt", "a")) == NULL) {
+	if ((fptr = fopen("staffInfo.txt", "r")) == NULL || (fpr = fopen("temp.txt", "w")) == NULL || (fdel = fopen("records.txt", "a")) == NULL) {
 		printf("AN ERROR OCCUR PLEASE TRY AGAIN!");
 		return 1;
 	}
 
 	printf(blue"Welcome to Staff deletion menu %s\n\n", name);
 	printf(reset);
-	printf(green"Enter the staff id that you wanted to delete > ");
-	scanf("%s", &id);
-	printf("\n");
+	do {
+		printf(green"Enter the staff id that you wanted to delete > ");
+		scanf("%s", &id);
+		printf("\n");
+		printf(reset);
+
+		while (fgets(line, sizeof(line), fptr) != NULL) {
+			// Check if the line is empty or doesn't contain all three fields
+			if (strlen(line) > 1 && sscanf(line, "%[^,], %[^,], %s", deletion.id, deletion.name, deletion.pass) == 3) {
+				// Check if the ID matches the one to be deleted
+				if (strcmp(deletion.id, id) != 0) {
+					fprintf(fpr, "%s, %s, %s\n", deletion.id, deletion.name, deletion.pass);
+				}
+				else {
+					fprintf(fdel, "Staff record with ID %s was deleted by %s on %d-%02d-%02d at %02d:%02d\n", deletion.id, name, currentDate.day, currentDate.month, currentDate.year, currentTime.hour, currentTime.minute);
+				}
+			}
+		}
+
+		rewind(fptr);
+
+		fclose(fpr);
+		fclose(fptr);
+		fclose(fdel);
+
+		remove("staffInfo.txt");
+		rename("temp.txt", "staffInfo.txt");
+
+		printf(green"Staff record with ID %s has been deleted by %s successfully!\nDate: %d/%d/%d\nTime: %02d:%02d\n"reset, id, name, currentDate.day, currentDate.month, currentDate.year, currentTime.hour, currentTime.minute);
+
+		do {
+			printf(yellow"\nEnter a number (1) to continue delete, Enter (2) to go back: ");
+			scanf("%d", &delete.choice);
+			printf(reset);
+			switch (delete.choice) {
+			case 1:
+				valid = true;
+				break;
+			case 2:
+				staffloginmain(name);
+				valid = true;
+				break;
+			default:
+				printf("\n\033[1;31mInvalid number entered!\033[1;0m\n");
+				printf("========================================\n");
+				break;
+			}
+		} while (!valid);
+	} while (delete.choice == 1);
+}
+
+// Modify the staff name and password, **id cannot be modify
+staffModification(const char* name) {
+	system("cls");
+
+	struct menu mod;
+	struct staff modi;
+	FILE* fpr, * fp;
+	char id[10];
+	found = false;
+
+	if ((fpr = fopen("staffInfo.txt", "r")) == NULL || (fp = fopen("temp.txt", "w")) == NULL) {
+		printf("AN ERROR OCCUR PLEASE TRY AGAIN!");
+		return;
+	}
+
+	printf(blue"Staff modification menu\n\n"reset);
+	printf(green"Enter the staff ID you want to modify: ");
+	scanf("%s", id);
 	printf(reset);
 
-	while (fgets(line, sizeof(line), fptr) != NULL) {
-		// Check if the line is empty or doesn't contain all three fields
-		if (strlen(line) > 1 && sscanf(line, "%[^,], %[^,], %s", deletion.id, deletion.name, deletion.pass) == 3) {
-			// Check if the ID matches the one to be deleted
-			if (strcmp(deletion.id, id) != 0) {
-				fprintf(fpr, "%s, %s, %s\n", deletion.id, deletion.name, deletion.pass);
-			}
-			else {
-				fprintf(fdel, "Staff record with ID %s was deleted by %s on %d-%02d-%02d at %02d:%02d\n", deletion.id, name, currentDate.day, currentDate.month, currentDate.year, currentTime.hour, currentTime.minute);
-			}
+	while (fscanf(fpr, "%[^,], %[^,], %[^\n]", modi.id, modi.name, modi.pass) != EOF) {
+		printf(green"Read ID: %s and %s\n", modi.id, id);
+		if (strcmp(modi.id, id) == 0) {
+			found = true;
+			// Modify the information
+			printf("Enter new name: ");
+			scanf("%s", modi.name);
+			printf("Enter new phone number: ");
+			scanf("%s" reset, modi.pass);
+			break;
+		}
+		fprintf(fp, "%s, %s, %s\n", modi.id, modi.name, modi.pass);
+		if (found == true) {
+			break;
 		}
 	}
 
-	rewind(fptr);
 
 	fclose(fpr);
-	fclose(fptr);
-	fclose(fdel);
+	fclose(fp);
 
-	remove("staffInfo.txt");
-	rename("temp.txt", "staffInfo.txt");
+	printf("ID searched for: %s\n", id);
 
-
-	printf(green"Staff record with ID %s has been deleted by %s successfully!\nDate: %d/%d/%d\nTime: %02d:%02d\n"reset, id, name, currentDate.day, currentDate.month, currentDate.year, currentTime.hour, currentTime.minute);
-
-
+	if (found == true) {
+		// Remove the old file and rename the temp file
+		remove("staffInfo.txt");
+		rename("temp.txt", "staffInfo.txt");
+		printf(green"Staff information modified successfully!\n"reset);
+	}
+	else {
+		printf(red"\n");
+		printf("Staff ID is not found!\n"reset);
+	}
 
 	do {
-		printf(yellow"\nEnter a number (1) to continue delete, Enter (2) to go back: ");
-		scanf("%d", &delete.choice);
+		printf(yellow"\nEnter a number (1) to continue modification, Enter (2) to go back: ");
+		scanf("%d", &mod.choice);
 		printf(reset);
-		switch (delete.choice) {
+		switch (mod.choice) {
 		case 1:
 			valid = true;
 			break;
@@ -378,55 +451,7 @@ staffDeletion(const char* name) {
 
 }
 
-// Modify the staff name and password, **id cannot be modify
-staffModification() {
-	system("cls");
-
-	struct menu mod;
-	struct staff modi;
-	FILE* fpr, * fp;
-	char id[10];
-	int found = 0;
-
-	if ((fpr = fopen("staffInfo.txt", "r")) == NULL || (fp = fopen("temp.txt", "w")) == NULL) {
-		printf("AN ERROR OCCUR PLEASE TRY AGAIN!");
-		return;
-	}
-
-	printf(blue"Staff modification menu"reset);
-	printf(green"Enter the staff ID you want to modify: ");
-	scanf("%s", id);
-	printf(reset);
-
-	while (fscanf(fpr, "%[^,], %[^,], %s", modi.id, modi.name, modi.pass) != EOF) {
-		if (strcmp(modi.id, id) == 0) {
-			found = 1;
-			// Modify the information
-			printf("Enter new name: ");
-			scanf("%s", modi.name);
-			printf("Enter new phone number: ");
-			scanf("%s", modi.pass);
-		}
-		fprintf(fp, "%s, %s, %s\n", modi.id, modi.name, modi.pass);
-	}
-
-	fclose(fpr);
-	fclose(fp);
-
-	if (found) {
-		// Remove the old file and rename the temp file
-		remove("staffInfo.txt");
-		rename("temp.txt", "staffInfo.txt");
-		printf("Staff information modified successfully!\n");
-	}
-	else {
-		printf("Staff ID is not found!\n");
-	}
-
-
-}
-
-staffDisplay() {
+staffInformation() {
 	system("cls");
 
 	struct menu info;

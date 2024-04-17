@@ -15,6 +15,8 @@ struct menu {
 	int valid;
 };
 
+
+
 #define blue "\033[1;34m"
 #define green "\033[1;32m"
 #define yellow "\033[1;33m"
@@ -23,11 +25,17 @@ struct menu {
 #define bold "\033[1;0m"
 
 bool valid;
+bool found;
 
 void clearInputBuffer() {
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
 }
+
+/*
+if the struct functions being called it will return the current time.
+
+*/
 
 struct Date getCurrentDate() {
     struct Date currentDate;
@@ -62,5 +70,6 @@ struct Time getCurrentTime() {
 
     return currentTime;
 }
+
 
 #endif

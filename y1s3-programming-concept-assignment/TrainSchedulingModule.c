@@ -12,7 +12,7 @@
  * For staff to schedule a train
  */
 
-
+/*
 bool scheduleTrainMenu() {
 	// record to be stored into TrainSchedules.dat
 	struct TrainScheduleRecord newTrainScheduleRecord;
@@ -80,6 +80,8 @@ bool scheduleTrainMenu() {
  * Display train schedules in multi-page format
  */
 
+
+/*
 void paginateTrainScheduleRecordsMenu() {
 	struct TrainScheduleRecord records[100];
 	int numOfSchedule = getTrainSchedulesFromFile(records, 100);
@@ -111,7 +113,7 @@ void paginateTrainScheduleRecordsMenu() {
 		system("cls");
 	}
 }
-
+*/
 
 
 
@@ -119,8 +121,8 @@ void paginateTrainScheduleRecordsMenu() {
  * Remove a train schedule with given id
  */
 
-
+/*
 bool removeTrainScheduleRecord() {
 
-}
+}*/
 

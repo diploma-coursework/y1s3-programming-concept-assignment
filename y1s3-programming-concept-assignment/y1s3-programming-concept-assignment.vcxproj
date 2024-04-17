@@ -151,7 +151,7 @@
     <None Include="TrainSchedules.dat" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Deleted_record.txt" />
+    <Text Include="records.txt" />
     <Text Include="MemberInfo.txt" />
     <Text Include="staffData.txt" />
     <Text Include="staffInfo.txt" />
