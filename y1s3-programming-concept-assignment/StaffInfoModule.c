@@ -401,13 +401,15 @@ staffModification(const char* name) {
 
 	struct menu mod;
 	struct staff modi;
-	FILE* fpr, * fp;
+	struct Date currentDate = getCurrentDate();
+	struct Time currentTime = getCurrentTime();
+	FILE* fpr, * fp, *fmod;
 	char id[10];
 	found = false;
 
 	do {
 		system("cls");
-		if ((fpr = fopen("staffInfo.txt", "r")) == NULL || (fp = fopen("temp.txt", "w")) == NULL) {
+		if ((fpr = fopen("staffInfo.txt", "r")) == NULL || (fp = fopen("temp.txt", "w")) == NULL || (fmod = fopen("records.txt","a"))== NULL) {
 			printf("AN ERROR OCCUR PLEASE TRY AGAIN!");
 			return;
 		}
@@ -459,10 +461,12 @@ staffModification(const char* name) {
 				}
 			}
 			fprintf(fp, "%s, %s, %s\n", modi.id, strcmp(modi.name, "-") != 0 ? modi.name : "-", strcmp(modi.pass, "-") != 0 ? modi.pass : "-");
+			fprintf(fmod, "Staff record with ID %s was Modified by %s on %d-%02d-%02d at %02d:%02d\n", id, name, currentDate.day, currentDate.month, currentDate.year, currentTime.hour, currentTime.minute);
 		}
 
 		fclose(fpr);
 		fclose(fp);
+		fclose(fmod);
 
 		if (found) {
 			// Remove the old file and rename the temp file
