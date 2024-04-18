@@ -153,7 +153,6 @@
   <ItemGroup>
     <Text Include="records.txt" />
     <Text Include="MemberInfo.txt" />
-    <Text Include="staffData.txt" />
     <Text Include="staffInfo.txt" />
     <Text Include="temp.txt" />
   </ItemGroup>

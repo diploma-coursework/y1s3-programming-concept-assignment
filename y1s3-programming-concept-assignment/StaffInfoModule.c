@@ -104,9 +104,10 @@ staffRegistration(const char* name) {
 			rewind(fp);
 			struct staff validate;
 
-			while (fscanf(fp, "%[^,], %[^,], %s", &validate.id, &validate.name, &validate.pass) != EOF) {
-				if (strcmp(&validate.id, &info.id) == 0) {
-					printf("\n\033[1;31mTHE ID ALREADY EXIST PLEASE CHOOSE ANOTHER ID!\033[1;0m\n==============================================\n");
+			while (fscanf(fp, "%[^,], %[^,], %[^,], %d, %d, %d, %lld\n", validate.id, validate.name, validate.pass, &validate.position, &validate.salary, &validate.age, &validate.phone) != EOF) {
+				if (strcmp(validate.id, info.id) == 0) {
+					printf("\nTHE ID ALREADY EXISTS. PLEASE CHOOSE ANOTHER ID!\n");
+					printf("==============================================\n");
 					exist = 1;
 					break;
 				}
@@ -138,7 +139,7 @@ staffRegistration(const char* name) {
 					break;
 				}
 			}
-		} while (1);;
+		} while (1);
 
 		//password validation check
 		do {
@@ -156,13 +157,48 @@ staffRegistration(const char* name) {
 
 		} while (1);
 
+		do {
+			printf("Enter staff position (0-9): ");
+			if (scanf("%d", (int*)&info.position) != 1 || info.position < 0 || info.position > 9) {
+				printf("Invalid input! Position must be a number between 0 and 9.\n");
+				clearInputBuffer();
+			}
+			else {
+				break; // Exit the loop if input is valid
+			}
+		} while (1);
+
+		do {
+			printf("Enter staff age: ");
+			if (scanf("%d", &info.age) != 1 || info.age < 18) {
+				printf("Invalid input! Age must be a number greater than or equal to 18.\n");
+				// Clearing the input buffer
+				clearInputBuffer();
+			}
+			else {
+				break; // Exit the loop if input is valid
+			}
+		} while (1);
+
+		do {
+			printf("Enter staff phone number (Malaysia format, e.g., 0123456789): ");
+			if (scanf("%lld", &info.phone) != 1 || !isValidMalaysianPhoneNumber(info.phone)) {
+				printf("Invalid input! Please enter a valid Malaysian phone number.\n");
+				// Clearing the input buffer
+				clearInputBuffer();
+			}
+			else {
+				break; // Exit the loop if input is valid
+			}
+		} while (1);
+
 		//Create a new line to the file
 		if (ftell(fp) != 0) {
 			fprintf(fp, "\n");
 		}
 
 		// print the information to text file
-		fprintf(fp, "%s, %s, %s", info.id, info.name, info.pass);
+		fprintf(fp, "%s, %s, %s, %d, %d, %d, %lld", info.id, info.name, info.pass, info.position, info.salary, info.age, info.phone);
 
 		printf("\n");
 		printf(green"ACCOUNT SUCCESSFULLY ADDED\n"reset);
@@ -207,6 +243,7 @@ staffRegistration(const char* name) {
 }
 
 // staff login
+
 staffLogin() {
 	system("cls");
 
@@ -245,7 +282,7 @@ staffLogin() {
 		rewind(fpr);
 
 	  // Reading the file to retrieve the values
-	  while (fscanf(fpr, "%[^,], %[^,], %s\n", &login.id, &login.name, &login.pass) != EOF) {
+	  while (fscanf(fpr, "%[^,], %[^,], %[^,\n]", &login.id, &login.name, &login.pass) != EOF) {
 		 if (strcmp(&id, &login.id) == 0 && strcmp(&pass, &login.pass) == 0) {
 			fclose(fpr);
 			staffloginmain(login.name);
@@ -511,22 +548,16 @@ staffModification(const char* name) {
 staffInformation() {
 	system("cls");
 
-	struct menu info;
-	struct info info2;
+	printf("Staff Information menu\n\n");
 
-	printf(blue"Staff Information menu\n\n"reset);
-	printf(green"press (1) to add informations of staff\npress(2) to modify the informations of staff\n"reset);
-	scanf("%d", &info.choice);
-
+	printf("Enter staff id to add the information: ");
 }
-
 
 staffsearching(const char* name) {
 	system("cls");
 
 	printf(blue"Welcome to Staff searching %s"reset, name);
 	printf("\n");
-
 
 }
 

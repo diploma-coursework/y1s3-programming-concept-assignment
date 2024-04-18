@@ -9,6 +9,10 @@ struct staff {
 	char id[10];
 	char name[30];
 	char pass[40];
+    enum Position position;
+    int salary;
+    int age;
+    int phone;
 };
 
 struct menu {
@@ -16,11 +20,7 @@ struct menu {
 	int valid;
 };
 
-struct info {
-    enum Position position;
-    int salary;
-    int age;
-};
+
 
 // ANSI colour values defination
 #define blue "\033[1;34m"
@@ -74,5 +74,34 @@ struct Time getCurrentTime() {
     return currentTime;
 }
 
+bool isValidMalaysianPhoneNumber(long long phone) {
+    // Convert phone number to string for easier manipulation
+    char phoneStr[20];
+    sprintf(phoneStr, "%lld", phone);
 
+    // Check if phone number length is correct
+    if (strlen(phoneStr) != 10)
+        return false;
+
+    // Check if phone number starts with valid prefix
+    char validPrefix[10][3] = { "01", "02", "03", "04", "05", "06", "07", "08", "09" };
+    bool validPrefixFound = false;
+    for (int i = 0; i < 9; i++) {
+        if (strncmp(phoneStr, validPrefix[i], 2) == 0) {
+            validPrefixFound = true;
+            break;
+        }
+    }
+    if (!validPrefixFound)
+        return false;
+
+    // Check if all characters are digits
+    for (int i = 0; i < 10; i++) {
+        if (!isdigit(phoneStr[i]))
+            return false;
+    }
+
+    // If all conditions pass, the phone number is valid
+    return true;
+}
 #endif
