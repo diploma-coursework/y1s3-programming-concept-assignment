@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <time.h>
+#include <ctype.h>
 
 #include "Staff_def.h"
 #include "GeneralStructs.h"
@@ -115,17 +116,29 @@ staffRegistration(const char* name) {
 		// name validation check
 		do {
 			printf(green"Enter staff name >");
-			scanf("%39s", &info.name);
-			printf(reset);
+			scanf(" %39[^\n]"reset, info.name); // Updated format specifier to allow spaces and hyphens
 
-			if (strlen(&info.name) >= 40) {
-				printf(red "\nYOUR NAME IS TOO LONG\n" reset);
+			if (strlen(info.name) >= 40) {
+				printf(red"\nYOUR NAME IS TOO LONG!\n"reset);
 				printf("\n");
 			}
+			
 			else {
-				break;
+				int isValid = 1;
+				for (int i = 0; info.name[i] != '\0'; i++) {
+					if (!isalpha(info.name[i]) && info.name[i] != ' ' && info.name[i] != '-') {
+						isValid = 0;
+						break;
+					}
+				}
+				if (!isValid) {
+					printf(red"\nTHE NAME CAN ONLY CONTAIN ALPHABETIC CHARACTERS, SPACES, AND HYPHENS!\n"reset);
+				}
+				else {
+					break;
+				}
 			}
-		} while (1);
+		} while (1);;
 
 		//password validation check
 		do {
@@ -273,7 +286,7 @@ staffloginmain(const char* name) {
 				valid = true;
 				break;
 			case 4:
-				staffsearching();
+				staffsearching(name);
 				valid = true;
 				break;
 			case 5:
@@ -288,8 +301,7 @@ staffloginmain(const char* name) {
 				return 0;
 				break;
 			default:
-				printf("\n\033[1;31mInvalid number entered!\033[1;0m\n");
-				printf("========================================\n");
+				printf("\n\033[1;31mInvalid number entered!\033[1;0m\n========================================\n");
 				break;
 			}
 		}
@@ -305,7 +317,6 @@ staffloginmain(const char* name) {
 
 //Delete the account of the staff, only staff can delete staff
 staffDeletion(const char* name) {
-	system("cls");
 
 	char id[10], line[100];
 	valid = false;
@@ -323,9 +334,11 @@ staffDeletion(const char* name) {
 		return 1;
 	}
 
-	printf(blue"Welcome to Staff deletion menu %s\n\n", name);
-	printf(reset);
 	do {
+		system("cls");
+	    printf(blue"Welcome to Staff deletion menu %s\n\n", name);
+	    printf(reset);
+	
 		printf(green"Enter the staff id that you wanted to delete > ");
 		scanf("%s", &id);
 		printf("\n");
@@ -357,20 +370,27 @@ staffDeletion(const char* name) {
 
 		do {
 			printf(yellow"\nEnter a number (1) to continue delete, Enter (2) to go back: ");
-			scanf("%d", &delete.choice);
-			printf(reset);
-			switch (delete.choice) {
-			case 1:
-				valid = true;
-				break;
-			case 2:
-				staffloginmain(name);
-				valid = true;
-				break;
-			default:
-				printf("\n\033[1;31mInvalid number entered!\033[1;0m\n");
-				printf("========================================\n");
-				break;
+			if (scanf("%d", &delete.choice) == 1) {
+				printf(reset);
+				switch (delete.choice) {
+				case 1:
+					valid = true;
+					break;
+				case 2:
+					staffloginmain(name);
+					valid = true;
+					break;
+				default:
+					printf("\n\033[1;31mInvalid number entered!\033[1;0m\n");
+					printf("========================================\n");
+					break;
+				}
+			}
+			else {
+				clearInputBuffer();
+				printf(red"\nInvalid input! Please enter a valid number.\n"reset);
+				printf("===========================================\n");
+				continue;
 			}
 		} while (!valid);
 	} while (delete.choice == 1);
@@ -378,7 +398,6 @@ staffDeletion(const char* name) {
 
 // Modify the staff name and password, **id cannot be modify
 staffModification(const char* name) {
-	system("cls");
 
 	struct menu mod;
 	struct staff modi;
@@ -386,75 +405,110 @@ staffModification(const char* name) {
 	char id[10];
 	found = false;
 
-	if ((fpr = fopen("staffInfo.txt", "r")) == NULL || (fp = fopen("temp.txt", "w")) == NULL) {
-		printf("AN ERROR OCCUR PLEASE TRY AGAIN!");
-		return;
-	}
-
-	printf(blue"Staff modification menu\n\n"reset);
-	printf(green"Enter the staff ID you want to modify: ");
-	scanf("%s", id);
-	printf(reset);
-
-	while (fscanf(fpr, "%[^,], %[^,], %[^\n]", modi.id, modi.name, modi.pass) != EOF) {
-		printf(green"Read ID: %s and %s\n", modi.id, id);
-		if (strcmp(modi.id, id) == 0) {
-			found = true;
-			// Modify the information
-			printf("Enter new name: ");
-			scanf("%s", modi.name);
-			printf("Enter new phone number: ");
-			scanf("%s" reset, modi.pass);
-			break;
-		}
-		fprintf(fp, "%s, %s, %s\n", modi.id, modi.name, modi.pass);
-		if (found == true) {
-			break;
-		}
-	}
-
-
-	fclose(fpr);
-	fclose(fp);
-
-	printf("ID searched for: %s\n", id);
-
-	if (found == true) {
-		// Remove the old file and rename the temp file
-		remove("staffInfo.txt");
-		rename("temp.txt", "staffInfo.txt");
-		printf(green"Staff information modified successfully!\n"reset);
-	}
-	else {
-		printf(red"\n");
-		printf("Staff ID is not found!\n"reset);
-	}
-
 	do {
-		printf(yellow"\nEnter a number (1) to continue modification, Enter (2) to go back: ");
-		scanf("%d", &mod.choice);
-		printf(reset);
-		switch (mod.choice) {
-		case 1:
-			valid = true;
-			break;
-		case 2:
-			staffloginmain(name);
-			valid = true;
-			break;
-		default:
-			printf("\n\033[1;31mInvalid number entered!\033[1;0m\n");
-			printf("========================================\n");
-			break;
+		system("cls");
+		if ((fpr = fopen("staffInfo.txt", "r")) == NULL || (fp = fopen("temp.txt", "w")) == NULL) {
+			printf("AN ERROR OCCUR PLEASE TRY AGAIN!");
+			return;
 		}
-	} while (!valid);
 
+		printf(blue"Staff modification menu\n\n"reset);
+		printf(green"Enter the staff ID you want to modify: ");
+		scanf(" %s", id);
+		getchar();
+		printf(reset);
+
+		while (fscanf(fpr, "%[^,], %[^,], %[^\n]\n", modi.id, modi.name, modi.pass) != EOF) {
+			if (strcmp(modi.id, id) == 0) {
+				found = true;
+				// Modify the information
+				do {
+					printf(green"Enter new name: ");
+					scanf("%[^\n]", modi.name);
+					getchar();
+
+					if (strlen(modi.name) >= 40) {
+						printf(red "\nYOUR NAME IS TOO LONG\n" reset);
+						printf("\n");
+					}
+					else {
+						break;
+					}
+				} while (1);
+
+				if (strcmp(modi.name, "") == 0) {
+					strcpy(modi.name, "-"); // Skip modifying name
+				}
+
+
+				do {
+					printf("Enter new pass: ");
+					scanf("%[^\n]" reset, modi.pass);
+					while (getchar() != '\n');
+
+					if (strlen(modi.pass) < 4) {
+						printf(red "\nTHE PASSWORD LENGTH MUST BE AT LEAST 4 CHARACTERS!\n===========================================\n" reset);
+					}
+					else {
+						break;
+					}
+				} while (1);
+
+				if (strcmp(modi.pass, "") == 0) {
+					strcpy(modi.pass, "-"); // Skip modifying password
+				}
+			}
+			fprintf(fp, "%s, %s, %s\n", modi.id, strcmp(modi.name, "-") != 0 ? modi.name : "-", strcmp(modi.pass, "-") != 0 ? modi.pass : "-");
+		}
+
+		fclose(fpr);
+		fclose(fp);
+
+		if (found) {
+			// Remove the old file and rename the temp file
+			remove("staffInfo.txt");
+			rename("temp.txt", "staffInfo.txt");
+			printf(green"Staff information modified successfully!\n"reset);
+		}
+		else {
+			printf(red"\n");
+			printf("Staff ID is not found!\n"reset);
+		}
+
+		do {
+			printf(yellow"\nEnter a number (1) to continue modification, Enter (2) to go back: ");
+			if (scanf("%d", &mod.choice) == 1) {
+				printf(reset);
+				switch (mod.choice) {
+				case 1:
+					valid = true;
+					break;
+				case 2:
+					staffloginmain(name);
+					valid = true;
+					break;
+				default:
+					printf("\n\033[1;31mInvalid number entered!\033[1;0m\n");
+					printf("========================================\n");
+					break;
+				}
+			}
+			else {
+				clearInputBuffer();
+				printf(red"\nInvalid input! Please enter a valid number.\n"reset);
+				printf("===========================================\n");
+				continue;
+			}
+		} while (!valid);
+
+	} while (mod.choice == 1);
 }
 
 staffInformation() {
 	system("cls");
 
 	struct menu info;
+	struct info info2;
 
 	printf(blue"Staff Information menu\n\n"reset);
 	printf(green"press (1) to add informations of staff\npress(2) to modify the informations of staff\n"reset);
@@ -462,9 +516,13 @@ staffInformation() {
 
 }
 
-staffsearching() {
+
+staffsearching(const char* name) {
 	system("cls");
 
-	printf("Welcome");
+	printf(blue"Welcome to Staff searching %s"reset, name);
+	printf("\n");
+
+
 }
 

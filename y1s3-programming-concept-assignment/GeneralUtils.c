@@ -45,3 +45,8 @@ int getCurrentTimestamp() {
 
     return (int)currentTime;
 }
+
+int clearInputBuffer() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}

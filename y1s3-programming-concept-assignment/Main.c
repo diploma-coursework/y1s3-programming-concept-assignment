@@ -5,8 +5,8 @@
 
 int main() {
 
-    //staffmain();
-	member();
+    staffmain();
+	//member();
 	// Ticket();
 	// scheduleTrainMenu();
 	//paginateTrainScheduleRecords();

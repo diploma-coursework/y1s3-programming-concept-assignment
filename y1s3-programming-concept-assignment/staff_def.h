@@ -1,4 +1,5 @@
 #pragma once
+#include "SystemEnums.h"
 #include "GeneralStructs.h"
 
 #ifndef staff_def
@@ -15,8 +16,13 @@ struct menu {
 	int valid;
 };
 
+struct info {
+    enum Position position;
+    int salary;
+    int age;
+};
 
-
+// ANSI colour values defination
 #define blue "\033[1;34m"
 #define green "\033[1;32m"
 #define yellow "\033[1;33m"
@@ -24,13 +30,10 @@ struct menu {
 #define reset "\033[0m"
 #define bold "\033[1;0m"
 
+
+// boolean identifier
 bool valid;
 bool found;
-
-void clearInputBuffer() {
-    int c;
-    while ((c = getchar()) != '\n' && c != EOF);
-}
 
 /*
 if the struct functions being called it will return the current time.

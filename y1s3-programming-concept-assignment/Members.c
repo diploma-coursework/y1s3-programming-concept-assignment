@@ -21,16 +21,10 @@ int verificationStatus();
 int viewProfile();
 int modifyProfile();
 int deleteProfile();
-int clearInputBuffer();
 
 int clearScreen()
 {
 	system("cls");
-}
-
-int clearInputBuffer() {
-	int c;
-	while ((c = getchar()) != '\n' && c != EOF);
 }
 
 int member()
