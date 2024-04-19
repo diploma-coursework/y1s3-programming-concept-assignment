@@ -11,8 +11,6 @@
 /**
  * For staff to schedule a train
  */
-
-/*
 bool scheduleTrainMenu() {
 	// record to be stored into TrainSchedules.dat
 	struct TrainScheduleRecord newTrainScheduleRecord;
@@ -81,12 +79,13 @@ bool scheduleTrainMenu() {
  */
 
 
-/*
-void paginateTrainScheduleRecordsMenu() {
-	struct TrainScheduleRecord records[100];
-	int numOfSchedule = getTrainSchedulesFromFile(records, 100);
 
-	int currentPageIndex = 0, maxRecordPerPage = 4, maxPage = ceil(numOfSchedule / 4.0);
+void paginateTrainScheduleRecordsMenu() {
+	int numOfRecords = getNumberOfScheduleRecordsInFile();
+	struct TrainScheduleRecord *records = malloc(numOfRecords * sizeof(struct TrainScheduleRecord));
+	getTrainSchedulesFromFile(&records);
+
+	int currentPageIndex = 0, maxRecordPerPage = 4, maxPage = ceil(numOfRecords / 4.0);
 	char userInput = 'a';
 
 	while (1) {
@@ -97,7 +96,7 @@ void paginateTrainScheduleRecordsMenu() {
 		);
 
 		int i = 0;
-		while (i < maxRecordPerPage && (i + currentPageIndex * maxRecordPerPage) != (numOfSchedule - 1)) {
+		while (i < maxRecordPerPage && (i + currentPageIndex * maxRecordPerPage) != (numOfRecords - 1)) {
 			displayTrainScheduleMetadata(&records[i + currentPageIndex * maxRecordPerPage]);
 			printf("++++++++++++++++++++++++++++++++++++++++++++\n");
 			i++;
@@ -113,8 +112,6 @@ void paginateTrainScheduleRecordsMenu() {
 		system("cls");
 	}
 }
-*/
-
 
 
 /**
@@ -128,7 +125,10 @@ bool removeTrainScheduleRecordMenu() {
 		"+--------------------------------+\n"
 		"\nEnter the schedule id to be removed: "
 	);
-	scanf(" %d", recordId);
+	scanf(" %d", &recordId);
+	bool removeSuccess = removeTrainScheduleFromFile(recordId);
 
-	
+	if (removeSuccess) printf("Schedule record removed successfully.\n");
+	else printf("Schedule records remove failed.\n");
+	system("pause");
 }

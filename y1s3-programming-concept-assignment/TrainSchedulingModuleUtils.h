@@ -13,8 +13,12 @@ struct TrainScheduleRecord {
 	int seatsBitfield;
 };
 
-void displayTrainScheduleMetadata(struct TrainScheduleRecord *record);
+int getNumberOfScheduleRecordsInFile();
+
+void displayTrainScheduleMetadata(struct TrainScheduleRecord* record);
 
 bool writeTrainScheduleToFile(struct TrainScheduleRecord* record);
 
-int getTrainSchedulesFromFile(struct TrainScheduleRecord* records, int maxNumOfRecords);
+void getTrainSchedulesFromFile(struct TrainScheduleRecord* records);
+
+bool removeTrainScheduleFromFile(int scheduleId);

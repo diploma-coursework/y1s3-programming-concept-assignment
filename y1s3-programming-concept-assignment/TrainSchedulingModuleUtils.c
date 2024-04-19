@@ -4,7 +4,23 @@
 #include "GeneralUtils.h"
 #include "TrainSchedulingModuleUtils.h"
 
-/*
+
+int getNumberOfScheduleRecordsInFile() {
+	FILE* filePtr = fopen("TrainSchedules.dat", "rb");
+	if (filePtr == NULL) {
+		fclose(filePtr);
+		return 0;
+	}
+
+	// calculate number of records existing in TrainSchedules.dat
+	fseek(filePtr, 0, SEEK_END);
+	int fileSize = ftell(filePtr);
+	int numOfRecords = fileSize / sizeof(struct TrainScheduleRecord);
+	fclose(filePtr);
+	return numOfRecords;
+}
+
+
 void displayTrainScheduleMetadata(struct TrainScheduleRecord *record) {
 	printf("ID: %d\n", (*record).id);
 
@@ -33,29 +49,53 @@ bool writeTrainScheduleToFile(struct TrainScheduleRecord *record) {
 }
 
 // returns number of records found in TrainSchedules.dat
-int getTrainSchedulesFromFile(struct TrainScheduleRecord *records, int maxNumOfRecords) {
+void getTrainSchedulesFromFile(struct TrainScheduleRecord *records) {
 	FILE* filePtr = fopen("TrainSchedules.dat", "rb");
 	if (filePtr == NULL) {
 		printf("Error opening file for reading.\n");
 		return 0;
 	}
 
-	int i = 0;
-	while (i < maxNumOfRecords && fread(&records[i], sizeof(struct TrainScheduleRecord), 1, filePtr) == 1) {
-		++i;
-	}
+	fread(&records, sizeof(struct TrainScheduleRecord), getNumberOfScheduleRecordsInFile(), filePtr);
 	fclose(filePtr);
-	return i + 1;
 }
 
 bool removeTrainScheduleFromFile(int scheduleId) {
-	FILE* filePtr = fopen("TrainSchedules.dat", "rb");
+	FILE *filePtr = fopen("TrainSchedules.dat", "rb");
 	if (filePtr == NULL) {
-		printf("Error opening file for reading.\n");
-		return 0;
+		fclose(filePtr);
+		return false;
 	}
 
-	// TODO: copy every struct to temp file except matched id, then rename to replace original file.
-}
+	// read records into existingRecords struct pointer
+	int numOfRecords = getNumberOfScheduleRecordsInFile();
+	struct TrainScheduleRecord *existingRecords = malloc(numOfRecords * sizeof(struct TrainScheduleRecord));
+	if (existingRecords == NULL) {
+		fclose(filePtr);
+		return false;
+	}
+	fread(existingRecords, sizeof(struct TrainScheduleRecord), numOfRecords, filePtr);
+	fclose(filePtr);
+	
+	// create a new file to replace current file
+	filePtr = fopen("TempTrainSchedules.dat", "wb");
+	if (filePtr == NULL) {
+		free(existingRecords);
+		fclose(filePtr);
+		return false;
+	}
 
-*/
+	for (int i = 0; i < numOfRecords; i++) {
+		// skip writing if scheduleId match up
+		if (existingRecords[i].id != scheduleId) 
+			fwrite(&existingRecords[i], sizeof(struct TrainScheduleRecord), 1, filePtr);
+	}
+	fclose(filePtr);
+	free(existingRecords);
+
+	// delete old file and rename the new one to the same name to replace
+	remove("TrainSchedule.dat");
+	rename("TempTrainSchedules.dat", "TrainSchedule.dat");
+	return true;
+
+}
