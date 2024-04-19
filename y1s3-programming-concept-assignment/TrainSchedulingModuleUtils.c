@@ -39,7 +39,7 @@ void displayTrainScheduleMetadata(struct TrainScheduleRecord *record) {
 
 
 bool writeTrainScheduleToFile(struct TrainScheduleRecord *record) {
-	FILE* filePtr = fopen("TrainSchedules.dat", "wb");
+	FILE* filePtr = fopen("TrainSchedules.dat", "ab");
 	if (filePtr == NULL) {
 		return false;
 	}
@@ -54,10 +54,10 @@ void getTrainSchedulesFromFile(struct TrainScheduleRecord *records) {
 	FILE* filePtr = fopen("TrainSchedules.dat", "rb");
 	if (filePtr == NULL) {
 		printf("Error opening file for reading.\n");
-		return 0;
+		
 	}
 
-	fread(&records, sizeof(struct TrainScheduleRecord), getNumberOfScheduleRecordsInFile(), filePtr);
+	fread(records, sizeof(struct TrainScheduleRecord), getNumberOfScheduleRecordsInFile(), filePtr);
 	fclose(filePtr);
 }
 

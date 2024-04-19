@@ -118,8 +118,9 @@ void paginateTrainScheduleRecordsMenu() {
 /**
  * Remove a train schedule with given id
  */
-bool removeTrainScheduleRecordMenu() {
+void removeTrainScheduleRecordMenu() {
 	int recordId;
+	char confirmRemoval;
 	printf(
 		"+--------------------------------+\n"
 		"|  Remove a Train Schedule:      |\n"
@@ -127,6 +128,20 @@ bool removeTrainScheduleRecordMenu() {
 		"\nEnter the schedule id to be removed: "
 	);
 	scanf(" %d", &recordId);
+	struct TrainScheduleRecord selectedSchedule = getTrainScheduleById(recordId);
+
+	// specified schedule id not found
+	if (selectedSchedule.id == 0) {
+		printf("Could not find schedule with given id (%d).\n", recordId);
+		system("pause");
+		return;
+	}
+
+	// let user confirm before removing
+	displayTrainScheduleMetadata(&selectedSchedule);
+	printf("Confirm to remove this schedule? (y/n): ");
+	scanf(" %c", &confirmRemoval);
+
 	bool removeSuccess = removeTrainScheduleFromFile(recordId);
 
 	if (removeSuccess) printf("Schedule record removed successfully.\n");

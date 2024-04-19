@@ -21,4 +21,6 @@ bool writeTrainScheduleToFile(struct TrainScheduleRecord* record);
 
 void getTrainSchedulesFromFile(struct TrainScheduleRecord* records);
 
+struct TrainScheduleRecord getTrainScheduleById(int scheduleId);
+
 bool removeTrainScheduleFromFile(int scheduleId);

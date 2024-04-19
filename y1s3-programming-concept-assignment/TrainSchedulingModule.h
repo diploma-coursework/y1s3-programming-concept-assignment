@@ -6,3 +6,4 @@ bool scheduleTrainMenu();
 
 void paginateTrainScheduleRecordsMenu();
 
+void removeTrainScheduleRecordMenu();
