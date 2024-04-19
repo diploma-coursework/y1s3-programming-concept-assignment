@@ -4,7 +4,7 @@
 #include "GeneralUtils.h"
 #include "TrainSchedulingModuleUtils.h"
 
-
+/*
 void displayTrainScheduleMetadata(struct TrainScheduleRecord *record) {
 	printf("ID: %d\n", (*record).id);
 
@@ -57,3 +57,5 @@ bool removeTrainScheduleFromFile(int scheduleId) {
 
 	// TODO: copy every struct to temp file except matched id, then rename to replace original file.
 }
+
+*/

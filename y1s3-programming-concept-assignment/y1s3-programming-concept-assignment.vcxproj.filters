@@ -18,9 +18,6 @@
     <ClCompile Include="Main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MemberInfoModule.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="StaffInfoModule.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -37,6 +34,9 @@
       <Filter>Header Files</Filter>
     </ClCompile>
     <ClCompile Include="TrainSchedulingModuleUtils.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Members.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -85,6 +85,9 @@
       <Filter>Resource Files</Filter>
     </Text>
     <Text Include="staffData.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="records.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>

@@ -130,7 +130,7 @@
     <ClCompile Include="GeneralUtils.c" />
     <ClCompile Include="GeneralUtils.h" />
     <ClCompile Include="Main.c" />
-    <ClCompile Include="MemberInfoModule.c" />
+    <ClCompile Include="Members.c" />
     <ClCompile Include="StaffInfoModule.c" />
     <ClCompile Include="TicketBooking.c" />
     <ClCompile Include="TrainSchedulingModule.c" />
@@ -151,6 +151,7 @@
     <None Include="TrainSchedules.dat" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="records.txt" />
     <Text Include="MemberInfo.txt" />
     <Text Include="staffData.txt" />
     <Text Include="staffInfo.txt" />

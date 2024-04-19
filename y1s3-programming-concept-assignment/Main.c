@@ -1,11 +1,12 @@
 #include <stdio.h>
-//#include "StaffInfoModule.h"
+#include "StaffInfoModule.h"
 //#include "TicketModule.h"
-#include "TrainSchedulingModule.h"
+//#include "TrainSchedulingModule.h"
 
 int main() {
 
-	// staffmain();
+    staffmain();
+	//member();
 	// Ticket();
 	// scheduleTrainMenu();
 	//paginateTrainScheduleRecords();
