@@ -35,7 +35,7 @@ void staffmain() {
 
 	do {
 		printf(yellow"Enter a number (1,2) to enter a menu > ");
-		if (scanf("%d", &staffmain.choice) == 1) {
+		if (scanf(" %d", &staffmain.choice) == 1) {
 			printf("\n"reset);
 			switch (staffmain.choice) {
 			case 1:
@@ -51,7 +51,7 @@ void staffmain() {
 			}
 		}
 		else { 
-			clearInputBuffer();
+			//clearInputBuffer();
 			printf(red"\nInvalid input! Please enter a valid number.\n"reset);
 			printf("===========================================\n");
 			continue;
@@ -158,9 +158,9 @@ staffRegistration(const char* name) {
 		} while (1);
 
 		do {
-			printf("Enter staff position (0-9): ");
+			printf(green"Enter staff position (0-9): ");
 			if (scanf("%d", (int*)&info.position) != 1 || info.position < 0 || info.position > 9) {
-				printf("Invalid input! Position must be a number between 0 and 9.\n");
+				printf(reset,red"Invalid input! Position must be a number between 0 and 9.\n"reset);
 				clearInputBuffer();
 			}
 			else {
@@ -169,11 +169,10 @@ staffRegistration(const char* name) {
 		} while (1);
 
 		do {
-			printf("Enter staff age: ");
+			printf(green"Enter staff age: ");
 			if (scanf("%d", &info.age) != 1 || info.age < 18) {
-				printf("Invalid input! Age must be a number greater than or equal to 18.\n");
-				// Clearing the input buffer
-				clearInputBuffer();
+				printf(reset,red"Invalid input! Age must be a number greater than or equal to 18.\n"reset);
+				//clearInputBuffer();
 			}
 			else {
 				break; // Exit the loop if input is valid
@@ -181,9 +180,9 @@ staffRegistration(const char* name) {
 		} while (1);
 
 		do {
-			printf("Enter staff phone number (Malaysia format, e.g., 0123456789): ");
+			printf(green"Enter staff phone number (Malaysia format, e.g., 0123456789): ");
 			if (scanf("%lld", &info.phone) != 1 || !isValidMalaysianPhoneNumber(info.phone)) {
-				printf("Invalid input! Please enter a valid Malaysian phone number.\n");
+				printf(reset,red"Invalid input! Please enter a valid Malaysian phone number.\n"reset);
 				// Clearing the input buffer
 				clearInputBuffer();
 			}
@@ -452,19 +451,20 @@ staffModification(const char* name) {
 		}
 
 		printf(blue"Staff modification menu\n\n"reset);
+		printf(green"NOTE! If you don't want to modify the certain data field please press (ENTER) to skip\n"reset);
 		printf(green"Enter the staff ID you want to modify: ");
 		scanf(" %s", id);
 		getchar();
 		printf(reset);
-
-		while (fscanf(fpr, "%[^,], %[^,], %[^\n]\n", modi.id, modi.name, modi.pass) != EOF) {
+		
+		while (fscanf(fpr, "%[^,], %[^,], %[^,], %d, %d, %d, %lld\n", modi.id, modi.name, modi.pass) != EOF) {
 			if (strcmp(modi.id, id) == 0) {
 				found = true;
 				// Modify the information
 				do {
 					printf(green"Enter new name: ");
-					scanf("%[^\n]", modi.name);
-					getchar();
+					scanf(" %[^\n]", modi.name);
+					//getchar();
 
 					if (strlen(modi.name) >= 40) {
 						printf(red "\nYOUR NAME IS TOO LONG\n" reset);
@@ -482,8 +482,8 @@ staffModification(const char* name) {
 
 				do {
 					printf("Enter new pass: ");
-					scanf("%[^\n]" reset, modi.pass);
-					while (getchar() != '\n');
+					scanf(" %[^\n]" reset, modi.pass);
+					//while (getchar() != '\n');
 
 					if (strlen(modi.pass) < 4) {
 						printf(red "\nTHE PASSWORD LENGTH MUST BE AT LEAST 4 CHARACTERS!\n===========================================\n" reset);
@@ -496,6 +496,23 @@ staffModification(const char* name) {
 				if (strcmp(modi.pass, "") == 0) {
 					strcpy(modi.pass, "-"); // Skip modifying password
 				}
+
+				do {
+					printf(green"Enter staff position (0-9): ");
+					if (scanf(" %d", (int*)modi.position) != 1 || modi.position < 0 || modi.position > 9) {
+						printf(reset, red"Invalid input! Position must be a number between 0 and 9.\n"reset);
+						//clearInputBuffer();
+					}
+					else {
+						break; // Exit the loop if input is valid
+					}
+				} while (1);
+
+				if (strcmp(modi.position, "") == 0) {
+					strcpy(modi.position, "-"); // Skip modifying password
+				}
+
+
 			}
 			fprintf(fp, "%s, %s, %s\n", modi.id, strcmp(modi.name, "-") != 0 ? modi.name : "-", strcmp(modi.pass, "-") != 0 ? modi.pass : "-");
 			fprintf(fmod, "Staff record with ID %s was Modified by %s on %d-%02d-%02d at %02d:%02d\n", id, name, currentDate.day, currentDate.month, currentDate.year, currentTime.hour, currentTime.minute);
@@ -518,7 +535,7 @@ staffModification(const char* name) {
 
 		do {
 			printf(yellow"\nEnter a number (1) to continue modification, Enter (2) to go back: ");
-			if (scanf("%d", &mod.choice) == 1) {
+			if (scanf(" %d", &mod.choice) == 1) {
 				printf(reset);
 				switch (mod.choice) {
 				case 1:
@@ -535,7 +552,7 @@ staffModification(const char* name) {
 				}
 			}
 			else {
-				clearInputBuffer();
+				//clearInputBuffer();
 				printf(red"\nInvalid input! Please enter a valid number.\n"reset);
 				printf("===========================================\n");
 				continue;

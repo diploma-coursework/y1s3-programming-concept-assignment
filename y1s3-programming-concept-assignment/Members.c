@@ -3,6 +3,8 @@
 #include<ctype.h>
 #include<string.h>
 
+#include "GeneralUtils.h"
+
 typedef struct
 {
 	char mName[50];
