@@ -112,6 +112,15 @@ void paginateTrainScheduleRecordsMenu() {
 /**
  * Remove a train schedule with given id
  */
-bool removeTrainScheduleRecord() {
+bool removeTrainScheduleRecordMenu() {
+	int recordId;
+	printf(
+		"+--------------------------------+\n"
+		"|  Remove a Train Schedule:      |\n"
+		"+--------------------------------+\n"
+		"\nEnter the schedule id to be removed: "
+	);
+	scanf(" %d", recordId);
 
+	
 }
