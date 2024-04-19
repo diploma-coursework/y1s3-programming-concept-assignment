@@ -48,6 +48,7 @@ bool writeTrainScheduleToFile(struct TrainScheduleRecord *record) {
 	return true;
 }
 
+
 // returns number of records found in TrainSchedules.dat
 void getTrainSchedulesFromFile(struct TrainScheduleRecord *records) {
 	FILE* filePtr = fopen("TrainSchedules.dat", "rb");
@@ -59,6 +60,25 @@ void getTrainSchedulesFromFile(struct TrainScheduleRecord *records) {
 	fread(&records, sizeof(struct TrainScheduleRecord), getNumberOfScheduleRecordsInFile(), filePtr);
 	fclose(filePtr);
 }
+
+
+struct TrainScheduleRecord getTrainScheduleById(int scheduleId) {
+	int numOfRecords = getNumberOfScheduleRecordsInFile();
+	struct TrainScheduleRecord* records = malloc(numOfRecords * sizeof(struct TrainScheduleRecord));
+	getTrainSchedulesFromFile(&records);
+
+	for (int i = 0; i < numOfRecords; i++) {
+		if (records[i].id == scheduleId) {
+			free(records);
+			return records[i];
+		}
+	}
+
+	struct TrainScheduleRecord emptySchedule = { 0 };
+	free(records);
+	return emptySchedule;
+}
+
 
 bool removeTrainScheduleFromFile(int scheduleId) {
 	FILE *filePtr = fopen("TrainSchedules.dat", "rb");

@@ -111,6 +111,7 @@ void paginateTrainScheduleRecordsMenu() {
 		else if (userInput == 'x' || userInput == 'X') break;
 		system("cls");
 	}
+	free(records);
 }
 
 
