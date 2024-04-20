@@ -150,8 +150,19 @@ void removeTrainScheduleRecordMenu() {
 
 	// let user confirm before removing
 	displayTrainScheduleMetadata(&selectedSchedule);
-	printf("Confirm to remove this schedule? (y/n): ");
-	scanf(" %c", &confirmRemoval);
+	do {
+		printf("Confirm to remove this schedule? (y/n): ");
+		scanf(" %c", &confirmRemoval);
+
+		if (confirmRemoval == 'y' || confirmRemoval == 'Y') break;
+		if (confirmRemoval == 'n' || confirmRemoval == 'N') {
+			printf("Canceled schedule removal.\n");
+			system("pause");
+			return;
+		};
+		printf("Invalid option.\n");
+	} while (1);
+	
 
 	bool removeSuccess = removeTrainScheduleFromFile(recordId);
 

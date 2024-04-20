@@ -65,18 +65,17 @@ void getTrainSchedulesFromFile(struct TrainScheduleRecord *records) {
 struct TrainScheduleRecord getTrainScheduleById(int scheduleId) {
 	int numOfRecords = getNumberOfScheduleRecordsInFile();
 	struct TrainScheduleRecord* records = malloc(numOfRecords * sizeof(struct TrainScheduleRecord));
-	getTrainSchedulesFromFile(&records);
+	getTrainSchedulesFromFile(records);
 
+	struct TrainScheduleRecord returnSchedule = { 0 };
 	for (int i = 0; i < numOfRecords; i++) {
 		if (records[i].id == scheduleId) {
-			free(records);
-			return records[i];
+			returnSchedule = records[i];
+			break;
 		}
 	}
-
-	struct TrainScheduleRecord emptySchedule = { 0 };
 	free(records);
-	return emptySchedule;
+	return returnSchedule;
 }
 
 
@@ -114,8 +113,8 @@ bool removeTrainScheduleFromFile(int scheduleId) {
 	free(existingRecords);
 
 	// delete old file and rename the new one to the same name to replace
-	remove("TrainSchedule.dat");
-	rename("TempTrainSchedules.dat", "TrainSchedule.dat");
+	remove("TrainSchedules.dat");
+	rename("TempTrainSchedules.dat", "TrainSchedules.dat");
 	return true;
 
 }

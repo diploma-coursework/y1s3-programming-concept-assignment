@@ -11,5 +11,5 @@ int main() {
 	//scheduleTrainMenu();
 	//scheduleTrainMenu();
 	paginateTrainScheduleRecordsMenu();
-	//removeTrainScheduleRecordMenu();
+	removeTrainScheduleRecordMenu();
 }
