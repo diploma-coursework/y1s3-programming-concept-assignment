@@ -51,7 +51,9 @@ bool scheduleTrainMenu() {
 
 	printf("Arrival time (hh:mm): ");
 	scanf(" %d:%d", &newTrainScheduleRecord.arrivalTime.hour, &newTrainScheduleRecord.arrivalTime.minute);
-	
+
+	printf("Price for the journey: RM");
+	scanf(" %lf", &newTrainScheduleRecord.price);
 
 	// let user confirm details keyed in
 	system("cls");
@@ -77,9 +79,6 @@ bool scheduleTrainMenu() {
 /**
  * Display train schedules in multi-page format
  */
-
-
-
 void paginateTrainScheduleRecordsMenu() {
 	int numOfRecords = getNumberOfScheduleRecordsInFile();
 	if (numOfRecords == 0) {
@@ -107,7 +106,7 @@ void paginateTrainScheduleRecordsMenu() {
 		);
 
 		int i = 0;
-		while (i < maxRecordPerPage && (i + currentPageIndex * maxRecordPerPage) != (numOfRecords - 1)) {
+		while (i < maxRecordPerPage && (i + currentPageIndex * maxRecordPerPage) != numOfRecords) {
 			displayTrainScheduleMetadata(&records[i + currentPageIndex * maxRecordPerPage]);
 			printf("++++++++++++++++++++++++++++++++++++++++++++\n");
 			i++;
@@ -169,4 +168,13 @@ void removeTrainScheduleRecordMenu() {
 	if (removeSuccess) printf("Schedule record removed successfully.\n");
 	else printf("Schedule records remove failed.\n");
 	system("pause");
+}
+
+void chooseTrainScheduleSeatMenu(int scheduleId) {
+	printf(
+		"+--------------------------------+\n"
+		"|  Choose a seat:                |\n"
+		"+--------------------------------+\n\n"
+	);
+	
 }

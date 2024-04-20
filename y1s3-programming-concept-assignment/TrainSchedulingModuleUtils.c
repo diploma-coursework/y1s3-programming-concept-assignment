@@ -23,6 +23,7 @@ int getNumberOfScheduleRecordsInFile() {
 
 void displayTrainScheduleMetadata(struct TrainScheduleRecord *record) {
 	printf("ID: %d\n", (*record).id);
+	printf("Price: RM%.2f\n", (*record).price);
 
 	printf("\nDeparture\n");
 	printf("=========\n");

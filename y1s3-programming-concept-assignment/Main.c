@@ -4,7 +4,6 @@
 #include "TrainSchedulingModule.h"
 
 int main() {
-
     //staffmain();
 	//member();
 	// Ticket();
@@ -12,4 +11,5 @@ int main() {
 	//scheduleTrainMenu();
 	paginateTrainScheduleRecordsMenu();
 	removeTrainScheduleRecordMenu();
+	
 }

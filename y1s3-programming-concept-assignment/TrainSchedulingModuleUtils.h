@@ -10,6 +10,7 @@ struct TrainScheduleRecord {
 	struct Time arrivalTime;
 	enum TrainStations departureStation;
 	enum TrainStations arrivalStation;
+	double price;
 	int seatsBitfield;
 };
 
