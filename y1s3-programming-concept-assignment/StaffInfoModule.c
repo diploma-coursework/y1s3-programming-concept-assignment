@@ -8,7 +8,6 @@
 #include "Staff_def.h"
 #include "GeneralStructs.h"
 #include "GeneralUtils.h"
-#include "SystemEnums.h"
 
 // staff main
 void staffmain() {
@@ -106,7 +105,7 @@ staffRegistration(const char* name) {
 			rewind(fp);
 			struct staff validate;
 
-			while (fscanf(fp, "%[^,], %[^,], %[^,], %d, %d, %d, [^\n]\n", validate.id, validate.name, validate.pass, &validate.position, &validate.salary, &validate.age, &validate.phone) != EOF) {
+			while (fscanf(fp, "%[^,], %[^,], %[^,], %[^,], %[^d,], %[^d,], [^\n]\n", validate.id, validate.name, validate.pass, &validate.position, &validate.salary, &validate.age, &validate.phone) != EOF) {
 				if (strcmp(validate.id, info.id) == 0) {
 					printf(red"\nTHE ID ALREADY EXISTS. PLEASE CHOOSE ANOTHER ID!\n"reset);
 					printf("==============================================\n");
@@ -162,11 +161,13 @@ staffRegistration(const char* name) {
 		do {
 			printf(green"Enter staff position (0-9): ");
 			int position;
-			if (scanf("%d"reset, &position) != 1 || position < 0 || position >= NUM_POSITIONS) {
+			if (scanf(" %d"reset, &position) != 1 || position < 0 || position >= NUM_POSITIONS) {
 				printf("Invalid input! Position must be a number between 0 and 9.\n");
 			}
 			else {
+				printf("\n");
 				info.position = (enum Position)position; 
+				positionString(info.position);
 				break;
 			}
 		} while (1);
@@ -213,7 +214,7 @@ staffRegistration(const char* name) {
 		}
 
 		// print the information to text file
-		fprintf(fp, "%s, %s, %s, %d, %d, %d, %s", info.id, info.name, info.pass, info.position, info.salary, info.age, info.phone);
+		fprintf(fp, "%s, %s, %s, %s, %d, %d, %s", info.id, info.name, info.pass, positionString(info.position), info.salary, info.age, info.phone);
 
 		printf("\n");
 		printf(green"ACCOUNT SUCCESSFULLY ADDED\n"reset);
@@ -303,9 +304,7 @@ staffLogin() {
 		rewind(fpr);
 
 	  // Reading the file to retrieve the values
-		while (fscanf(fpr, "%[^,], %[^,], %[^,\n], %[^d,], %[^d,], %[^d,], %[^\n]\n", login.id, login.name, login.pass, &login.position, &login.salary, &login.age, login.phone) != EOF) {
-			printf("read ID: %s\n", login.id);
-			printf("read Password: %s\n", login.pass);
+		while (fscanf(fpr, "%[^,], %[^,], %[^,\n], %[^,], %[^d,], %[^d,], %[^\n]\n", login.id, login.name, login.pass, &login.position, &login.salary, &login.age, login.phone) != EOF) {
 			if (strcmp(id, login.id) == 0 && strcmp(pass, login.pass) == 0) {
 				fclose(fpr);
 				staffloginmain(login.name);
@@ -357,7 +356,7 @@ staffloginmain(const char* name) {
 //Delete the account of the staff, only staff can delete staff
 staffDeletion(const char* name) {
 
-	char id[10], line[100];
+	char id[15], line[100];
 	valid = false;
 
 	struct staff deletion;
@@ -379,23 +378,30 @@ staffDeletion(const char* name) {
 	    printf(reset);
 	
 		printf(green"Enter the staff id that you wanted to delete > ");
-		scanf(" %s", &id);
+		scanf(" %s", id);
 		printf("\n");
 		printf(reset);
 
-		//TOFIX
+		/*
 		while (fgets(line, sizeof(line), fptr) != NULL) {
-			// Check if the line is empty or doesn't contain all three fields
-			if (strlen(line) > 1 && sscanf(line, " %[^,], %[^,], %[^,\n], %[^d,], %[^d,], %[^d,], %[^\n]\n", deletion.id, deletion.name, deletion.pass, deletion.position, deletion.salary, deletion.age, deletion.phone) == 7) {
-				// Check if the ID matches the one to be deleted
-				if (strcmp(deletion.id, id) != 0) {
-					fprintf(fpr, "%s, %s, %s, %d, %d, %d, %s\n", deletion.id, deletion.name, deletion.pass, deletion.position, deletion.salary, deletion.age, deletion.phone);
+			if (strlen(line) > 1) {
+				// Parse line
+				int result = sscanf(line, " %[^,], %[^,], %[^,], %[^,], %[^d,], %[^d,], %[^\n]", deletion.id, deletion.name, deletion.pass, deletion.position, &deletion.salary, &deletion.age, deletion.phone);
+				if (result == 7) {
+					// Check if ID matches the one to be deleted
+					if (strcmp(deletion.id, id) != 0) {
+						fprintf(fpr, "%s, %s, %s, %s, %d, %d, %s\n", deletion.id, deletion.name, deletion.pass, deletion.position, deletion.salary, deletion.age, deletion.phone);
+					}
+					else {
+						fprintf(fdel, "Staff record with ID %s was deleted by %s on %d-%02d-%02d at %02d:%02d\n", deletion.id, name, currentDate.day, currentDate.month, currentDate.year, currentTime.hour, currentTime.minute);
+					}
 				}
 				else {
-					fprintf(fdel, "Staff record with ID %s was deleted by %s on %d-%02d-%02d at %02d:%02d\n", deletion.id, name, currentDate.day, currentDate.month, currentDate.year, currentTime.hour, currentTime.minute);
+					printf("Error: Line format is incorrect.\n");
 				}
 			}
 		}
+		*/
 
 		rewind(fptr);
 
@@ -410,7 +416,7 @@ staffDeletion(const char* name) {
 
 		do {
 			printf(yellow"\nEnter a number (1) to continue delete, Enter (2) to go back: ");
-			if (scanf("%d", &delete.choice) == 1) {
+			if (scanf(" %d", &delete.choice) == 1) {
 				printf(reset);
 				switch (delete.choice) {
 				case 1: valid = true; break;
@@ -422,7 +428,6 @@ staffDeletion(const char* name) {
 				}
 			}
 			else {
-				clearInputBuffer();
 				printf(red"\nInvalid input! Please enter a valid number.\n"reset);
 				printf("===========================================\n");
 				continue;
@@ -453,11 +458,10 @@ staffModification(const char* name) {
 		printf(green"NOTE! If you don't want to modify the certain data field please press (ENTER) to skip\n"reset);
 		printf(green"Enter the staff ID you want to modify: ");
 		scanf(" %s", id);
-		getchar();
+		//getchar();
 		printf(reset);
 		
-		//TOFIX
-		while (fscanf(fpr, " %[^,], %[^,], %[^,\n], %[^d,], %[^d,], %[^d,], %[^\n]\n", modi.id, modi.name, modi.pass, modi.position, modi.salary, modi.age, modi.phone) != EOF) {
+		while (fscanf(fpr, " %[^,], %[^,], %[^,], %[^,], %[^d,], %[^d,], %[^\n]\n", modi.id, modi.name, modi.pass, modi.position, modi.salary, modi.age, modi.phone) != EOF) {
 			if (strcmp(modi.id, id) == 0) {
 				found = true;
 				// Modify the information

@@ -12,7 +12,7 @@
  * For staff to schedule a train
  */
 
-
+/*
 bool scheduleTrainMenu() {
 	// record to be stored into TrainSchedules.dat
 	struct TrainScheduleRecord newTrainScheduleRecord;
@@ -75,7 +75,7 @@ bool scheduleTrainMenu() {
 	system("pause");
 	return true;
 }
-
+*/
 /**
  * Display train schedules in multi-page format
  */

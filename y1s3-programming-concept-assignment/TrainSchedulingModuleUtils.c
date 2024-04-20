@@ -57,5 +57,5 @@ bool removeTrainScheduleFromFile(int scheduleId) {
 
 	// TODO: copy every struct to temp file except matched id, then rename to replace original file.
 }
-
 */
+
