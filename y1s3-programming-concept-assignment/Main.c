@@ -9,7 +9,7 @@ int main() {
 	//member();
 	// Ticket();
 	//scheduleTrainMenu();
-	scheduleTrainMenu();
+	//scheduleTrainMenu();
 	paginateTrainScheduleRecordsMenu();
 	//removeTrainScheduleRecordMenu();
 }

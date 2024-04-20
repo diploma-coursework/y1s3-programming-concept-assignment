@@ -82,8 +82,19 @@ bool scheduleTrainMenu() {
 
 void paginateTrainScheduleRecordsMenu() {
 	int numOfRecords = getNumberOfScheduleRecordsInFile();
+	if (numOfRecords == 0) {
+		printf(
+			"+------------------------+\n"
+			"|  Train Schedules:      |\n"
+			"+------------------------+\n\n"
+			"Currently empty.\n"
+		);
+		system("pause");
+		return;
+	}
+
 	struct TrainScheduleRecord *records = malloc(numOfRecords * sizeof(struct TrainScheduleRecord));
-	getTrainSchedulesFromFile(&records);
+	getTrainSchedulesFromFile(records);
 
 	int currentPageIndex = 0, maxRecordPerPage = 4, maxPage = ceil(numOfRecords / 4.0);
 	char userInput = 'a';
