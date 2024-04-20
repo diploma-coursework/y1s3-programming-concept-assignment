@@ -1,6 +1,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "GeneralUtils.h"
 #include "TrainSchedulingModuleUtils.h"
 
@@ -117,5 +118,20 @@ bool removeTrainScheduleFromFile(int scheduleId) {
 	remove("TrainSchedules.dat");
 	rename("TempTrainSchedules.dat", "TrainSchedules.dat");
 	return true;
+}
 
+
+char* seatsBitFieldToGraphic(int seatsBitField) {
+	// TODO convert seatBitField to binary
+
+	char graphic[171] = "   A B   C D\n";
+
+	for (int i = 1; i < 11; i++) {
+		char row[15];
+		sprintf(row, "%2d ", i);
+
+
+		if (i == 5) strcat(row, "\n");
+		strcat(graphic, row);
+	}
 }
