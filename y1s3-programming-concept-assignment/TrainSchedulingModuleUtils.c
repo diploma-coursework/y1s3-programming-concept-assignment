@@ -124,6 +124,7 @@ bool removeTrainScheduleFromFile(int scheduleId) {
 char* seatsBitFieldToGraphic(int seatsBitField) {
 	// TODO convert seatBitField to binary
 
+	// create the graphic by interpreting the binary
 	char graphic[171] = "   A B   C D\n";
 
 	for (int i = 1; i < 11; i++) {
