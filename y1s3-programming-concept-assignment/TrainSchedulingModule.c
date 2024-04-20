@@ -12,7 +12,7 @@
  * For staff to schedule a train
  */
 
-/*
+
 bool scheduleTrainMenu() {
 	// record to be stored into TrainSchedules.dat
 	struct TrainScheduleRecord newTrainScheduleRecord;
@@ -120,6 +120,7 @@ void paginateTrainScheduleRecordsMenu() {
 /**
  * Remove a train schedule with given id
  */
+/*
 bool removeTrainScheduleRecordMenu() {
 	int recordId;
 	printf(
@@ -132,3 +133,4 @@ bool removeTrainScheduleRecordMenu() {
 
 	
 }
+*/

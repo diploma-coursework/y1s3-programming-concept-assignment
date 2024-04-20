@@ -6,21 +6,19 @@
 #define staff_def
 
 struct staff {
-	char id[10];
+	char id[15];
 	char name[30];
 	char pass[40];
     enum Position position;
     int salary;
     int age;
-    int phone;
+    char phone[15];
 };
 
 struct menu {
 	int choice;
 	int valid;
 };
-
-
 
 // ANSI colour values defination
 #define blue "\033[1;34m"
@@ -29,6 +27,23 @@ struct menu {
 #define red "\033[1;31m"
 #define reset "\033[0m"
 #define bold "\033[1;0m"
+
+//the enum position values converting into strings
+const char* positionString(enum Position position) {
+    switch (position) {
+    case TICKETING_AGENT: return "Ticketing Agent";
+    case CUSTOMER_SERVICE_REPRESENTATIVE: return "Customer Service Representative";
+    case TRAIN_CONDUCTOR: return "Train Conductor";
+    case TICKET_INSPECTOR: return "Ticket Inspector";
+    case STATION_MANAGER: return "Station Manager";
+    case OPERATIONS_MANAGER: return "Operations Manager";
+    case TECHNICAL_SUPPORT_STAFF: return "Technical Support Staff";
+    case ADMINISTRATIVE_STAFF: return "Administrative Staff";
+    case CLEANING_STAFF: return "Cleaning Staff";
+    case SECURITY_PERSONNEL: return "Security Personnel";
+    default: return "Invalid";
+    }
+}
 
 
 // boolean identifier
@@ -57,7 +72,6 @@ struct Date getCurrentDate() {
     return currentDate;
 }
 
-// Function to get the current time
 struct Time getCurrentTime() {
     struct Time currentTime;
     time_t rawtime;
@@ -74,34 +88,33 @@ struct Time getCurrentTime() {
     return currentTime;
 }
 
-bool isValidMalaysianPhoneNumber(long long phone) {
-    // Convert phone number to string for easier manipulation
-    char phoneStr[20];
-    sprintf(phoneStr, "%lld", phone);
+void clearBuffer() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF) {}
+}
 
-    // Check if phone number length is correct
-    if (strlen(phoneStr) != 10)
-        return false;
+bool isValidPhoneNumber(const char* number) {
+    int i = 0;
 
-    // Check if phone number starts with valid prefix
-    char validPrefix[10][3] = { "01", "02", "03", "04", "05", "06", "07", "08", "09" };
-    bool validPrefixFound = false;
-    for (int i = 0; i < 9; i++) {
-        if (strncmp(phoneStr, validPrefix[i], 2) == 0) {
-            validPrefixFound = true;
-            break;
-        }
-    }
-    if (!validPrefixFound)
-        return false;
-
-    // Check if all characters are digits
-    for (int i = 0; i < 10; i++) {
-        if (!isdigit(phoneStr[i]))
+    // Check if the number contains only digits
+    while (number[i] != '\0') {
+        if (!isdigit(number[i])) {
             return false;
+        }
+        i++;
     }
 
-    // If all conditions pass, the phone number is valid
+    // Check if the number has 10 digits
+    if (i != 10) {
+        return false;
+    }
+
+    // Check if the number starts with 011 to 019
+    if (number[0] != '0' || (number[1] != '1' && number[1] != '2')) {
+        return false;
+    }
+
     return true;
 }
+
 #endif

@@ -38,7 +38,6 @@ const char* trainStationToString(enum TrainStations trainStation) {
     }
 }
 
-
 int getCurrentTimestamp() {
     time_t currentTime;
     time(&currentTime);
@@ -46,8 +45,3 @@ int getCurrentTimestamp() {
     return (int)currentTime;
 }
 
-int clearInputBuffer() {
-    int c;
-    while ((c = getchar()) != '\n' && c != EOF);
-    return 0;
-}

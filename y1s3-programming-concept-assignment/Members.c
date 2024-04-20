@@ -29,6 +29,11 @@ int clearScreen()
 	system("cls");
 }
 
+void clearInputBuffer() {
+	int c;
+	while ((c = getchar()) != '\n' && c != EOF);
+}
+
 int member()
 {
 	char answer;
