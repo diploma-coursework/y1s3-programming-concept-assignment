@@ -11,8 +11,6 @@
 /**
  * For staff to schedule a train
  */
-
-/*
 bool scheduleTrainMenu() {
 	// record to be stored into TrainSchedules.dat
 	struct TrainScheduleRecord newTrainScheduleRecord;
@@ -53,7 +51,9 @@ bool scheduleTrainMenu() {
 
 	printf("Arrival time (hh:mm): ");
 	scanf(" %d:%d", &newTrainScheduleRecord.arrivalTime.hour, &newTrainScheduleRecord.arrivalTime.minute);
-	
+
+	printf("Price for the journey: RM");
+	scanf(" %lf", &newTrainScheduleRecord.price);
 
 	// let user confirm details keyed in
 	system("cls");
@@ -79,14 +79,23 @@ bool scheduleTrainMenu() {
 /**
  * Display train schedules in multi-page format
  */
-
-
-/*
 void paginateTrainScheduleRecordsMenu() {
-	struct TrainScheduleRecord records[100];
-	int numOfSchedule = getTrainSchedulesFromFile(records, 100);
+	int numOfRecords = getNumberOfScheduleRecordsInFile();
+	if (numOfRecords == 0) {
+		printf(
+			"+------------------------+\n"
+			"|  Train Schedules:      |\n"
+			"+------------------------+\n\n"
+			"Currently empty.\n"
+		);
+		system("pause");
+		return;
+	}
 
-	int currentPageIndex = 0, maxRecordPerPage = 4, maxPage = ceil(numOfSchedule / 4.0);
+	struct TrainScheduleRecord *records = malloc(numOfRecords * sizeof(struct TrainScheduleRecord));
+	getTrainSchedulesFromFile(records);
+
+	int currentPageIndex = 0, maxRecordPerPage = 4, maxPage = ceil(numOfRecords / 4.0);
 	char userInput = 'a';
 
 	while (1) {
@@ -97,7 +106,7 @@ void paginateTrainScheduleRecordsMenu() {
 		);
 
 		int i = 0;
-		while (i < maxRecordPerPage && (i + currentPageIndex * maxRecordPerPage) != (numOfSchedule - 1)) {
+		while (i < maxRecordPerPage && (i + currentPageIndex * maxRecordPerPage) != numOfRecords) {
 			displayTrainScheduleMetadata(&records[i + currentPageIndex * maxRecordPerPage]);
 			printf("++++++++++++++++++++++++++++++++++++++++++++\n");
 			i++;
@@ -112,25 +121,61 @@ void paginateTrainScheduleRecordsMenu() {
 		else if (userInput == 'x' || userInput == 'X') break;
 		system("cls");
 	}
+	free(records);
 }
-*/
-
 
 
 /**
  * Remove a train schedule with given id
  */
-/*
 bool removeTrainScheduleRecordMenu() {
 	int recordId;
+	char confirmRemoval;
 	printf(
 		"+--------------------------------+\n"
 		"|  Remove a Train Schedule:      |\n"
 		"+--------------------------------+\n"
 		"\nEnter the schedule id to be removed: "
 	);
-	scanf(" %d", recordId);
+	scanf(" %d", &recordId);
+	struct TrainScheduleRecord selectedSchedule = getTrainScheduleById(recordId);
 
+	// specified schedule id not found
+	if (selectedSchedule.id == 0) {
+		printf("Could not find schedule with given id (%d).\n", recordId);
+		system("pause");
+		return;
+	}
+
+	// let user confirm before removing
+	displayTrainScheduleMetadata(&selectedSchedule);
+	do {
+		printf("Confirm to remove this schedule? (y/n): ");
+		scanf(" %c", &confirmRemoval);
+
+		if (confirmRemoval == 'y' || confirmRemoval == 'Y') break;
+		if (confirmRemoval == 'n' || confirmRemoval == 'N') {
+			printf("Canceled schedule removal.\n");
+			system("pause");
+			return;
+		};
+		printf("Invalid option.\n");
+	} while (1);
+	
+
+	bool removeSuccess = removeTrainScheduleFromFile(recordId);
+
+	if (removeSuccess) printf("Schedule record removed successfully.\n");
+	else printf("Schedule records remove failed.\n");
+	system("pause");
+}
+
+void chooseTrainScheduleSeatMenu(int scheduleId) {
+	printf(
+		"+--------------------------------+\n"
+		"|  Choose a seat:                |\n"
+		"+--------------------------------+\n\n"
+	);
 	
 }
 */
