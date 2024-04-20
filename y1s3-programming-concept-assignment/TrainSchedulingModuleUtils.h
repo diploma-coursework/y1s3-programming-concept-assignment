@@ -10,11 +10,18 @@ struct TrainScheduleRecord {
 	struct Time arrivalTime;
 	enum TrainStations departureStation;
 	enum TrainStations arrivalStation;
+	double price;
 	int seatsBitfield;
 };
 
-void displayTrainScheduleMetadata(struct TrainScheduleRecord *record);
+int getNumberOfScheduleRecordsInFile();
+
+void displayTrainScheduleMetadata(struct TrainScheduleRecord* record);
 
 bool writeTrainScheduleToFile(struct TrainScheduleRecord* record);
 
-int getTrainSchedulesFromFile(struct TrainScheduleRecord* records, int maxNumOfRecords);
+void getTrainSchedulesFromFile(struct TrainScheduleRecord* records);
+
+struct TrainScheduleRecord getTrainScheduleById(int scheduleId);
+
+bool removeTrainScheduleFromFile(int scheduleId);
