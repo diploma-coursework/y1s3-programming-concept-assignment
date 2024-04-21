@@ -175,6 +175,6 @@ int seatsBinaryToBitField(char* seatsBinary) {
 
 void updateTrainScheduleRecordToFile(struct TrainScheduleRecord *scheduleRecord) {
 	removeTrainScheduleFromFile(scheduleRecord->id);
-	scheduleRecord->seatsBitfield = 0;
+	//scheduleRecord->seatsBitfield = 0; // temporary to wipe seats booked
 	writeTrainScheduleToFile(scheduleRecord);
 }

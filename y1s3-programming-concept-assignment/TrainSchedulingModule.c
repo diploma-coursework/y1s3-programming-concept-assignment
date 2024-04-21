@@ -173,7 +173,7 @@ bool removeTrainScheduleRecordMenu() {
 }
 
 
-void chooseTrainScheduleSeatMenu(int scheduleId, int seatAmount) {
+void chooseTrainScheduleSeatMenu(int scheduleId, int seatAmount, char *seatsSelectedInfo[4]) {
 	struct TrainScheduleRecord trainScheduleData = getTrainScheduleById(scheduleId);
 	char *seatsBinary = seatsBitFieldToBinary(trainScheduleData.seatsBitfield);
 	
@@ -208,6 +208,7 @@ void chooseTrainScheduleSeatMenu(int scheduleId, int seatAmount) {
 		}
 
 		// success
+		sprintf(seatsSelectedInfo[i], "%c%d", seatAlphabet, seatNumber);
 		system("cls");
 		printSeatsGraphic(seatsBinary);
 	}
