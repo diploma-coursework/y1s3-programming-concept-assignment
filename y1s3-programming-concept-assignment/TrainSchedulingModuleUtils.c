@@ -5,7 +5,7 @@
 #include "GeneralUtils.h"
 #include "TrainSchedulingModuleUtils.h"
 
-/*
+
 int getNumberOfScheduleRecordsInFile() {
 	FILE* filePtr = fopen("TrainSchedules.dat", "rb");
 	if (filePtr == NULL) {
@@ -56,7 +56,7 @@ void getTrainSchedulesFromFile(struct TrainScheduleRecord *records) {
 	FILE* filePtr = fopen("TrainSchedules.dat", "rb");
 	if (filePtr == NULL) {
 		printf("Error opening file for reading.\n");
-		
+		exit(-1);
 	}
 
 	fread(records, sizeof(struct TrainScheduleRecord), getNumberOfScheduleRecordsInFile(), filePtr);
@@ -119,21 +119,61 @@ bool removeTrainScheduleFromFile(int scheduleId) {
 	rename("TempTrainSchedules.dat", "TrainSchedules.dat");
 	return true;
 }
-*/
-/*
-char* seatsBitFieldToGraphic(int seatsBitField) {
-	// TODO convert seatBitField to binary
 
+
+char* seatsBitfieldToBinary(long long int seatsBitfield) {
+	// X = 1, O = 0
+	char *seatsBinary = malloc(61 * sizeof(char));
+	for (int i = 0; i < 60; i++) {
+		if ((seatsBitfield >> (59 - i)) & 1) seatsBinary[i] = 'X';
+		else seatsBinary[i] = 'O';
+	}
+	return seatsBinary;
+}
+
+void printSeatsGraphic(char *seatsBinary) {
 	// create the graphic by interpreting the binary
-	char graphic[171] = "   A B   C D\n";
-
-	for (int i = 1; i < 11; i++) {
+	char graphic[238] = "   A B   C D\n";
+	for (int i = 0; i < 15; i++) {
 		char row[15];
-		sprintf(row, "%2d ", i);
+		sprintf(
+			row, 
+			"%2d %c %c   %c %c\n", 
+			i+1, 
+			seatsBinary[i * 4], 
+			seatsBinary[i * 4 + 1],
+			seatsBinary[i * 4 + 2],
+			seatsBinary[i * 4 + 3]
+		);
 
-
-		if (i == 5) strcat(row, "\n");
+		if (i == 4 || i == 9) strcat(row, "\n");
 		strcat(graphic, row);
 	}
+	strcat(graphic, "\nX = Booked, O = Available\n");
+	printf("%s", graphic);
 }
-*/
+
+bool bookTrainSeat(char *seatsBinary, char seatAlphabet, int seatNumber) {
+	int seatAlphabetValue = (int)seatAlphabet - 97; // ASCII value of 'a' is 97, adjust to get a = 0, b = 1 so on
+	int seatIndex = 4 * (seatNumber - 1) + seatAlphabetValue;
+
+	if (seatsBinary[seatIndex] == 'X') {
+		printf("Seat is already taken. Please choose another seat.\n");
+		return false;
+	}
+	seatsBinary[seatIndex] = 'X';
+	return true;
+}
+
+long long int seatsBinaryToBitfield(char *seatsBinary) {
+	long long int result = 0;
+	for (int i = 0; i < 60; i++) {
+		result = (result << 1) | (seatsBinary[i] == 'X');
+	}
+	return result;
+}
+
+void updateTrainScheduleRecordToFile(struct TrainScheduleRecord *scheduleRecord) {
+	removeTrainScheduleFromFile(scheduleRecord->id);
+	writeTrainScheduleToFile(scheduleRecord);
+}

@@ -11,7 +11,6 @@
 /**
  * For staff to schedule a train
  */
-/*
 bool scheduleTrainMenu() {
 	// record to be stored into TrainSchedules.dat
 	struct TrainScheduleRecord newTrainScheduleRecord;
@@ -76,12 +75,11 @@ bool scheduleTrainMenu() {
 	system("pause");
 	return true;
 }
-*/
+
+
 /**
  * Display train schedules in multi-page format
  */
-
-/*
 void paginateTrainScheduleRecordsMenu() {
 	int numOfRecords = getNumberOfScheduleRecordsInFile();
 	if (numOfRecords == 0) {
@@ -131,8 +129,6 @@ void paginateTrainScheduleRecordsMenu() {
 /**
  * Remove a train schedule with given id
  */
-
-/*
 bool removeTrainScheduleRecordMenu() {
 	int recordId;
 	char confirmRemoval;
@@ -154,7 +150,8 @@ bool removeTrainScheduleRecordMenu() {
 
 	// let user confirm before removing
 	displayTrainScheduleMetadata(&selectedSchedule);
-	do {
+
+	while (1) {
 		printf("Confirm to remove this schedule? (y/n): ");
 		scanf(" %c", &confirmRemoval);
 
@@ -165,7 +162,7 @@ bool removeTrainScheduleRecordMenu() {
 			return;
 		};
 		printf("Invalid option.\n");
-	} while (1);
+	}
 	
 
 	bool removeSuccess = removeTrainScheduleFromFile(recordId);
@@ -175,12 +172,65 @@ bool removeTrainScheduleRecordMenu() {
 	system("pause");
 }
 
-void chooseTrainScheduleSeatMenu(int scheduleId) {
+
+void chooseTrainScheduleSeatMenu(int scheduleId, int seatAmount, char seatsSelectedInfo[][4]) {
+	struct TrainScheduleRecord trainScheduleData = getTrainScheduleById(scheduleId);
+	char *seatsBinary = seatsBitfieldToBinary(trainScheduleData.seatsBitfield);
+	
 	printf(
 		"+--------------------------------+\n"
-		"|  Choose a seat:                |\n"
+		"|  Choose your seat(s):          |\n"
 		"+--------------------------------+\n\n"
 	);
-	
+	printSeatsGraphic(seatsBinary);
+
+	for (int i = 0; i < seatAmount; i++) {
+		char seatAlphabet;
+		int seatNumber;
+		printf("Select your seat %d (e.g. C8): ", i+1);
+		scanf(" %c%d", &seatAlphabet, &seatNumber);
+		seatAlphabet = tolower(seatAlphabet);
+		
+		if (seatAlphabet != 'a' && seatAlphabet != 'b' && seatAlphabet != 'c' && seatAlphabet != 'd') {
+			printf("Invalid seat provided, seats are only from A - D.\n");
+			--i;
+			continue;
+		}
+		if (seatNumber < 1 || seatNumber > 15) {
+			printf("Invalid seat provided, seats are only from 1 - 15.\n");
+			--i;
+			continue;
+		}
+		bool seatBookSuccess = bookTrainSeat(seatsBinary, seatAlphabet, seatNumber);
+		if (!seatBookSuccess) {
+			--i;
+			continue;
+		}
+
+		// success
+		sprintf(seatsSelectedInfo[i], "%c%d", toupper(seatAlphabet), seatNumber);
+		system("cls");
+		printSeatsGraphic(seatsBinary);
+	}
+
+	// let user confirm seat selection(s)
+	char userOption;
+	while (1) {
+		printf("Confirm your seat selection? (y/n): ");
+		scanf(" %c", &userOption);
+		userOption = tolower(userOption);
+		if (userOption == 'y') {
+			trainScheduleData.seatsBitfield = seatsBinaryToBitfield(seatsBinary);
+			updateTrainScheduleRecordToFile(&trainScheduleData);
+			printf("Confimed seat selection.\n");
+			break;
+		}
+		else if (userOption == 'n') {
+			printf("Canceled seat seletion.\n");
+			break;
+		}
+		else printf("Invalid option.\n");
+	}
+	system("pause");
+	free(seatsBinary);
 }
-*/

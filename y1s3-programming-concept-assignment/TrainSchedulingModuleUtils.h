@@ -11,7 +11,7 @@ struct TrainScheduleRecord {
 	enum TrainStations departureStation;
 	enum TrainStations arrivalStation;
 	double price;
-	int seatsBitfield;
+	long long int seatsBitfield;
 };
 
 int getNumberOfScheduleRecordsInFile();
@@ -20,8 +20,18 @@ void displayTrainScheduleMetadata(struct TrainScheduleRecord* record);
 
 bool writeTrainScheduleToFile(struct TrainScheduleRecord* record);
 
-void getTrainSchedulesFromFile(struct TrainScheduleRecord* records);
+void getTrainSchedulesFromFile(struct TrainScheduleRecord *records);
 
 struct TrainScheduleRecord getTrainScheduleById(int scheduleId);
 
 bool removeTrainScheduleFromFile(int scheduleId);
+
+char* seatsBitfieldToBinary(long long int seatsBitfield);
+
+void printSeatsGraphic(char *seatsBinary);
+
+bool bookTrainSeat(char *seatsBinary, char seatAlphabet, int seatNumber);
+
+long long int seatsBinaryToBitfield(char* seatsBinary);
+
+void updateTrainScheduleRecordToFile(struct TrainScheduleRecord *scheduleRecord);
