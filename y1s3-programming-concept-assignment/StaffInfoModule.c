@@ -83,35 +83,41 @@ staffRegistration(const char* name) {
 	    printf(blue"ENTER THE STAFF INFORMATION TO CREATE ACCOUNT\n"reset);
 	    printf("=============================================\n");
 
-		bool exist = false;
+	    //Id validation check
+		do {
+			bool exist = false;
+			printf(green"Enter staff Id with 'TRS' included >");
+			scanf(" %15s", info.id);
+			printf(reset"\n");
 
-			//Id validation check
-			do {
-				printf(green"Enter staff Id with 'TRS' included >");
-				scanf(" %15s", info.id);
-				printf(reset"\n");
+			while (getchar() != '\n');
 
-				//Must not exceed 7 digits length and must include "TRS"
-				if ((strlen(info.id) != 7) || (strstr(info.id, "TRS") == NULL)) {
-					printf(red"\nTHE ID LENGTH MUST BE 7 AND MUST CONTAIN 'TRS' !\n"reset);
-					printf("================================================\n");
-					continue;
+			// Must not exceed 7 digits length and must include "TRS"
+			if ((strlen(info.id) != 7) || (strstr(info.id, "TRS") == NULL)) {
+				printf(red"\nTHE ID LENGTH MUST BE 7 AND MUST CONTAIN 'TRS' !\n"reset);
+				printf("================================================\n");
+				continue;
+			}
+			// The staff number cannot be the same
+			rewind(fp);
+			struct staff validate;
+
+			while (fscanf(fp, " %[^,],",validate.id) != EOF) {
+				if (strcmp(validate.id, info.id) == 0) {
+					exist = true;
+					break;
 				}
-				//The staff number cannot be the same
-				rewind(fp);
-				struct staff validate;
+			}
 
-				while (fscanf(fp, " %[^,], %[^,], %[^,], %[^,], %[^,], %[^,], %[^\n]\n",
-					validate.id, validate.name, validate.pass,
-					&validate.position, &validate.salary, &validate.age, validate.phone) != EOF) {
-					if (strcmp(validate.id, info.id) == 0) {
-						printf(red"\nTHE ID ALREADY EXISTS. PLEASE CHOOSE ANOTHER ID!\n"reset);
-						printf("==============================================\n");
-						exist = true;
-						break;
-					}
-				}
-			} while (exist);
+			if (exist) {
+				printf(red"\nTHE ID ALREADY EXISTS. PLEASE CHOOSE ANOTHER ID!\n"reset);
+				printf("==============================================\n");
+			}
+			else {
+				break;
+			}
+
+		} while (1);
 
 		// name validation check
 		do {
@@ -257,7 +263,6 @@ staffRegistration(const char* name) {
 }
 
 // staff login
-
 staffLogin() {
 	system("cls");
 
@@ -317,6 +322,7 @@ staffLogin() {
 	fclose(fpr);
 }
 
+//staff menu
 staffloginmain(const char* name) {
 	system("cls");
 
@@ -353,9 +359,8 @@ staffloginmain(const char* name) {
 
 //Delete the account of the staff, only staff can delete staff
 staffDeletion(const char* name) {
-
 	char id[15], line[200];
-	valid = false;
+	bool valid = false;
 
 	struct staff deletion;
 	struct menu delete;
@@ -363,76 +368,85 @@ staffDeletion(const char* name) {
 	struct Date currentDate = getCurrentDate();
 	struct Time currentTime = getCurrentTime();
 
-	FILE* fptr, *fpr, *fdel;
+	FILE* fptr = fopen("staffInfo.txt", "r");
+	FILE* fpr = fopen("temp.txt", "w");
+	FILE* fdel = fopen("records.txt", "a");
 
-	if ((fptr = fopen("staffInfo.txt", "r")) == NULL || (fpr = fopen("temp.txt", "w")) == NULL || (fdel = fopen("records.txt", "a")) == NULL) {
-		printf("AN ERROR OCCUR PLEASE TRY AGAIN!");
-		return 1;
+	if (fptr == NULL || fpr == NULL || fdel == NULL) {
+		printf("AN ERROR OCCURRED. PLEASE TRY AGAIN!\n");
+		return;
 	}
 
 	do {
 		system("cls");
-	    printf(blue"Welcome to Staff deletion menu %s\n\n", name);
-	    printf(reset);
-	
-		printf(green"Enter the staff id that you wanted to delete > ");
-		scanf(" %s", id);
-		printf("\n");
-		printf(reset);
+		printf(blue"Welcome to Staff deletion menu %s\n\n"reset, name);
+
+		printf(green"Enter the staff id that you want to delete > ");
+		scanf(" %15s", id);
+		printf(reset"\n");
 
 		while (fgets(line, sizeof(line), fptr) != NULL) {
-			if (strlen(line) > 1) {
-				// Parse line
-				int result = sscanf(line, " %[^,], %[^,], %[^,], %[^,], %[^d,], %[^d,], %[^\n]", deletion.id, deletion.name, deletion.pass, deletion.position, &deletion.salary, &deletion.age, deletion.phone);
-				if (result == 7) {
-					// Check if ID matches the one to be deleted
-					if (strcmp(deletion.id, id) != 0) {
-						fprintf(fpr, "%s, %s, %s, %s, %d, %d, %s\n", deletion.id, deletion.name, deletion.pass, deletion.position, deletion.salary, deletion.age, deletion.phone);
-					}
-					else {
-						fprintf(fdel, "Staff record with ID %s was deleted by %s on %d-%02d-%02d at %02d:%02d\n", deletion.id, name, currentDate.day, currentDate.month, currentDate.year, currentTime.hour, currentTime.minute);
-					}
+			int result = sscanf(line, " %[^,], %[^,], %[^,\n], %[^,], %[^d,], %[^d,], %[^\n]\n",
+				deletion.id, deletion.name, deletion.pass,
+				deletion.position, &deletion.salary, &deletion.age, deletion.phone);
+			if (result == 7) {
+				if (strcmp(deletion.id, id) != 0) {
+					fprintf(fpr, "%s, %s, %s, %s, %d, %d, %s\n", deletion.id, deletion.name,
+						deletion.pass, deletion.position, deletion.salary, deletion.age, deletion.phone);
 				}
 				else {
-					printf("Error: Line format is incorrect.\n");
+					fprintf(fdel, "Staff record with ID %s was deleted by %s on %d-%02d-%02d at %02d:%02d\n",
+						deletion.id, name, currentDate.day, currentDate.month, currentDate.year,
+						currentTime.hour, currentTime.minute);
 				}
 			}
+			else {
+				printf("Error: Line format is incorrect.\n");
+			}
 		}
-		
 
-		printf("\n%s", id);
 		rewind(fptr);
-
 		fclose(fpr);
-		fclose(fptr);
 		fclose(fdel);
+		fclose(fptr);
 
-		remove("staffInfo.txt");
-		rename("temp.txt", "staffInfo.txt");
+		if (remove("staffInfo.txt") != 0) {
+			printf("Error deleting staffInfo.txt\n");
+			// Handle error
+		}
+		if (rename("temp.txt", "staffInfo.txt") != 0) {
+			printf("Error renaming temp.txt\n");
+			// Handle error
+		}
 
-		printf(green"Staff record with ID %s has been deleted by %s successfully!\nDate: %d/%d/%d\nTime: %02d:%02d\n"reset, id, name, currentDate.day, currentDate.month, currentDate.year, currentTime.hour, currentTime.minute);
+		printf("Staff record with ID %s has been deleted by %s successfully!\n", id, name);
+		printf("Date: %d/%d/%d\n", currentDate.day, currentDate.month, currentDate.year);
+		printf("Time: %02d:%02d\n", currentTime.hour, currentTime.minute);
 
 		do {
-			printf(yellow"\nEnter a number (1) to continue delete, Enter (2) to go back: ");
+			printf("\nEnter a number (1) to continue delete, Enter (2) to go back: ");
 			if (scanf(" %d", &delete.choice) == 1) {
-				printf(reset);
 				switch (delete.choice) {
-				case 1: valid = true; break;
-				case 2: staffloginmain(name); valid = true; break;
+				case 1:
+					valid = true;
+					break;
+				case 2:
+					staffloginmain(name);
+					valid = true;
+					break;
 				default:
-					printf("\n\033[1;31mInvalid number entered!\033[1;0m\n");
-			        printf("========================================\n");
+					printf("\nInvalid number entered!\n");
+					printf("========================================\n");
 					break;
 				}
 			}
 			else {
-				printf(red"\nInvalid input! Please enter a valid number.\n"reset);
+				printf("\nInvalid input! Please enter a valid number.\n");
 				printf("===========================================\n");
 				continue;
 			}
 		} while (!valid);
 	} while (delete.choice == 1);
-	
 }
 
 // Modify the staff name and password, **id cannot be modify
