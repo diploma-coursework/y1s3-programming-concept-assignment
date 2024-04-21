@@ -176,23 +176,22 @@ bool removeTrainScheduleRecordMenu() {
 void chooseTrainScheduleSeatMenu(int scheduleId, int seatAmount) {
 	struct TrainScheduleRecord trainScheduleData = getTrainScheduleById(scheduleId);
 	char *seatsBinary = seatsBitFieldToBinary(trainScheduleData.seatsBitfield);
-	char *graphic = seatsBinaryToGraphic(seatsBinary);
-
+	
 	printf(
 		"+--------------------------------+\n"
-		"|  Choose your seat(s):                |\n"
+		"|  Choose your seat(s):          |\n"
 		"+--------------------------------+\n\n"
 	);
-	printf("%s", graphic);
-	free(graphic);
+	printSeatsGraphic(seatsBinary);
 
 	for (int i = 0; i < seatAmount; i++) {
 		char seatAlphabet;
 		int seatNumber;
-		printf("Select your seat %d: ", i+1);
+		printf("Select your seat %d (e.g. C8): ", i+1);
 		scanf(" %c%d", &seatAlphabet, &seatNumber);
+		seatAlphabet = tolower(seatAlphabet);
 		
-		if (tolower(seatAlphabet) != 'a' && tolower(seatAlphabet) != 'b' && tolower(seatAlphabet) != 'c' && tolower(seatAlphabet) != 'd') {
+		if (seatAlphabet != 'a' && seatAlphabet != 'b' && seatAlphabet != 'c' && seatAlphabet != 'd') {
 			printf("Invalid seat provided, seats are only from A - D.\n");
 			--i;
 			continue;
@@ -202,7 +201,35 @@ void chooseTrainScheduleSeatMenu(int scheduleId, int seatAmount) {
 			--i;
 			continue;
 		}
-		// TODO
+		bool seatBookSuccess = bookTrainSeat(seatsBinary, seatAlphabet, seatNumber);
+		if (!seatBookSuccess) {
+			--i;
+			continue;
+		}
+
+		// success
+		system("cls");
+		printSeatsGraphic(seatsBinary);
 	}
+
+	// let user confirm seat selection(s)
+	char userOption;
+	while (1) {
+		printf("Confirm your seat selection? (y/n): ");
+		scanf(" %c", &userOption);
+		userOption = tolower(userOption);
+		if (userOption == 'y') {
+			trainScheduleData.seatsBitfield = seatsBinaryToBitField(seatsBinary);
+			updateTrainScheduleRecordToFile(&trainScheduleData);
+			printf("Confimed seat selection.\n");
+			break;
+		}
+		else if (userOption == 'n') {
+			printf("Canceled seat seletion.\n");
+			break;
+		}
+		else printf("Invalid option.\n");
+	}
+	system("pause");
 	free(seatsBinary);
 }

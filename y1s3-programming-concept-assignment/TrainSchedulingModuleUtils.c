@@ -131,10 +131,9 @@ char* seatsBitFieldToBinary(int seatsBitField) {
 	return seatsBinary;
 }
 
-char* seatsBinaryToGraphic(char *seatsBinary) {
+void printSeatsGraphic(char *seatsBinary) {
 	// create the graphic by interpreting the binary
-	char* graphic = malloc(172 * sizeof(char));
-	strcpy(graphic, "   A B   C D\n");
+	char graphic[172] = "   A B   C D\n";
 	for (int i = 0; i < 10; i++) {
 		char row[15];
 		sprintf(
@@ -151,6 +150,31 @@ char* seatsBinaryToGraphic(char *seatsBinary) {
 		strcat(graphic, row);
 	}
 	strcat(graphic, "\nX = Booked, O = Available\n");
-	return graphic;
+	printf("%s", graphic);
 }
 
+bool bookTrainSeat(char *seatsBinary, char seatAlphabet, int seatNumber) {
+	int seatAlphabetValue = (int)seatAlphabet - 97; // ASCII value of 'a' is 97, adjust to get a = 0, b = 1 so on
+	int seatIndex = 4 * (seatNumber - 1) + seatAlphabetValue;
+
+	if (seatsBinary[seatIndex] == 'X') {
+		printf("Seat is already taken. Please choose another seat.\n");
+		return false;
+	}
+	seatsBinary[seatIndex] = 'X';
+	return true;
+}
+
+int seatsBinaryToBitField(char* seatsBinary) {
+	int result = 0;
+	for (int i = 0; i < 40; i++) {
+		result = (result << 1) | (seatsBinary[i] == 'X');
+	}
+	return result;
+}
+
+void updateTrainScheduleRecordToFile(struct TrainScheduleRecord *scheduleRecord) {
+	removeTrainScheduleFromFile(scheduleRecord->id);
+	scheduleRecord->seatsBitfield = 0;
+	writeTrainScheduleToFile(scheduleRecord);
+}

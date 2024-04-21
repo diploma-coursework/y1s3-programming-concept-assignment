@@ -28,4 +28,10 @@ bool removeTrainScheduleFromFile(int scheduleId);
 
 char* seatsBitFieldToBinary(int seatsBitField);
 
-char* seatsBinaryToGraphic(char* seatsBinary);
+void printSeatsGraphic(char* seatsBinary);
+
+bool bookTrainSeat(char* seatsBinary, char seatAlphabet, int seatNumber);
+
+int seatsBinaryToBitField(char* seatsBinary);
+
+void updateTrainScheduleRecordToFile(struct TrainScheduleRecord* scheduleRecord);
