@@ -62,9 +62,10 @@ void staffmain() {
 //register the staff account, only staff can register staff
 staffRegistration(const char* name) {
 
-	int exist, x;
+	int x;
 	char id_check[30];
 	valid = false;
+	bool exist = false;
 	bool continue_adding = true;
 
 	struct menu reg;
@@ -88,32 +89,30 @@ staffRegistration(const char* name) {
 		do {
 
 			printf(green"Enter staff Id with 'TRS' included >");
-			scanf("%10s", &info.id);
+			scanf(" %15s", info.id);
 			printf("\n"reset);
 
 			//Must not exceed 7 digits length and must include "TRS"
-			if ((strlen(info.id) != 7) || (strstr(&info.id, "TRS") == NULL)) {
+			if ((strlen(info.id) != 7) || (strstr(info.id, "TRS") == NULL)) {
 				printf("\n");
 				printf(red"\nTHE ID LENGHT MUST BE 7 AND MUST CONTAIN 'TRS' !\n"reset);
 				printf("================================================\n");
 				continue;
 			}
-
 			//The staff number cannot be the same
-
-			exist = 0;
 			rewind(fp);
 			struct staff validate;
-
-			while (fscanf(fp, "%[^,], %[^,], %[^,], %[^,], %[^d,], %[^d,], [^\n]\n", validate.id, validate.name, validate.pass, &validate.position, &validate.salary, &validate.age, &validate.phone) != EOF) {
+			
+			while (fscanf(fp, " %[^,], %[^,], %[^,\n], %[^,], %[^,], %[^,], %[^\n]\n", validate.id, validate.name, validate.pass, validate.position, &validate.salary, &validate.age, validate.phone) != EOF) {
+				printf("%s %s\n", validate.id, info.id);
 				if (strcmp(validate.id, info.id) == 0) {
 					printf(red"\nTHE ID ALREADY EXISTS. PLEASE CHOOSE ANOTHER ID!\n"reset);
 					printf("==============================================\n");
-					exist = 1;
+					exist = true;
 					break;
 				}
 			}
-		} while (exist);
+		} while(exist);
 
 		// name validation check
 		do {
@@ -382,7 +381,6 @@ staffDeletion(const char* name) {
 		printf("\n");
 		printf(reset);
 
-		/*
 		while (fgets(line, sizeof(line), fptr) != NULL) {
 			if (strlen(line) > 1) {
 				// Parse line
@@ -401,8 +399,9 @@ staffDeletion(const char* name) {
 				}
 			}
 		}
-		*/
+		
 
+		printf("\n%s", id);
 		rewind(fptr);
 
 		fclose(fpr);
@@ -434,6 +433,7 @@ staffDeletion(const char* name) {
 			}
 		} while (!valid);
 	} while (delete.choice == 1);
+	
 }
 
 // Modify the staff name and password, **id cannot be modify
