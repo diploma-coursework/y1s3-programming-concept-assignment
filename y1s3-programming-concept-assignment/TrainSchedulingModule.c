@@ -173,9 +173,9 @@ bool removeTrainScheduleRecordMenu() {
 }
 
 
-void chooseTrainScheduleSeatMenu(int scheduleId, int seatAmount, char *seatsSelectedInfo[4]) {
+void chooseTrainScheduleSeatMenu(int scheduleId, int seatAmount, char seatsSelectedInfo[][4]) {
 	struct TrainScheduleRecord trainScheduleData = getTrainScheduleById(scheduleId);
-	char *seatsBinary = seatsBitFieldToBinary(trainScheduleData.seatsBitfield);
+	char *seatsBinary = seatsBitfieldToBinary(trainScheduleData.seatsBitfield);
 	
 	printf(
 		"+--------------------------------+\n"
@@ -196,8 +196,8 @@ void chooseTrainScheduleSeatMenu(int scheduleId, int seatAmount, char *seatsSele
 			--i;
 			continue;
 		}
-		if (seatNumber < 1 || seatNumber > 10) {
-			printf("Invalid seat provided, seats are only from 1 - 10.\n");
+		if (seatNumber < 1 || seatNumber > 15) {
+			printf("Invalid seat provided, seats are only from 1 - 15.\n");
 			--i;
 			continue;
 		}
@@ -208,7 +208,7 @@ void chooseTrainScheduleSeatMenu(int scheduleId, int seatAmount, char *seatsSele
 		}
 
 		// success
-		sprintf(seatsSelectedInfo[i], "%c%d", seatAlphabet, seatNumber);
+		sprintf(seatsSelectedInfo[i], "%c%d", toupper(seatAlphabet), seatNumber);
 		system("cls");
 		printSeatsGraphic(seatsBinary);
 	}
@@ -220,7 +220,7 @@ void chooseTrainScheduleSeatMenu(int scheduleId, int seatAmount, char *seatsSele
 		scanf(" %c", &userOption);
 		userOption = tolower(userOption);
 		if (userOption == 'y') {
-			trainScheduleData.seatsBitfield = seatsBinaryToBitField(seatsBinary);
+			trainScheduleData.seatsBitfield = seatsBinaryToBitfield(seatsBinary);
 			updateTrainScheduleRecordToFile(&trainScheduleData);
 			printf("Confimed seat selection.\n");
 			break;

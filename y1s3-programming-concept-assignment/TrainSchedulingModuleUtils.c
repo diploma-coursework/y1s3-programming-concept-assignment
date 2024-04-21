@@ -56,7 +56,7 @@ void getTrainSchedulesFromFile(struct TrainScheduleRecord *records) {
 	FILE* filePtr = fopen("TrainSchedules.dat", "rb");
 	if (filePtr == NULL) {
 		printf("Error opening file for reading.\n");
-		
+		exit(-1);
 	}
 
 	fread(records, sizeof(struct TrainScheduleRecord), getNumberOfScheduleRecordsInFile(), filePtr);
@@ -121,11 +121,11 @@ bool removeTrainScheduleFromFile(int scheduleId) {
 }
 
 
-char* seatsBitFieldToBinary(int seatsBitField) {
+char* seatsBitfieldToBinary(long long int seatsBitfield) {
 	// X = 1, O = 0
-	char *seatsBinary = malloc(41 * sizeof(char));
-	for (int i = 0; i < 40; i++) {
-		if ((seatsBitField >> (39 - i)) & 1) seatsBinary[i] = 'X';
+	char *seatsBinary = malloc(61 * sizeof(char));
+	for (int i = 0; i < 60; i++) {
+		if ((seatsBitfield >> (59 - i)) & 1) seatsBinary[i] = 'X';
 		else seatsBinary[i] = 'O';
 	}
 	return seatsBinary;
@@ -133,8 +133,8 @@ char* seatsBitFieldToBinary(int seatsBitField) {
 
 void printSeatsGraphic(char *seatsBinary) {
 	// create the graphic by interpreting the binary
-	char graphic[172] = "   A B   C D\n";
-	for (int i = 0; i < 10; i++) {
+	char graphic[238] = "   A B   C D\n";
+	for (int i = 0; i < 15; i++) {
 		char row[15];
 		sprintf(
 			row, 
@@ -146,7 +146,7 @@ void printSeatsGraphic(char *seatsBinary) {
 			seatsBinary[i * 4 + 3]
 		);
 
-		if (i == 4) strcat(row, "\n");
+		if (i == 4 || i == 9) strcat(row, "\n");
 		strcat(graphic, row);
 	}
 	strcat(graphic, "\nX = Booked, O = Available\n");
@@ -165,9 +165,9 @@ bool bookTrainSeat(char *seatsBinary, char seatAlphabet, int seatNumber) {
 	return true;
 }
 
-int seatsBinaryToBitField(char* seatsBinary) {
-	int result = 0;
-	for (int i = 0; i < 40; i++) {
+long long int seatsBinaryToBitfield(char *seatsBinary) {
+	long long int result = 0;
+	for (int i = 0; i < 60; i++) {
 		result = (result << 1) | (seatsBinary[i] == 'X');
 	}
 	return result;
@@ -175,6 +175,5 @@ int seatsBinaryToBitField(char* seatsBinary) {
 
 void updateTrainScheduleRecordToFile(struct TrainScheduleRecord *scheduleRecord) {
 	removeTrainScheduleFromFile(scheduleRecord->id);
-	//scheduleRecord->seatsBitfield = 0; // temporary to wipe seats booked
 	writeTrainScheduleToFile(scheduleRecord);
 }
