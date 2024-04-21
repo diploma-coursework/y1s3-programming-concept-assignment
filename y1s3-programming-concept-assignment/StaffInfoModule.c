@@ -61,11 +61,9 @@ void staffmain() {
 
 //register the staff account, only staff can register staff
 staffRegistration(const char* name) {
-
 	int x;
 	char id_check[30];
 	valid = false;
-	bool exist = false;
 	bool continue_adding = true;
 
 	struct menu reg;
@@ -85,34 +83,35 @@ staffRegistration(const char* name) {
 	    printf(blue"ENTER THE STAFF INFORMATION TO CREATE ACCOUNT\n"reset);
 	    printf("=============================================\n");
 
-	    //Id validation check
-		do {
+		bool exist = false;
 
-			printf(green"Enter staff Id with 'TRS' included >");
-			scanf(" %15s", info.id);
-			printf("\n"reset);
+			//Id validation check
+			do {
+				printf(green"Enter staff Id with 'TRS' included >");
+				scanf(" %15s", info.id);
+				printf(reset"\n");
 
-			//Must not exceed 7 digits length and must include "TRS"
-			if ((strlen(info.id) != 7) || (strstr(info.id, "TRS") == NULL)) {
-				printf("\n");
-				printf(red"\nTHE ID LENGHT MUST BE 7 AND MUST CONTAIN 'TRS' !\n"reset);
-				printf("================================================\n");
-				continue;
-			}
-			//The staff number cannot be the same
-			rewind(fp);
-			struct staff validate;
-			
-			while (fscanf(fp, " %[^,], %[^,], %[^,\n], %[^,], %[^,], %[^,], %[^\n]\n", validate.id, validate.name, validate.pass, validate.position, &validate.salary, &validate.age, validate.phone) != EOF) {
-				printf("%s %s\n", validate.id, info.id);
-				if (strcmp(validate.id, info.id) == 0) {
-					printf(red"\nTHE ID ALREADY EXISTS. PLEASE CHOOSE ANOTHER ID!\n"reset);
-					printf("==============================================\n");
-					exist = true;
-					break;
+				//Must not exceed 7 digits length and must include "TRS"
+				if ((strlen(info.id) != 7) || (strstr(info.id, "TRS") == NULL)) {
+					printf(red"\nTHE ID LENGTH MUST BE 7 AND MUST CONTAIN 'TRS' !\n"reset);
+					printf("================================================\n");
+					continue;
 				}
-			}
-		} while(exist);
+				//The staff number cannot be the same
+				rewind(fp);
+				struct staff validate;
+
+				while (fscanf(fp, " %[^,], %[^,], %[^,], %[^,], %[^,], %[^,], %[^\n]\n",
+					validate.id, validate.name, validate.pass,
+					&validate.position, &validate.salary, &validate.age, validate.phone) != EOF) {
+					if (strcmp(validate.id, info.id) == 0) {
+						printf(red"\nTHE ID ALREADY EXISTS. PLEASE CHOOSE ANOTHER ID!\n"reset);
+						printf("==============================================\n");
+						exist = true;
+						break;
+					}
+				}
+			} while (exist);
 
 		// name validation check
 		do {
@@ -355,7 +354,7 @@ staffloginmain(const char* name) {
 //Delete the account of the staff, only staff can delete staff
 staffDeletion(const char* name) {
 
-	char id[15], line[100];
+	char id[15], line[200];
 	valid = false;
 
 	struct staff deletion;
