@@ -121,19 +121,36 @@ bool removeTrainScheduleFromFile(int scheduleId) {
 }
 
 
-char* seatsBitFieldToGraphic(int seatsBitField) {
-	// TODO convert seatBitField to binary
+char* seatsBitFieldToBinary(int seatsBitField) {
+	// X = 1, O = 0
+	char *seatsBinary = malloc(41 * sizeof(char));
+	for (int i = 0; i < 40; i++) {
+		if ((seatsBitField >> (39 - i)) & 1) seatsBinary[i] = 'X';
+		else seatsBinary[i] = 'O';
+	}
+	return seatsBinary;
+}
 
+char* seatsBinaryToGraphic(char *seatsBinary) {
 	// create the graphic by interpreting the binary
-	char graphic[171] = "   A B   C D\n";
-
-	for (int i = 1; i < 11; i++) {
+	char* graphic = malloc(172 * sizeof(char));
+	strcpy(graphic, "   A B   C D\n");
+	for (int i = 0; i < 10; i++) {
 		char row[15];
-		sprintf(row, "%2d ", i);
+		sprintf(
+			row, 
+			"%2d %c %c   %c %c\n", 
+			i+1, 
+			seatsBinary[i * 4], 
+			seatsBinary[i * 4 + 1],
+			seatsBinary[i * 4 + 2],
+			seatsBinary[i * 4 + 3]
+		);
 
-
-		if (i == 5) strcat(row, "\n");
+		if (i == 4) strcat(row, "\n");
 		strcat(graphic, row);
 	}
+	strcat(graphic, "\nX = Booked, O = Available\n");
+	return graphic;
 }
 

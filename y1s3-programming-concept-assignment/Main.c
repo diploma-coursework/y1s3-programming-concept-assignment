@@ -4,12 +4,12 @@
 #include "TrainSchedulingModule.h"
 
 int main() {
-    staffmain();
+    //staffmain();
 	//member();
 	// Ticket();
 	//scheduleTrainMenu();
 	//scheduleTrainMenu();
 	//paginateTrainScheduleRecordsMenu();
 	//removeTrainScheduleRecordMenu();
-	
+	chooseTrainScheduleSeatMenu(1713628573, 2);
 }

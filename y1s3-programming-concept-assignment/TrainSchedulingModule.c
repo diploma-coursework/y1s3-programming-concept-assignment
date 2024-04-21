@@ -150,7 +150,8 @@ bool removeTrainScheduleRecordMenu() {
 
 	// let user confirm before removing
 	displayTrainScheduleMetadata(&selectedSchedule);
-	do {
+
+	while (1) {
 		printf("Confirm to remove this schedule? (y/n): ");
 		scanf(" %c", &confirmRemoval);
 
@@ -161,7 +162,7 @@ bool removeTrainScheduleRecordMenu() {
 			return;
 		};
 		printf("Invalid option.\n");
-	} while (1);
+	}
 	
 
 	bool removeSuccess = removeTrainScheduleFromFile(recordId);
@@ -172,11 +173,36 @@ bool removeTrainScheduleRecordMenu() {
 }
 
 
-void chooseTrainScheduleSeatMenu(int scheduleId) {
+void chooseTrainScheduleSeatMenu(int scheduleId, int seatAmount) {
+	struct TrainScheduleRecord trainScheduleData = getTrainScheduleById(scheduleId);
+	char *seatsBinary = seatsBitFieldToBinary(trainScheduleData.seatsBitfield);
+	char *graphic = seatsBinaryToGraphic(seatsBinary);
+
 	printf(
 		"+--------------------------------+\n"
-		"|  Choose a seat:                |\n"
+		"|  Choose your seat(s):                |\n"
 		"+--------------------------------+\n\n"
 	);
-	
+	printf("%s", graphic);
+	free(graphic);
+
+	for (int i = 0; i < seatAmount; i++) {
+		char seatAlphabet;
+		int seatNumber;
+		printf("Select your seat %d: ", i+1);
+		scanf(" %c%d", &seatAlphabet, &seatNumber);
+		
+		if (tolower(seatAlphabet) != 'a' && tolower(seatAlphabet) != 'b' && tolower(seatAlphabet) != 'c' && tolower(seatAlphabet) != 'd') {
+			printf("Invalid seat provided, seats are only from A - D.\n");
+			--i;
+			continue;
+		}
+		if (seatNumber < 1 || seatNumber > 10) {
+			printf("Invalid seat provided, seats are only from 1 - 10.\n");
+			--i;
+			continue;
+		}
+		// TODO
+	}
+	free(seatsBinary);
 }

@@ -25,3 +25,7 @@ void getTrainSchedulesFromFile(struct TrainScheduleRecord* records);
 struct TrainScheduleRecord getTrainScheduleById(int scheduleId);
 
 bool removeTrainScheduleFromFile(int scheduleId);
+
+char* seatsBitFieldToBinary(int seatsBitField);
+
+char* seatsBinaryToGraphic(char* seatsBinary);
