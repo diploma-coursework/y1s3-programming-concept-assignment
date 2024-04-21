@@ -5,7 +5,7 @@
 #include "GeneralUtils.h"
 #include "TrainSchedulingModuleUtils.h"
 
-/*
+
 int getNumberOfScheduleRecordsInFile() {
 	FILE* filePtr = fopen("TrainSchedules.dat", "rb");
 	if (filePtr == NULL) {
@@ -119,8 +119,8 @@ bool removeTrainScheduleFromFile(int scheduleId) {
 	rename("TempTrainSchedules.dat", "TrainSchedules.dat");
 	return true;
 }
-*/
-/*
+
+
 char* seatsBitFieldToGraphic(int seatsBitField) {
 	// TODO convert seatBitField to binary
 
@@ -136,4 +136,4 @@ char* seatsBitFieldToGraphic(int seatsBitField) {
 		strcat(graphic, row);
 	}
 }
-*/
+
