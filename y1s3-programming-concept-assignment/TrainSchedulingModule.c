@@ -11,7 +11,7 @@
 /**
  * For staff to schedule a train
  */
-/*
+
 bool scheduleTrainMenu() {
 	// record to be stored into TrainSchedules.dat
 	struct TrainScheduleRecord newTrainScheduleRecord;
@@ -76,13 +76,13 @@ bool scheduleTrainMenu() {
 	system("pause");
 	return true;
 }
-*/
+
 
 /**
  * Display train schedules in multi-page format
  */
 
-/*
+
 void paginateTrainScheduleRecordsMenu() {
 	int numOfRecords = getNumberOfScheduleRecordsInFile();
 	if (numOfRecords == 0) {
@@ -133,7 +133,7 @@ void paginateTrainScheduleRecordsMenu() {
  * Remove a train schedule with given id
  */
 
-/*
+
 bool removeTrainScheduleRecordMenu() {
 	int recordId;
 	char confirmRemoval;
@@ -238,4 +238,4 @@ void chooseTrainScheduleSeatMenu(int scheduleId, int seatAmount, char seatsSelec
 	}
 	system("pause");
 	free(seatsBinary);
-}*/
+}

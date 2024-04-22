@@ -5,7 +5,6 @@
 #include "GeneralUtils.h"
 #include "TrainSchedulingModuleUtils.h"
 
-/*
 int getNumberOfScheduleRecordsInFile() {
 	FILE* filePtr = fopen("TrainSchedules.dat", "rb");
 	if (filePtr == NULL) {
@@ -177,4 +176,3 @@ void updateTrainScheduleRecordToFile(struct TrainScheduleRecord *scheduleRecord)
 	removeTrainScheduleFromFile(scheduleRecord->id);
 	writeTrainScheduleToFile(scheduleRecord);
 }
-*/
