@@ -9,6 +9,7 @@
 #include "GeneralStructs.h"
 #include "GeneralUtils.h"
 
+
 // staff main
 void staffmain() {
 
@@ -149,7 +150,7 @@ staffRegistration(const char* name) {
 		//password validation check
 		do {
 			printf(green"Enter staff password >");
-			scanf(" %40[^\n]", &info.pass);
+			scanf(" %40[^\n]", info.pass);
 			printf(reset"\n");
 
 			if (strlen(&info.pass) < 4) {
@@ -201,9 +202,9 @@ staffRegistration(const char* name) {
 
 		do {
 			printf(green"Enter staff phone number (Malaysia format, e.g., 0123456789): ");
-			scanf(" %s", &info.phone);
+			scanf(" %s", info.phone);
 
-			if (isValidPhoneNumber(&info.phone)) {
+			if (isValidPhoneNumber(info.phone)) {
 				printf("\n");
 				break;
 			}
@@ -228,24 +229,17 @@ staffRegistration(const char* name) {
 
 		// Enter another pages
 		do {
-			printf(green"ENTER (1) TO GO BACK THE MAIN STAFF PAGE\nENTER (2) TO GO TO BACK\nENTER (3) TO CONTINUE ADDING THE ACCOUNT\nENTER (4) TO EXIT THE PROGRAM\n\n>");
+			printf(green"ENTER (1) TO GO TO BACK\nENTER (2) TO CONTINUE ADDING THE ACCOUNT\n\n>");
 			if (scanf(" %d", &reg.choice) == 1) {
 				printf(reset);
 				switch (reg.choice) {
 				case 1:
-					staffmain();
-					valid = true;
-					break;
-				case 2:
 					staffloginmain(name);
 					valid = true;
 					break;
-				case 3:
+				case 2:
 					continue_adding = false;
 					valid = true;
-					break;
-				case 4:
-					return 0;
 					break;
 				default:
 					printf(red"INVALID NUMBER ENTERED, PLEASE TRY AGAIN!\n"reset);
@@ -268,7 +262,7 @@ staffLogin() {
 
 	struct staff login;
 
-	char id[10], pass[30];
+	char loginid[10], loginpass[30];
 	int attempts = 3;
 
 	FILE* fpr = fopen("staffInfo.txt", "r");
@@ -292,9 +286,9 @@ staffLogin() {
 		printf(red"you only have %d attempts for login!\n\n\n", attempts);
 		printf(reset);
 		printf(yellow "Staff id: ");
-	    scanf(" %15s", id);
+	    scanf(" %15s", loginid);
 	    printf("Staff password: ");
-	    scanf(" %40s", pass);
+	    scanf(" %40s", loginpass);
 		printf(reset);
 
 		/*
@@ -308,7 +302,7 @@ staffLogin() {
 
 	  // Reading the file to retrieve the values
 		while (fscanf(fpr, "%[^,], %[^,], %[^,\n], %[^,], %[^d,], %[^d,], %[^\n]\n", login.id, login.name, login.pass, &login.position, &login.salary, &login.age, login.phone) != EOF) {
-			if (strcmp(id, login.id) == 0 && strcmp(pass, login.pass) == 0) {
+			if (strcmp(loginid, login.id) == 0 && strcmp(loginpass, login.pass) == 0) {
 				fclose(fpr);
 				staffloginmain(login.name);
 				return;
@@ -341,7 +335,7 @@ staffloginmain(const char* name) {
 			case 2: staffModification(name); valid = true; break;
 			case 3: staffDeletion(name); valid = true;break;
 			case 4: staffsearching(name); valid = true; break;
-			case 5: staffDisplay(); valid = true; break;
+			case 5: staffDisplay(name); valid = true; break;
 			case 6: staffmain(); valid = true; break;
 			case 7: return 0; break;
 			default: printf("\n\033[1;31mInvalid number entered!\033[1;0m\n========================================\n"); break;
@@ -359,8 +353,11 @@ staffloginmain(const char* name) {
 
 //Delete the account of the staff, only staff can delete staff
 staffDeletion(const char* name) {
-	char id[15], line[200];
+	char deletionid[15], line[2000], positionDel[100];
 	bool valid = false;
+	int found = 0;
+
+
 
 	struct staff deletion;
 	struct menu delete;
@@ -369,10 +366,10 @@ staffDeletion(const char* name) {
 	struct Time currentTime = getCurrentTime();
 
 	FILE* fptr = fopen("staffInfo.txt", "r");
-	FILE* fpr = fopen("temp.txt", "w");
 	FILE* fdel = fopen("records.txt", "a");
+	FILE* ftemp = fopen("temp.txt", "w");
 
-	if (fptr == NULL || fpr == NULL || fdel == NULL) {
+	if (fptr == NULL || fdel == NULL || ftemp == NULL) {
 		printf("AN ERROR OCCURRED. PLEASE TRY AGAIN!\n");
 		return;
 	}
@@ -382,50 +379,50 @@ staffDeletion(const char* name) {
 		printf(blue"Welcome to Staff deletion menu %s\n\n"reset, name);
 
 		printf(green"Enter the staff id that you want to delete > ");
-		scanf(" %15s", id);
+		scanf(" %14s", deletionid); // Limit input to 14 characters to avoid buffer overflow
 		printf(reset"\n");
 
-		while (fgets(line, sizeof(line), fptr) != NULL) {
-			int result = sscanf(line, " %[^,], %[^,], %[^,\n], %[^,], %[^d,], %[^d,], %[^\n]\n",
-				deletion.id, deletion.name, deletion.pass,
-				deletion.position, &deletion.salary, &deletion.age, deletion.phone);
-			if (result == 7) {
-				if (strcmp(deletion.id, id) != 0) {
-					fprintf(fpr, "%s, %s, %s, %s, %d, %d, %s\n", deletion.id, deletion.name,
-						deletion.pass, deletion.position, deletion.salary, deletion.age, deletion.phone);
-				}
-				else {
-					fprintf(fdel, "Staff record with ID %s was deleted by %s on %d-%02d-%02d at %02d:%02d\n",
-						deletion.id, name, currentDate.day, currentDate.month, currentDate.year,
-						currentTime.hour, currentTime.minute);
-				}
+		while (fscanf(fptr, "%[^,], %[^,], %[^,], %[^,], %d, %d, %[^\n]\n", deletion.id, deletion.name, deletion.pass, positionDel, &deletion.salary, &deletion.age, deletion.phone) != EOF) {
+			if (strcmp(deletionid, deletion.id) == 0) {
+				deletion.position = INVALID_POSITION; // Mark position as Invalid
+				found = 1;
 			}
 			else {
-				printf("Error: Line format is incorrect.\n");
+				deletion.position = getPositionEnum(positionDel);
+				if (deletion.position == INVALID_POSITION) {
+					// If position is not recognized, mark it as Invalid
+					printf("Invalid position found: %s\n", positionDel);
+					deletion.position = INVALID_POSITION;
+				}
+			}
+			if (strcmp(deletionid, deletion.id) != 0) {
+				// Write the record to the temporary file only if it's not the record to delete
+				fprintf(ftemp, "%s, %s, %s, %s, %d, %d, %s\n", deletion.id, deletion.name, deletion.pass, positionString(deletion.position), deletion.salary, deletion.age, deletion.phone);
 			}
 		}
 
-		rewind(fptr);
-		fclose(fpr);
-		fclose(fdel);
 		fclose(fptr);
+		fclose(ftemp);
+		fclose(fdel);
 
-		if (remove("staffInfo.txt") != 0) {
-			printf("Error deleting staffInfo.txt\n");
-			// Handle error
-		}
-		if (rename("temp.txt", "staffInfo.txt") != 0) {
-			printf("Error renaming temp.txt\n");
-			// Handle error
-		}
+		remove("staffInfo.txt");
+		rename("temp.txt", "staffInfo.txt");
 
-		printf("Staff record with ID %s has been deleted by %s successfully!\n", id, name);
+		if (found) {
+			printf(green"Staff entry with ID %s deleted successfully.\n", deletionid);
+		}
+		else {
+			printf("Staff entry with ID %s not found.\n"reset, deletionid);
+		}
+	
+
+		printf(green"\nStaff record with ID %s has been deleted by %s successfully!\n", deletionid, name);
 		printf("Date: %d/%d/%d\n", currentDate.day, currentDate.month, currentDate.year);
-		printf("Time: %02d:%02d\n", currentTime.hour, currentTime.minute);
+		printf("Time: %02d:%02d\n"reset, currentTime.hour, currentTime.minute);
 
 		do {
-			printf("\nEnter a number (1) to continue delete, Enter (2) to go back: ");
-			if (scanf(" %d", &delete.choice) == 1) {
+			printf(yellow"\nEnter a number (1) to continue delete, Enter (2) to go back: ");
+			if (scanf(" %d"reset, &delete.choice) == 1) {
 				switch (delete.choice) {
 				case 1:
 					valid = true;
@@ -457,66 +454,122 @@ staffModification(const char* name) {
 	struct Date currentDate = getCurrentDate();
 	struct Time currentTime = getCurrentTime();
 	FILE* fpr, * fp, *fmod;
-	char id[10];
+	char Modiid[10], ModiPosition[100], orig_name[50], orig_pass[50];
 	found = false;
 
+	if ((fpr = fopen("staffInfo.txt", "r")) == NULL || (fp = fopen("temp.txt", "w")) == NULL || (fmod = fopen("records.txt", "a")) == NULL) {
+		printf("AN ERROR OCCUR PLEASE TRY AGAIN!");
+		return;
+	}
 	do {
 		system("cls");
-		if ((fpr = fopen("staffInfo.txt", "r")) == NULL || (fp = fopen("temp.txt", "w")) == NULL || (fmod = fopen("records.txt","a"))== NULL) {
-			printf("AN ERROR OCCUR PLEASE TRY AGAIN!");
-			return;
-		}
 
 		printf(blue"Staff modification menu\n\n"reset);
-		printf(green"NOTE! If you don't want to modify the certain data field please press (ENTER) to skip\n"reset);
+		printf(green"NOTE! If you don't want to modify the certain data field please press (ENTER) to skip\n\n"reset);
 		printf(green"Enter the staff ID you want to modify: ");
-		scanf(" %s", id);
-		//getchar();
-		printf(reset);
+		scanf(" %s", Modiid);
+		printf("\n"reset);
+		getchar();
 		
-		while (fscanf(fpr, " %[^,], %[^,], %[^,], %[^,], %[^d,], %[^d,], %[^\n]\n", modi.id, modi.name, modi.pass, modi.position, modi.salary, modi.age, modi.phone) != EOF) {
-			if (strcmp(modi.id, id) == 0) {
+		while (fscanf(fpr, "%[^,], %[^,], %[^,], %[^,], %d, %d, %[^\n]\n", modi.id, modi.name, modi.pass, ModiPosition, &modi.salary, &modi.age, modi.phone) != EOF) {
+			if (strcmp(modi.id, Modiid) == 0) {
 				found = true;
+
+				char orig_name[50], orig_pass[50], orig_phone[50];
+				enum Position orig_position = modi.position;
+				int orig_salary = modi.salary;
+				int orig_age = modi.age;
+				strcpy(orig_phone, modi.phone);
+				strcpy(orig_name, modi.name);
+				strcpy(orig_pass, modi.pass);
+
 				// Modify the information
-				do {
-					printf(green"Enter new name: ");
-					scanf(" %[^\n]", modi.name);
-					//getchar();
-
-					if (strlen(modi.name) >= 40) {
-						printf(red "\nYOUR NAME IS TOO LONG\n" reset);
-						printf("\n");
-					}
-					else {
-						break;
-					}
-				} while (1);
-
-				if (strcmp(modi.name, "") == 0) {
-					strcpy(modi.name, "-"); // Skip modifying name
+				printf(green"Enter new name (Press Enter to skip): ");
+				fgets(modi.name, sizeof(modi.name), stdin);
+				modi.name[strcspn(modi.name, "\n")] = '\0'; // Remove newline character
+				if (modi.name[0] == '\0') {
+					// If the input string is empty, skip modifying the name
+					strcpy(modi.name, orig_name);
+				}
+				else if (strlen(modi.name) >= 40) {
+					printf(red "\nYOUR NAME IS TOO LONG\n" reset);
+					continue;
 				}
 
-				do {
-					printf("Enter new pass: ");
-					scanf(" %[^\n]" reset, modi.pass);
-					//while (getchar() != '\n');
+				printf("Enter new pass (Press Enter to skip): ");
+				fgets(modi.pass, sizeof(modi.pass), stdin);
+				modi.pass[strcspn(modi.pass, "\n")] = '\0'; // Remove newline character
+				if (modi.pass[0] == '\0') {
+					// If the input string is empty, skip modifying the password
+					strcpy(modi.pass, orig_pass);
+				}
+				else if (strlen(modi.pass) < 4) {
+					printf(red "\nTHE PASSWORD LENGTH MUST BE AT LEAST 4 CHARACTERS!\n===========================================\n" reset);
+					continue;
+				}
 
-					if (strlen(modi.pass) < 4) {
-						printf(red "\nTHE PASSWORD LENGTH MUST BE AT LEAST 4 CHARACTERS!\n===========================================\n" reset);
+				printf(green"Enter new position (0-9) (Press Enter to skip): ");
+				char input[100];
+				fgets(input, sizeof(input), stdin);
+				if (input[0] == '\n') {
+					// If the input string is empty (user pressed Enter), skip modifying the position
+					modi.position = orig_position;
+				}
+				else {
+					int newPosition;
+					if (sscanf(input, " %d", &newPosition) != 1 || newPosition < 0 || newPosition >= NUM_POSITIONS) {
+						printf(red"Invalid input! Position must be a number between 0 and 9.\n"reset);
+						continue;
 					}
 					else {
-						break;
+						modi.position = (enum Position)newPosition;
+						positionString(modi.position);
 					}
-				} while (1);
+				}
 
-				if (strcmp(modi.pass, "") == 0) {
-					strcpy(modi.pass, "-"); // Skip modifying password
+				printf(green"Enter new salary (Press Enter to skip): ");
+				fgets(input, sizeof(input), stdin);
+				if (input[0] == '\n') {
+					// If the input string is empty (user pressed Enter), skip modifying the salary
+					modi.salary = orig_salary;
+				}
+				else {
+					if (sscanf(input, " %d", &modi.salary) != 1 || modi.salary < 0) {
+						printf(red"Invalid input! Salary must be a non-negative number.\n"reset);
+						continue;
+					}
+				}
+
+				printf(green"Enter new age (Press Enter to skip): ");
+				fgets(input, sizeof(input), stdin);
+				if (input[0] == '\n') {
+					// If the input string is empty (user pressed Enter), skip modifying the age
+					modi.age = orig_age;
+				}
+				else {
+					if (sscanf(input, " %d", &modi.age) != 1 || modi.age < 18) {
+						printf(red"Invalid input! Age must be a number greater than or equal to 18.\n"reset);
+						continue;
+					}
+				}
+
+				printf(green"Enter new phone number (Malaysia format, e.g., 0123456789) (Press Enter to skip): ");
+				fgets(modi.phone, sizeof(modi.phone), stdin);
+				modi.phone[strcspn(modi.phone, "\n")] = '\0'; // Remove newline character
+				if (modi.phone[0] == '\0') {
+					// If the input string is empty (user pressed Enter), skip modifying the phone number
+					strcpy(modi.phone, orig_phone);
+				}
+				else {
+					if (!isValidPhoneNumber(modi.phone)) {
+						printf(red"Invalid phone number\n"reset);
+						continue;
+					}
 				}
 			}
-			fprintf(fp, "%s, %s, %s\n", modi.id, strcmp(modi.name, "-") != 0 ? modi.name : "-", strcmp(modi.pass, "-") != 0 ? modi.pass : "-");
-			fprintf(fmod, "Staff record with ID %s was Modified by %s on %d-%02d-%02d at %02d:%02d\n", id, name, currentDate.day, currentDate.month, currentDate.year, currentTime.hour, currentTime.minute);
+			fprintf(fp, "%s, %s, %s, %s, %d, %d, %s\n", modi.id, strcmp(modi.name, "-") != 0 ? modi.name : "-", strcmp(modi.pass, "-") != 0 ? modi.pass : "-", strcmp(ModiPosition, "-") != 0 ? ModiPosition : "-", modi.salary, modi.age, strcmp(modi.phone, "-") != 0 ? modi.phone : "-");
+			fprintf(fmod, "Staff record with ID %s was Modified by %s on %d-%02d-%02d at %02d:%02d\n", Modiid, name, currentDate.day, currentDate.month, currentDate.year, currentTime.hour, currentTime.minute);
 		}
-
 		fclose(fpr);
 		fclose(fp);
 		fclose(fmod);
@@ -557,23 +610,144 @@ staffModification(const char* name) {
 				continue;
 			}
 		} while (!valid);
-
 	} while (mod.choice == 1);
 }
 
-staffDisplay() {
+staffDisplay(const char* name) {
+
+	int display, count = 0;
+	char positionstr[100];
+	struct staff dis;
+	struct menu displayed;
+
+	FILE* fpr = fopen("staffInfo.txt", "r");
+
+	if (fpr == NULL) {
+		printf("ERROR OCCUR WHILE ACCESSING THE FILE!");
+		return 1;
+	}
+
 	system("cls");
+	printf(blue"Welcome to staff display report %S!\n"reset, name);
+	printf(green"\n\nEnter (1) to display all the staff informations >");
+	scanf("%d"reset, &display);
 
-	printf("Staff Information menu\n\n");
+	if (display == 1) {
+		printf("\nStaff Information:\n");
+		printf("---------------------------------------------------------------------------------------------------------------\n");
+		printf("ID\t     Name\t\tPosition\t\t           Salary\t\tAge\t\tPhone\n");
+		printf("---------------------------------------------------------------------------------------------------------------\n");
 
-	
+		// Read and display staff information from the file
+		while (fscanf(fpr, " %[^,], %[^,], %[^,], %[^,], %d, %d, %[^\n]\n", dis.id, dis.name, dis.pass, positionstr, &dis.salary, &dis.age, dis.phone) != EOF) {
+			count++;
+			dis.position = getPositionEnum(positionstr);
+			printf("%7s\t%15s\t\t%18s\t\t%10d\t%10d\t%15s\n\n", dis.id, dis.name, positionString(dis.position), dis.salary, dis.age, dis.phone);
+		}
+	}
+	else {
+		printf("Invalid choice!\n");
+	}
+
+	fclose(fpr);
+
+	printf("---------------------------------------------------------------------------------------------------------------\n\n");
+	printf("Total of %d staff informations diaplayed\n", count);
+
+	do {
+		printf(green"\nENTER (1) TO GO TO BACK\nENTER (2) TO EXIT THE PROGRAM\n\n>");
+		if (scanf(" %d", &displayed.choice) == 1) {
+			printf(reset);
+			switch (displayed.choice) {
+			case 1:
+				staffloginmain(name);
+				valid = true;
+				break;
+			case 2:
+				return 0;
+				break;
+			default:
+				printf(red"INVALID NUMBER ENTERED, PLEASE TRY AGAIN!\n"reset);
+				printf("=========================================\n");
+				printf("\n");
+			}
+		}
+		else {
+			printf(red"\nInvalid input! Please enter a valid number.\n"reset);
+			printf("===========================================\n");
+			continue;
+		}
+	} while (!valid);
+
 }
 
+//search for staff
 staffsearching(const char* name) {
-	system("cls");
+	
+	char searchid[10];
+	struct staff search;
+	struct menu searchstaff;
+	bool found = false;
+	bool continue_searching = true;
+	char position_String[100];
 
-	printf(blue"Welcome to Staff searching %s"reset, name);
-	printf("\n");
 
+	FILE* fpr = fopen("staffInfo.txt", "r");
+
+	if (fpr == NULL) {
+		printf("ERROR OCCUR WHILE ACCESSING THE FILE!");
+		return 1;
+	}
+	do {
+		system("cls"); 
+
+		printf(blue"Welcome to Staff searching %s!\n"reset, name);
+		printf(green"\nEnter the staff Id to search for it's informations >");
+		scanf(" %s"reset, searchid);
+
+		while (fscanf(fpr, " %[^,], %[^,], %[^,], %[^,], %d, %d, %[^\n]\n", search.id, search.name, search.pass, position_String, &search.salary, &search.age, search.phone) != EOF) {
+			if (strcmp(searchid, search.id) == 0) {
+				search.position = getPositionEnum(position_String);
+				printf("\nThe ID you searched for (%s) is found!\n\n", searchid);
+				printf("Staff ID          : %s\nStaff Name        : %s\nStaff Password    : %s\nStaff Position    : %s\nStaff Salary      : RM%d\nStaff Age         : %d\nStaff Phone Number: %s\n", search.id, search.name, search.pass, positionString(search.position), search.salary, search.age, search.phone);
+				found = 1;
+				break;
+			}
+		}
+		if (!found) {
+			printf("RESULT FOR THE %s IS NOT FOUND, PLEASE TRY AGAIN!\n", searchid);
+		}
+		fclose(fpr);
+
+		do {
+			printf(green"\nENTER (1) TO GO TO BACK\nENTER (2) TO CONTINUE SEARCHING FOR THE INFORMATION\nENTER (3) TO EXIT THE PROGRAM\n\n>");
+			if (scanf(" %d", &searchstaff.choice) == 1) {
+				printf(reset);
+				switch (searchstaff.choice) {
+				case 1:
+					staffloginmain(name);
+					valid = true;
+					break;
+				case 2:
+					continue_searching = false;
+					valid = true;
+					break;
+				case 3:
+					return 0;
+					break;
+				default:
+					printf(red"INVALID NUMBER ENTERED, PLEASE TRY AGAIN!\n"reset);
+					printf("=========================================\n");
+					printf("\n");
+				}
+			}
+			else {
+				printf(red"\nInvalid input! Please enter a valid number.\n"reset);
+				printf("===========================================\n");
+				continue;
+			}
+		} while (!valid);
+
+	} while (continue_searching);
 }
 

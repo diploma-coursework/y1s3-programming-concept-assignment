@@ -27,6 +27,10 @@ struct menu {
 #define red "\033[1;31m"
 #define reset "\033[0m"
 #define bold "\033[1;0m"
+#define NO_CHANGE_SALARY -1
+#define NO_CHANGE_PHONE ""
+#define NO_CHANGE_AGE -1
+#define MAX_AGE 80
 
 //the enum position values converting into strings
 const char* positionString(enum Position position) {
@@ -45,6 +49,30 @@ const char* positionString(enum Position position) {
     }
 }
 
+enum Position getPositionEnum(const char* positionString) {
+    if (strcmp(positionString, "Ticketing Agent") == 0)
+        return TICKETING_AGENT;
+    else if (strcmp(positionString, "Customer Service Representative") == 0)
+        return CUSTOMER_SERVICE_REPRESENTATIVE;
+    else if (strcmp(positionString, "Train Conductor") == 0)
+        return TRAIN_CONDUCTOR;
+    else if (strcmp(positionString, "Ticket Inspector") == 0)
+        return TICKET_INSPECTOR;
+    else if (strcmp(positionString, "Station Manager") == 0)
+        return STATION_MANAGER;
+    else if (strcmp(positionString, "Operations Manager") == 0)
+        return OPERATIONS_MANAGER;
+    else if (strcmp(positionString, "Technical Support Staff") == 0)
+        return TECHNICAL_SUPPORT_STAFF;
+    else if (strcmp(positionString, "Administrative Staff") == 0)
+        return ADMINISTRATIVE_STAFF;
+    else if (strcmp(positionString, "Cleaning Staff") == 0)
+        return CLEANING_STAFF;
+    else if (strcmp(positionString, "Security Personnel") == 0)
+        return SECURITY_PERSONNEL;
+    else
+        return INVALID_POSITION;
+}
 
 // boolean identifier
 bool valid;
