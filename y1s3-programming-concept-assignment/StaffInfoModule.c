@@ -8,7 +8,8 @@
 #include "Staff_def.h"
 #include "GeneralStructs.h"
 #include "GeneralUtils.h"
-
+#include "TrainSchedulingModule.h"
+#include "GeneralUtils.h"
 
 // staff main
 void staffmain() {
@@ -61,11 +62,11 @@ void staffmain() {
 }
 
 //register the staff account, only staff can register staff
-staffRegistration(const char* name) {
+int staffRegistration(const char* name) {
 	int x;
 	char id_check[30];
 	valid = false;
-	bool continue_adding = true;
+	bool continue_adding = false;
 
 	struct menu reg;
 	struct staff info;
@@ -103,7 +104,7 @@ staffRegistration(const char* name) {
 			rewind(fp);
 			struct staff validate;
 
-			while (fscanf(fp, " %[^,],",validate.id) != EOF) {
+			while (fscanf(fp, " %[^,\n],\n",validate.id) != EOF) {
 				if (strcmp(validate.id, info.id) == 0) {
 					exist = true;
 					break;
@@ -164,7 +165,8 @@ staffRegistration(const char* name) {
 		} while (1);
 
 		do {
-			printf(green"Enter staff position (0-9): ");
+			printf(green"Enter staff position (0-9)\n");
+			displayposition();
 			int position;
 			if (scanf(" %d"reset, &position) != 1 || position < 0 || position >= NUM_POSITIONS) {
 				printf("Invalid input! Position must be a number between 0 and 9.\n");
@@ -180,8 +182,8 @@ staffRegistration(const char* name) {
 
 		do {
 			printf(green"Enter staff salary: ");
-			if (scanf(" %d", &info.salary) != 1 || info.salary < 0) {
-				printf(reset, red"Invalid input! Salary must be a non-negative number.\n"reset);
+			if (scanf(" %d", &info.salary) != 1 || info.salary < 1500) {
+				printf(reset, red"Invalid input! Salary must be a non-negative number and must not be lower than RM1500.\n"reset);
 			}
 			else {
 				printf("\n");
@@ -238,7 +240,7 @@ staffRegistration(const char* name) {
 					valid = true;
 					break;
 				case 2:
-					continue_adding = false;
+					continue_adding = true;
 					valid = true;
 					break;
 				default:
@@ -253,11 +255,12 @@ staffRegistration(const char* name) {
 				continue;
 			}
 		} while (!valid);
+
 	}while (continue_adding);
 }
 
 // staff login
-staffLogin() {
+int staffLogin() {
 	system("cls");
 
 	struct staff login;
@@ -291,12 +294,6 @@ staffLogin() {
 	    scanf(" %40s", loginpass);
 		printf(reset);
 
-		/*
-		char* newline;
-		if ((newline = strchr(id, '\n')) != NULL) *newline = '\0';
-		if ((newline = strchr(pass, '\n')) != NULL) *newline = '\0';
-		*/
-
 		//reset the reading of file
 		rewind(fpr);
 
@@ -317,7 +314,7 @@ staffLogin() {
 }
 
 //staff menu
-staffloginmain(const char* name) {
+int staffloginmain(const char* name) {
 	system("cls");
 
 	valid = false;
@@ -325,9 +322,9 @@ staffloginmain(const char* name) {
 
 	printf(blue"Welcome to staff menu %s!\n\n", name);
 	printf(reset);
-	printf(green"1. Staff registration\n2. Staff Modification\n3. Staff deletion\n4. Staff searching\n5. staff Display\n6. Exit to main page\n7. Exit the program\n\n"reset);
+	printf(green"1. Staff registration\n2. Staff Modification\n3. Staff deletion\n4. Staff searching\n5. staff Display\n6. Train Scheduling\n7. Exit to main page\n8. Exit the program\n\n"reset);
 	do {
-		printf(yellow"Enter a number (1, 2, 3, 4, 5, 6, 7) to enter a menu: ");
+		printf(yellow"Enter a number (1, 2, 3, 4, 5, 6, 7, 8) to enter a menu: ");
 		if (scanf(" %d", &login.choice) == 1) {
 			printf("\n"reset);
 			switch (login.choice) {
@@ -336,8 +333,9 @@ staffloginmain(const char* name) {
 			case 3: staffDeletion(name); valid = true;break;
 			case 4: staffsearching(name); valid = true; break;
 			case 5: staffDisplay(name); valid = true; break;
-			case 6: staffmain(); valid = true; break;
-			case 7: return 0; break;
+			case 6: staffScheduling(name); valid = true; break;
+			case 7: staffmain(); valid = true; break;
+			case 8: return -1; break;
 			default: printf("\n\033[1;31mInvalid number entered!\033[1;0m\n========================================\n"); break;
 			}
 		}
@@ -352,7 +350,7 @@ staffloginmain(const char* name) {
 }
 
 //Delete the account of the staff, only staff can delete staff
-staffDeletion(const char* name) {
+int staffDeletion(const char* name) {
 	char deletionid[15], line[2000], positionDel[100];
 	bool valid = false;
 	int found = 0;
@@ -371,7 +369,7 @@ staffDeletion(const char* name) {
 
 	if (fptr == NULL || fdel == NULL || ftemp == NULL) {
 		printf("AN ERROR OCCURRED. PLEASE TRY AGAIN!\n");
-		return;
+		return 1;
 	}
 
 	do {
@@ -403,7 +401,7 @@ staffDeletion(const char* name) {
 
 		fclose(fptr);
 		fclose(ftemp);
-		fclose(fdel);
+		
 
 		remove("staffInfo.txt");
 		rename("temp.txt", "staffInfo.txt");
@@ -420,6 +418,9 @@ staffDeletion(const char* name) {
 		printf("Date: %d/%d/%d\n", currentDate.day, currentDate.month, currentDate.year);
 		printf("Time: %02d:%02d\n"reset, currentTime.hour, currentTime.minute);
 
+		fprintf(fdel, "Staff record with ID %s was Modified by %s on %d-%02d-%02d at %02d:%02d\n", deletionid, name, currentDate.day, currentDate.month, currentDate.year, currentTime.hour, currentTime.minute);
+
+		fclose(fdel);
 		do {
 			printf(yellow"\nEnter a number (1) to continue delete, Enter (2) to go back: ");
 			if (scanf(" %d"reset, &delete.choice) == 1) {
@@ -447,7 +448,7 @@ staffDeletion(const char* name) {
 }
 
 // Modify the staff name and password, **id cannot be modify
-staffModification(const char* name) {
+int staffModification(const char* name) {
 
 	struct menu mod;
 	struct staff modi;
@@ -508,7 +509,8 @@ staffModification(const char* name) {
 					continue;
 				}
 
-				printf(green"Enter new position (0-9) (Press Enter to skip): ");
+				printf(green"Enter new position (0-9) (Press Enter to skip)\n");
+				displayposition();
 				char input[100];
 				fgets(input, sizeof(input), stdin);
 				if (input[0] == '\n') {
@@ -613,7 +615,7 @@ staffModification(const char* name) {
 	} while (mod.choice == 1);
 }
 
-staffDisplay(const char* name) {
+int staffDisplay(const char* name) {
 
 	int display, count = 0;
 	char positionstr[100];
@@ -634,9 +636,9 @@ staffDisplay(const char* name) {
 
 	if (display == 1) {
 		printf("\nStaff Information:\n");
-		printf("---------------------------------------------------------------------------------------------------------------\n");
+		printf("----------------------------------------------------------------------------------------------------------------\n");
 		printf("ID\t     Name\t\tPosition\t\t           Salary\t\tAge\t\tPhone\n");
-		printf("---------------------------------------------------------------------------------------------------------------\n");
+		printf("----------------------------------------------------------------------------------------------------------------\n");
 
 		// Read and display staff information from the file
 		while (fscanf(fpr, " %[^,], %[^,], %[^,], %[^,], %d, %d, %[^\n]\n", dis.id, dis.name, dis.pass, positionstr, &dis.salary, &dis.age, dis.phone) != EOF) {
@@ -682,7 +684,7 @@ staffDisplay(const char* name) {
 }
 
 //search for staff
-staffsearching(const char* name) {
+int staffsearching(const char* name) {
 	
 	char searchid[10];
 	struct staff search;
@@ -751,3 +753,34 @@ staffsearching(const char* name) {
 	} while (continue_searching);
 }
 
+
+int staffScheduling(const char* name) {
+
+	struct menu schedule;
+
+	system("cls");
+
+	printf(blue"Welcome to train scheduling menu %s !\n\n"reset, name);
+
+	printf(green"Enter (1) to schedule Train\nEnter (2) to paginate Train schedule records\nEnter (3) to remove Train Schedule Records\nEnter (4) to go back\n\n"reset);
+	do {
+		printf(yellow"Enter a number (1, 2, 3, 4, 5, 6, 7, 8) to enter a menu: ");
+		if (scanf(" %d", &schedule.choice) == 1) {
+			printf("\n"reset);
+			switch (schedule.choice) {
+			case 1: scheduleTrainMenu(); valid = true; break;
+			case 2: paginateTrainScheduleRecordsMenu(); valid = true; break;
+			case 3: removeTrainScheduleRecordMenu(); valid = true; break;
+			case 4: staffloginmain(name); valid = true; break;
+			case 5: return 0; break;
+			default: printf("\n\033[1;31mInvalid number entered!\033[1;0m\n========================================\n"); break;
+			}
+		}
+		else {
+			printf(red"\nInvalid input! Please enter a valid number.\n"reset);
+			printf("===========================================\n");
+			continue;
+		}
+
+	} while (!valid);
+}

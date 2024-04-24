@@ -1,8 +1,8 @@
 #pragma once
-#ifndef staff_Info_Module_dot_h
+#ifndef STAFF_INFO_MODULE_H
+#define STAFF_INFO_MODULE_H
 
-
-int staffmain();
+void staffmain();
 
 #endif 
 

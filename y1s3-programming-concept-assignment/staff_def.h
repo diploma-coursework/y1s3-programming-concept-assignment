@@ -32,7 +32,7 @@ struct menu {
 #define NO_CHANGE_AGE -1
 #define MAX_AGE 80
 
-//the enum position values converting into strings
+//Enum to string 
 const char* positionString(enum Position position) {
     switch (position) {
     case TICKETING_AGENT: return "Ticketing Agent";
@@ -49,6 +49,7 @@ const char* positionString(enum Position position) {
     }
 }
 
+//strig to enum
 enum Position getPositionEnum(const char* positionString) {
     if (strcmp(positionString, "Ticketing Agent") == 0)
         return TICKETING_AGENT;
@@ -74,6 +75,11 @@ enum Position getPositionEnum(const char* positionString) {
         return INVALID_POSITION;
 }
 
+// display position
+void displayposition() {
+    printf("TICKETING_AGENT = 0\nCUSTOMER_SERVICE_REPRESENTATIVE = 1\nTRAIN_CONDUCTOR = 2\nTICKET_INSPECTOR = 3\nSTATION_MANAGER = 4\nOPERATIONS_MANAGER = 5\nTECHNICAL_SUPPORT_STAFF = 6\nADMINISTRATIVE_STAFF = 7\nCLEANING_STAFF = 8\nSECURITY_PERSONNEL = 9\n\n>");
+}
+
 // boolean identifier
 bool valid;
 bool found;
@@ -83,6 +89,7 @@ if the struct functions being called it will return the current time.
 
 */
 
+//get the current date
 struct Date getCurrentDate() {
     struct Date currentDate;
     time_t currentTime;
@@ -100,6 +107,7 @@ struct Date getCurrentDate() {
     return currentDate;
 }
 
+//get the current time
 struct Time getCurrentTime() {
     struct Time currentTime;
     time_t rawtime;

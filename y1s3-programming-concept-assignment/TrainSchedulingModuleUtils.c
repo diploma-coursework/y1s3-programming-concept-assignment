@@ -21,7 +21,7 @@ int getNumberOfScheduleRecordsInFile() {
 }
 
 
-void displayTrainScheduleMetadata(struct TrainScheduleRecord *record) {
+void displayTrainScheduleMetadata(struct TrainScheduleRecord* record) {
 	printf("ID: %d\n", (*record).id);
 	printf("Price: RM%.2f\n", (*record).price);
 
@@ -176,3 +176,4 @@ void updateTrainScheduleRecordToFile(struct TrainScheduleRecord *scheduleRecord)
 	removeTrainScheduleFromFile(scheduleRecord->id);
 	writeTrainScheduleToFile(scheduleRecord);
 }
+

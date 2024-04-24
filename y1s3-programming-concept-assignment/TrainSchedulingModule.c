@@ -7,10 +7,10 @@
 #include "GeneralUtils.h"
 #include "SystemEnums.h"
 
-
 /**
  * For staff to schedule a train
  */
+
 
 bool scheduleTrainMenu() {
 	// record to be stored into TrainSchedules.dat
@@ -128,7 +128,6 @@ void paginateTrainScheduleRecordsMenu() {
 	free(records);
 }
 
-
 /**
  * Remove a train schedule with given id
  */
@@ -239,3 +238,4 @@ void chooseTrainScheduleSeatMenu(int scheduleId, int seatAmount, char seatsSelec
 	system("pause");
 	free(seatsBinary);
 }
+

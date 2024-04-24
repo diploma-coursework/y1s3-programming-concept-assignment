@@ -84,10 +84,10 @@
     <Text Include="temporaryfile.txt">
       <Filter>Resource Files</Filter>
     </Text>
-    <Text Include="temp.txt">
+    <Text Include="records.txt">
       <Filter>Resource Files</Filter>
     </Text>
-    <Text Include="records.txt">
+    <Text Include="temp.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>
