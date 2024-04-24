@@ -5,6 +5,8 @@
 #include "GeneralUtils.h"
 #include "TrainSchedulingModuleUtils.h"
 
+#define MAX_COACH_SEATS 60
+
 int getNumberOfScheduleRecordsInFile() {
 	FILE* filePtr = fopen("TrainSchedules.dat", "rb");
 	if (filePtr == NULL) {
@@ -21,9 +23,23 @@ int getNumberOfScheduleRecordsInFile() {
 }
 
 
+int numOfAvailableSeatsFromSeatsBitfield(long long int seatsBitfield) {
+	int availableSeats = MAX_COACH_SEATS;
+	char* seatsBinary = seatsBitfieldToBinary(seatsBitfield);
+
+	for (int i = 0; i < MAX_COACH_SEATS; i++) {
+		if (seatsBinary[i] == 'X') --availableSeats;
+	}
+
+	free(seatsBinary);
+	return availableSeats;
+}
+
+
 void displayTrainScheduleMetadata(struct TrainScheduleRecord *record) {
 	printf("ID: %d\n", (*record).id);
 	printf("Price: RM%.2f\n", (*record).price);
+	printf("Available Seats: %d\n", numOfAvailableSeatsFromSeatsBitfield((*record).seatsBitfield));
 
 	printf("\nDeparture\n");
 	printf("=========\n");
@@ -122,9 +138,9 @@ bool removeTrainScheduleFromFile(int scheduleId) {
 
 char* seatsBitfieldToBinary(long long int seatsBitfield) {
 	// X = 1, O = 0
-	char *seatsBinary = malloc(61 * sizeof(char));
-	for (int i = 0; i < 60; i++) {
-		if ((seatsBitfield >> (59 - i)) & 1) seatsBinary[i] = 'X';
+	char *seatsBinary = malloc((MAX_COACH_SEATS + 1) * sizeof(char));
+	for (int i = 0; i < MAX_COACH_SEATS; i++) {
+		if ((seatsBitfield >> (MAX_COACH_SEATS - 1 - i)) & 1) seatsBinary[i] = 'X';
 		else seatsBinary[i] = 'O';
 	}
 	return seatsBinary;
@@ -166,7 +182,7 @@ bool bookTrainSeat(char *seatsBinary, char seatAlphabet, int seatNumber) {
 
 long long int seatsBinaryToBitfield(char *seatsBinary) {
 	long long int result = 0;
-	for (int i = 0; i < 60; i++) {
+	for (int i = 0; i < MAX_COACH_SEATS; i++) {
 		result = (result << 1) | (seatsBinary[i] == 'X');
 	}
 	return result;
