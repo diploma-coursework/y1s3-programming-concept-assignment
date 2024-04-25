@@ -13,6 +13,7 @@ typedef struct
 	char mEmail[50];
 	char mAddress[50];
 	char mPassword[100];
+	char mBackupPassword[100];
 }Members;
 
 int member();
@@ -101,8 +102,22 @@ int verificationStatus()
 }
 
 int viewProfile()
-{
+{	
+	FILE* viewptr;
 
+	viewptr = fopen("memberfile.txt", "r");
+
+	Members member[100];
+	int i;
+
+	for (i = 0; i < 100; i++)
+	{
+		fscanf(viewptr, "%[^\|]|%[^\|]|%[^\|]|%[^\|]|%[^\|]|%[^\|]|%[^\|]", member[i].mName, member[i].mPassword, member[i].mUsername, member[i].mIC, member[i].mEmail, member[i].mAddress, member[i].mPassword);
+	}
+
+	printf("Hello User %s", member[i].mName);
+
+	fclose(viewptr);
 }
 
 int modifyProfile()
@@ -134,7 +149,7 @@ int memloginpage()
 		switch (option)
 		{
 		case 1:
-			viewProfile();
+			//viewProfile();
 			clearScreen();
 			break;
 		case 2:
@@ -164,7 +179,7 @@ int memregisterpage()
 
 	memptr = fopen("memberfile.txt", "a");
 
-	if (!memptr)
+	if (memptr == NULL)
 	{
 		printf("Error : file cannot be opened");
 		exit(-1);
@@ -172,7 +187,7 @@ int memregisterpage()
 
 	else
 	{
-		char mName[100], mUname[100], mIC[20], mEm[100], mAdrs[100], mPass[100];
+		char mName[100], mUname[100], mIC[20], mEm[100], mAdrs[100], mPass[100], mBpass[100];
 		int i;
 
 		printf("Greetings New User Welcome to the XXX Train Station Company\n");
@@ -201,7 +216,11 @@ int memregisterpage()
 		clearInputBuffer();
 		scanf("%[^\n]", mPass);
 
-		fprintf(memptr, "%s|%s|%s|%s|%s|%s", mUname, mPass, mName, mIC, mEm, mAdrs);
+		printf("\nBackup Password:");
+		clearInputBuffer();
+		scanf("%[^\n]", mBpass);
+
+		fprintf(memptr, "%s|%s|%s|%s|%s|%s|%s\n", mName, mPass, mUname, mIC, mEm, mAdrs, mBpass);
 
 
 		fclose(memptr);
