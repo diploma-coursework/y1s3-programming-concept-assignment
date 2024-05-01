@@ -4,6 +4,14 @@
 
 #include "GeneralStructs.h"
 
+// Functions
+scheduleTrainMenu();
+paginateTrainScheduleRecordsMenu();
+removeTrainScheduleRecordMenu();
+chooseTrainScheduleSeatMenu();
+getTrainScheduleById();
+
+
 typedef struct {
     char origin[30];
     char dest[30];

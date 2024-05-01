@@ -147,6 +147,7 @@
     <ClInclude Include="TrainSchedulingModuleUtils.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="BookingsInfo.bin" />
     <None Include="TicketBookings.dat" />
     <None Include="TrainSchedules.dat" />
   </ItemGroup>
@@ -154,7 +155,6 @@
     <Text Include="MemberInfo.txt" />
     <Text Include="records.txt" />
     <Text Include="staffInfo.txt" />
-    <Text Include="temp.txt" />
     <Text Include="temporaryfile.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

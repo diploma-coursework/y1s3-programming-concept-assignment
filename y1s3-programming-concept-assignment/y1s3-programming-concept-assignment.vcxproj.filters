@@ -73,6 +73,9 @@
     <None Include="TicketBookings.dat">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="BookingsInfo.bin">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="MemberInfo.txt">
@@ -85,9 +88,6 @@
       <Filter>Resource Files</Filter>
     </Text>
     <Text Include="records.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="temp.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>

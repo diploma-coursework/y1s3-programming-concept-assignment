@@ -19,13 +19,6 @@
 #define cyan "\033[1;36m"
 #define pink "\033[1;35m"   
 
-// Functions
-//scheduleTrainMenu();
-//paginateTrainScheduleRecordsMenu();
-//removeTrainScheduleRecordMenu();
-//chooseTrainScheduleSeatMenu();
-//getTrainScheduleById(id here);
-
 
 // Ticket Main Menu 
 int ticket() {
