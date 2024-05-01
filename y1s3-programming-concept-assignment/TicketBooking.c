@@ -2,6 +2,14 @@
 #include <stdlib.h>
 #include <string.h>
 
+// Header Files
+#include "BookingStruct.h"
+#include "GeneralStructs.h"
+#include "GeneralUtils.h"
+#include "SystemEnums.h"
+#include "TrainSchedulingModule.h"
+#include "TrainSchedulingModuleUtils.h"
+
 // Colours
 #define white "\033[0m"
 #define red "\033[1;31m"
@@ -11,20 +19,12 @@
 #define cyan "\033[1;36m"
 #define pink "\033[1;35m"   
 
-// Struct For Ticket Info
-
-struct Date {
-    int day;
-    int month;
-    int year;
-};
-
-typedef struct {
-    char origin[30];
-    char dest[30];
-    int pax;
-    struct Date date;
-} Information;
+// Functions
+//scheduleTrainMenu();
+//paginateTrainScheduleRecordsMenu();
+//removeTrainScheduleRecordMenu();
+//chooseTrainScheduleSeatMenu();
+//getTrainScheduleById(id here);
 
 
 // Ticket Main Menu 

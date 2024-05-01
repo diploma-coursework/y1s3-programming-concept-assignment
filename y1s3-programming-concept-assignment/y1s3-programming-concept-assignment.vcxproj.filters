@@ -50,7 +50,7 @@
     <ClInclude Include="SystemEnums.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Ticket_struct.h">
+    <ClInclude Include="BookingStruct.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TicketModule.h">

@@ -142,7 +142,7 @@
     <ClInclude Include="staff_def.h" />
     <ClInclude Include="SystemEnums.h" />
     <ClInclude Include="TicketModule.h" />
-    <ClInclude Include="Ticket_struct.h" />
+    <ClInclude Include="BookingStruct.h" />
     <ClInclude Include="TrainSchedulingModule.h" />
     <ClInclude Include="TrainSchedulingModuleUtils.h" />
   </ItemGroup>
