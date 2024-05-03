@@ -5,7 +5,8 @@
 #include <time.h>
 #include <ctype.h>
 
-#include "Staff_def.h"
+#include "Color.h"
+#include "StaffDef.h"
 #include "GeneralStructs.h"
 #include "GeneralUtils.h"
 #include "TrainSchedulingModule.h"
@@ -770,7 +771,7 @@ int staffScheduling(const char* name) {
 			printf("\n"reset);
 			switch (schedule.choice) {
 			case 1: scheduleTrainMenu(); valid = true; break;
-			case 2: paginateTrainScheduleRecordsMenu(); valid = true; break;
+			case 2: paginateAllTrainScheduleRecordsMenu(); valid = true; break;
 			case 3: removeTrainScheduleRecordMenu(); valid = true; break;
 			case 4: staffloginmain(name); valid = true; break;
 			case 5: return 0; break;
