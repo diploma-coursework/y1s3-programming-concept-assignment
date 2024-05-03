@@ -54,7 +54,7 @@ void staffmain() {
 			}
 		}
 		else { 
-			//clearInputBuffer();
+			while (getchar() != '\n');
 			printf(red"\nInvalid input! Please enter a valid number.\n"reset);
 			printf("===========================================\n");
 			continue;
@@ -251,6 +251,7 @@ int staffRegistration(const char* name) {
 				}
 			}
 			else {
+				while (getchar() != '\n');
 				printf(red"\nInvalid input! Please enter a valid number.\n"reset);
 				printf("===========================================\n");
 				continue;
@@ -341,6 +342,7 @@ int staffloginmain(const char* name) {
 			}
 		}
 		else {
+			while (getchar() != '\n');
 			printf(red"\nInvalid input! Please enter a valid number.\n"reset);
 			printf("===========================================\n");
 			continue;
@@ -439,6 +441,7 @@ int staffDeletion(const char* name) {
 				}
 			}
 			else {
+				while (getchar() != '\n');
 				printf("\nInvalid input! Please enter a valid number.\n");
 				printf("===========================================\n");
 				continue;
@@ -606,7 +609,7 @@ int staffModification(const char* name) {
 				}
 			}
 			else {
-				//clearInputBuffer();
+				while (getchar() != '\n');
 				printf(red"\nInvalid input! Please enter a valid number.\n"reset);
 				printf("===========================================\n");
 				continue;
@@ -746,6 +749,7 @@ int staffsearching(const char* name) {
 				}
 			}
 			else {
+				while (getchar() != '\n');
 				printf(red"\nInvalid input! Please enter a valid number.\n"reset);
 				printf("===========================================\n");
 				continue;
@@ -779,6 +783,7 @@ int staffScheduling(const char* name) {
 			}
 		}
 		else {
+			while (getchar() != '\n');
 			printf(red"\nInvalid input! Please enter a valid number.\n"reset);
 			printf("===========================================\n");
 			continue;
