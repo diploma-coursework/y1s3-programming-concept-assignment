@@ -5,7 +5,8 @@
 #include <time.h>
 #include <ctype.h>
 
-#include "Staff_def.h"
+#include "Color.h"
+#include "StaffDef.h"
 #include "GeneralStructs.h"
 #include "GeneralUtils.h"
 #include "TrainSchedulingModule.h"

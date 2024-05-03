@@ -2,8 +2,8 @@
 #include "SystemEnums.h"
 #include "GeneralStructs.h"
 
-#ifndef staff_def
-#define staff_def
+#ifndef StaffDef
+#define StaffDef
 
 struct staff {
 	char id[15];
