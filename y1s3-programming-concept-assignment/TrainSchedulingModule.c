@@ -83,7 +83,7 @@ bool scheduleTrainMenu() {
  */
 
 
-void paginateTrainScheduleRecordsMenu() {
+void paginateAllTrainScheduleRecordsMenu() {
 	int numOfRecords = getNumberOfScheduleRecordsInFile();
 	if (numOfRecords == 0) {
 		printf(

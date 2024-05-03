@@ -6,7 +6,7 @@
 
 // Functions
 scheduleTrainMenu();
-paginateTrainScheduleRecordsMenu();
+paginateAllTrainScheduleRecordsMenu();
 removeTrainScheduleRecordMenu();
 chooseTrainScheduleSeatMenu();
 getTrainScheduleById();
