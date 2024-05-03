@@ -5,11 +5,13 @@
 #include "GeneralStructs.h"
 
 // Functions
+/*
 scheduleTrainMenu();
 paginateAllTrainScheduleRecordsMenu();
 removeTrainScheduleRecordMenu();
 chooseTrainScheduleSeatMenu();
 getTrainScheduleById();
+*/
 
 
 typedef struct {
