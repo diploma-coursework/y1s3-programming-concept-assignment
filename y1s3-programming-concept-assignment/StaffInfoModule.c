@@ -322,7 +322,7 @@ int staffloginmain(const char* name) {
 
 	printf(blue"Welcome to staff menu %s!\n\n", name);
 	printf(reset);
-	printf(green"1. Staff registration\n2. Staff Modification\n3. Staff deletion\n4. Staff searching\n5. staff Display\n6. Train Scheduling\n7. Exit to main page\n8. Exit the program\n\n"reset);
+	printf(green"1. Staff registration\n2. Staff Modification\n3. Staff deletion\n4. Staff searching\n5. staff Display\n6. Train Scheduling\n7. Sign out\n8. Exit the program\n\n"reset);
 	do {
 		printf(yellow"Enter a number (1, 2, 3, 4, 5, 6, 7, 8) to enter a menu: ");
 		if (scanf(" %d", &login.choice) == 1) {
@@ -340,7 +340,6 @@ int staffloginmain(const char* name) {
 			}
 		}
 		else {
-			//clearInputBuffer();
 			printf(red"\nInvalid input! Please enter a valid number.\n"reset);
 			printf("===========================================\n");
 			continue;
@@ -615,6 +614,7 @@ int staffModification(const char* name) {
 	} while (mod.choice == 1);
 }
 
+//display staff report
 int staffDisplay(const char* name) {
 
 	int display, count = 0;
@@ -700,6 +700,7 @@ int staffsearching(const char* name) {
 		printf("ERROR OCCUR WHILE ACCESSING THE FILE!");
 		return 1;
 	}
+
 	do {
 		system("cls"); 
 
@@ -753,7 +754,7 @@ int staffsearching(const char* name) {
 	} while (continue_searching);
 }
 
-
+// staff schedule
 int staffScheduling(const char* name) {
 
 	struct menu schedule;
