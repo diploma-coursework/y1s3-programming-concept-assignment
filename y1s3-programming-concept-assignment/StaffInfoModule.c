@@ -37,7 +37,7 @@ void staffmain() {
 	printf(green"1. Staff login menu\n2. Exit\n\n"reset);
 
 	do {
-		printf(yellow"Enter a number (1,2) to enter a menu > ");
+		printf(yellow"Enter a number (1,2,3) to enter a menu > ");
 		if (scanf(" %d", &staffmain.choice) == 1) {
 			printf("\n"reset);
 			switch (staffmain.choice) {
@@ -46,6 +46,9 @@ void staffmain() {
 				valid = true;
 				break;
 			case 2:
+				valid = true;
+				break;
+			case 3:
 				return 0;
 			default:
 				printf(red"     INVALID NUMBER ENTERED!\n"reset);
@@ -141,7 +144,8 @@ int staffRegistration(const char* name) {
 					}
 				}
 				if (!isValid) {
-					printf(red"\nTHE NAME CAN ONLY CONTAIN ALPHABETIC CHARACTERS, SPACES, AND HYPHENS!\n=====================================================================\n"reset);             
+					printf(red"\nTHE NAME CAN ONLY CONTAIN ALPHABETIC CHARACTERS, SPACES, AND HYPHENS!\n"reset);  
+					printf("=====================================================================\n");
 				}
 				else {
 					break;
@@ -170,7 +174,8 @@ int staffRegistration(const char* name) {
 			displayposition();
 			int position;
 			if (scanf(" %d"reset, &position) != 1 || position < 0 || position >= NUM_POSITIONS) {
-				printf("Invalid input! Position must be a number between 0 and 9.\n");
+				printf(red"\nInvalid input! Position must be a number between 0 and 9.\n"reset);
+				printf("=========================================================\n");
 			}
 			else {
 				printf("\n");
@@ -183,8 +188,11 @@ int staffRegistration(const char* name) {
 
 		do {
 			printf(green"Enter staff salary: ");
-			if (scanf(" %d", &info.salary) != 1 || info.salary < 1500) {
-				printf(reset, red"Invalid input! Salary must be a non-negative number and must not be lower than RM1500.\n"reset);
+			scanf(" %d", &info.salary);
+			if ( info.salary <= 0 || info.salary <= 1500) {
+				printf(reset);
+				printf(red"Invalid input! Salary must be a non-negative number and must not be lower than RM1500.\n"reset);
+				printf("======================================================================================\n");
 			}
 			else {
 				printf("\n");
@@ -195,7 +203,9 @@ int staffRegistration(const char* name) {
 		do {
 			printf(green"Enter staff age: ");
 			if (scanf(" %d", &info.age) != 1 || info.age < 18) {
-				printf(reset,red"Invalid input! Age must be a number greater than or equal to 18.\n"reset);
+				printf(reset);
+				printf(red"Invalid input! Age must be a number greater than or equal to 18.\n"reset);
+				printf("================================================================\n");
 			}
 			else {
 				printf("\n");
@@ -500,7 +510,6 @@ int staffModification(const char* name) {
 					printf(red "\nYOUR NAME IS TOO LONG\n" reset);
 					continue;
 				}
-				printf("\n");
 				printf("Enter new pass (Press Enter to skip): ");
 				fgets(modi.pass, sizeof(modi.pass), stdin);
 				modi.pass[strcspn(modi.pass, "\n")] = '\0'; // Remove newline character
@@ -732,7 +741,7 @@ int staffsearching(const char* name) {
 			}
 		}
 		if (!found) {
-			printf("RESULT FOR THE %s IS NOT FOUND, PLEASE TRY AGAIN!\n", searchid);
+			printf(red"RESULT FOR THE %s IS NOT FOUND, PLEASE TRY AGAIN!\n"reset, searchid);
 		}
 		fclose(fpr);
 
