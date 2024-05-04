@@ -10,6 +10,8 @@
 /**
  * For staff to schedule a train
  */
+
+
 bool scheduleTrainMenu() {
 	// record to be stored into TrainSchedules.dat
 	struct TrainScheduleRecord newTrainScheduleRecord;
@@ -27,8 +29,7 @@ bool scheduleTrainMenu() {
 		"+------------------------+\n"
 		"|  Schedule a Train:     |\n"
 		"+------------------------+\n\n"
-		"Please enter the details for the following.\n"
-	);
+		"Please enter the details for the following.\n");
 	
 	displayTrainStations();
 	printf("Departure station: ");
@@ -79,6 +80,8 @@ bool scheduleTrainMenu() {
 /**
  * Display train schedules in multi-page format
  */
+
+
 void paginateAllTrainScheduleRecordsMenu() {
 	int numOfRecords = getNumberOfScheduleRecordsInFile();
 	if (numOfRecords == 0) {
@@ -124,12 +127,10 @@ void paginateAllTrainScheduleRecordsMenu() {
 	free(records);
 }
 
-
-
-
 /**
  * Remove a train schedule with given id
  */
+ 
 bool removeTrainScheduleRecordMenu() {
 	int recordId;
 	char confirmRemoval;
