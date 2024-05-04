@@ -494,41 +494,46 @@ int staffModification(const char* name) {
 				if (modi.name[0] == '\0') {
 					// If the input string is empty, skip modifying the name
 					strcpy(modi.name, orig_name);
+					printf("\n");
 				}
 				else if (strlen(modi.name) >= 40) {
 					printf(red "\nYOUR NAME IS TOO LONG\n" reset);
 					continue;
 				}
-
+				printf("\n");
 				printf("Enter new pass (Press Enter to skip): ");
 				fgets(modi.pass, sizeof(modi.pass), stdin);
 				modi.pass[strcspn(modi.pass, "\n")] = '\0'; // Remove newline character
 				if (modi.pass[0] == '\0') {
 					// If the input string is empty, skip modifying the password
 					strcpy(modi.pass, orig_pass);
+					printf("\n");
 				}
 				else if (strlen(modi.pass) < 4) {
 					printf(red "\nTHE PASSWORD LENGTH MUST BE AT LEAST 4 CHARACTERS!\n===========================================\n" reset);
 					continue;
 				}
 
-				printf(green"Enter new position (0-9) (Press Enter to skip)\n");
+				printf(green"Enter new position (0-9) (Press Enter to skip)\n\n");
 				displayposition();
 				char input[100];
 				fgets(input, sizeof(input), stdin);
 				if (input[0] == '\n') {
 					// If the input string is empty (user pressed Enter), skip modifying the position
 					modi.position = orig_position;
+					printf("\n");
 				}
 				else {
 					int newPosition;
 					if (sscanf(input, " %d", &newPosition) != 1 || newPosition < 0 || newPosition >= NUM_POSITIONS) {
 						printf(red"Invalid input! Position must be a number between 0 and 9.\n"reset);
+						printf("\n");
 						continue;
 					}
 					else {
 						modi.position = (enum Position)newPosition;
 						positionString(modi.position);
+						printf("\n");
 					}
 				}
 
@@ -537,23 +542,27 @@ int staffModification(const char* name) {
 				if (input[0] == '\n') {
 					// If the input string is empty (user pressed Enter), skip modifying the salary
 					modi.salary = orig_salary;
+					printf("\n");
 				}
 				else {
 					if (sscanf(input, " %d", &modi.salary) != 1 || modi.salary < 0) {
 						printf(red"Invalid input! Salary must be a non-negative number.\n"reset);
+						printf("\n");
 						continue;
 					}
 				}
-
+				printf("\n");
 				printf(green"Enter new age (Press Enter to skip): ");
 				fgets(input, sizeof(input), stdin);
 				if (input[0] == '\n') {
 					// If the input string is empty (user pressed Enter), skip modifying the age
+					printf("\n");
 					modi.age = orig_age;
 				}
 				else {
 					if (sscanf(input, " %d", &modi.age) != 1 || modi.age < 18) {
 						printf(red"Invalid input! Age must be a number greater than or equal to 18.\n"reset);
+						printf("\n");
 						continue;
 					}
 				}
@@ -564,6 +573,7 @@ int staffModification(const char* name) {
 				if (modi.phone[0] == '\0') {
 					// If the input string is empty (user pressed Enter), skip modifying the phone number
 					strcpy(modi.phone, orig_phone);
+					printf("\n");
 				}
 				else {
 					if (!isValidPhoneNumber(modi.phone)) {
