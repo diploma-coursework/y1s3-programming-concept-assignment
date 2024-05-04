@@ -84,13 +84,13 @@
     <Text Include="MemberInfo.txt">
       <Filter>Resource Files</Filter>
     </Text>
-    <Text Include="staffInfo.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
     <Text Include="temporaryfile.txt">
       <Filter>Resource Files</Filter>
     </Text>
     <Text Include="records.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="staffInfo.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>
