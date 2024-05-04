@@ -2,6 +2,7 @@
 
 #include "GeneralStructs.h"
 
+
 struct TrainScheduleRecord {
 	int id;
 	struct Date departureDate;

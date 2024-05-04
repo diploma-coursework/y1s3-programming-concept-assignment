@@ -15,7 +15,7 @@
 // staff main
 void staffmain() {
 
-	struct menu staffmain;
+	struct menu staffMain;
 	
 	system("cls");
 
@@ -38,17 +38,14 @@ void staffmain() {
 
 	do {
 		printf(yellow"Enter a number (1,2,3) to enter a menu > ");
-		if (scanf(" %d", &staffmain.choice) == 1) {
+		if (scanf(" %d", &staffMain.choice) == 1) {
 			printf("\n"reset);
-			switch (staffmain.choice) {
+			switch (staffMain.choice) {
 			case 1:
 				staffLogin();
 				valid = true;
 				break;
 			case 2:
-				valid = true;
-				break;
-			case 3:
 				return 0;
 			default:
 				printf(red"     INVALID NUMBER ENTERED!\n"reset);
@@ -778,7 +775,7 @@ int staffsearching(const char* name) {
 	} while (continue_searching);
 }
 
-// staff schedule
+// train schedule
 int staffScheduling(const char* name) {
 
 	struct menu schedule;
