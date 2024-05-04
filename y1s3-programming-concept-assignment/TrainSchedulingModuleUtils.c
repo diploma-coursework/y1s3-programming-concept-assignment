@@ -21,6 +21,7 @@ int getNumberOfScheduleRecordsInFile() {
 	fclose(filePtr);
 	return numOfRecords;
 }
+
 int numOfAvailableSeatsFromSeatsBitfield(long long int seatsBitfield) {
 	int availableSeats = MAX_COACH_SEATS;
 	char* seatsBinary = seatsBitfieldToBinary(seatsBitfield);

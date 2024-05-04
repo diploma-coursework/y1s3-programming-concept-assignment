@@ -6,7 +6,7 @@
 #include <ctype.h>
 
 #include "Color.h"
-#include "StaffDef.h"
+#include "StaffUtils.h"
 #include "GeneralStructs.h"
 #include "GeneralUtils.h"
 #include "TrainSchedulingModule.h"

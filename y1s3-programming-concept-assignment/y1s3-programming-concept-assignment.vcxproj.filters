@@ -62,7 +62,7 @@
     <ClInclude Include="TrainSchedulingModuleUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="StaffDef.h">
+    <ClInclude Include="StaffUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Color.h">

@@ -140,7 +140,7 @@
     <ClInclude Include="Color.h" />
     <ClInclude Include="GeneralStructs.h" />
     <ClInclude Include="StaffInfoModule.h" />
-    <ClInclude Include="StaffDef.h" />
+    <ClInclude Include="StaffUtils.h" />
     <ClInclude Include="SystemEnums.h" />
     <ClInclude Include="TicketModule.h" />
     <ClInclude Include="BookingStruct.h" />
