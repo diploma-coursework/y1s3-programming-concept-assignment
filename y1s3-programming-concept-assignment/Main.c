@@ -3,6 +3,7 @@
 
 #include "Color.h"
 #include "StaffInfoModule.h"
+#include "MemberInfoModule.h"
 
 
 int main() {

@@ -130,7 +130,7 @@
     <ClCompile Include="GeneralUtils.c" />
     <ClCompile Include="GeneralUtils.h" />
     <ClCompile Include="Main.c" />
-    <ClCompile Include="Members.c" />
+    <ClCompile Include="MemberInfoModule.c" />
     <ClCompile Include="StaffInfoModule.c" />
     <ClCompile Include="TicketBooking.c" />
     <ClCompile Include="TrainSchedulingModule.c" />
@@ -139,6 +139,7 @@
   <ItemGroup>
     <ClInclude Include="Color.h" />
     <ClInclude Include="GeneralStructs.h" />
+    <ClInclude Include="MemberInfoModule.h" />
     <ClInclude Include="StaffInfoModule.h" />
     <ClInclude Include="StaffUtils.h" />
     <ClInclude Include="SystemEnums.h" />
@@ -153,11 +154,9 @@
     <None Include="TrainSchedules.dat" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="backup MemberInfo.txt" />
     <Text Include="MemberInfo.txt" />
     <Text Include="records.txt" />
     <Text Include="staffInfo.txt" />
-    <Text Include="tempfile.txt" />
     <Text Include="temporaryfile.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
