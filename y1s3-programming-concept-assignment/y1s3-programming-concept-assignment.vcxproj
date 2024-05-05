@@ -156,6 +156,7 @@
     <Text Include="MemberInfo.txt" />
     <Text Include="records.txt" />
     <Text Include="staffInfo.txt" />
+    <Text Include="tempfile.txt" />
     <Text Include="temporaryfile.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

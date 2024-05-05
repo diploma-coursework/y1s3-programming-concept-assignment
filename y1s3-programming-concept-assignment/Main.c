@@ -25,7 +25,7 @@ int main() {
 
 		switch (mainmenuSelection) {
 			case '1':
-				//membermain
+				membermain();
 				break;
 			case '2':
 				staffmain();
