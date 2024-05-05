@@ -23,7 +23,7 @@
 /*********************************************************************/
 
 typedef struct {
-    char name[20];
+    char name[30];
     int num_of_seats;
     int train;
     float charges;
@@ -265,11 +265,69 @@ int bookTicket()
 
 int modifyTicket() {
     system("cls");
-    printf(yellow"----------------------------"cyan);
-    printf("\nEdit Your Ticket Below\n");
-    printf(yellow"----------------------------\n\n"cyan);
+    printf(yellow"=======================\n");
+    printf(cyan"   Modify Booking\n");
+    printf(yellow"=======================\n\n");
 
-    // CHANGE SEATS NUMBER THATS ALL
+    char name[30];
+    int train_num;
+    int new_num_of_seats;
+
+    // Prompt user for ticket details to be modified
+    printf(yellow"Enter name: ");
+    printf(white);
+    scanf("%s", name);
+
+    printf(yellow"Enter train number: ");
+    printf(white);
+    scanf("%d", &train_num);
+
+    printf(yellow"Enter new number of seats: ");
+    printf(white);
+    scanf("%d", &new_num_of_seats);
+
+    // Open the binary file for reading and a temporary file for writing
+    FILE* fp = fopen("BookingsInfo.bin", "rb");
+    FILE* temp_fp = fopen("temp.bin", "wb");
+
+    if (fp == NULL || temp_fp == NULL) {
+        printf("Error opening file!\n");
+        return 1;
+    }
+
+    // Read each record from the binary file
+
+    Information read_info;
+    int found = 0;
+    while (fread(&read_info, sizeof(Information), 1, fp) == 1)
+    {
+        // If the record matches the ticket to be modified, update it with the new details
+        if (strcmp(read_info.name, name) == 0 && read_info.train == train_num)
+        {
+            found = 1;
+            // Update the number of seats
+            read_info.num_of_seats = new_num_of_seats;
+            printf(yellow"\nBooking found and modified.\n");
+        }
+
+        // Write the record to the temporary file
+        fwrite(&read_info, sizeof(Information), 1, temp_fp);
+    }
+
+    fclose(fp);
+    fclose(temp_fp);
+
+    // Delete the original file
+    remove("BookingsInfo.bin");
+    // Rename the temporary file to the original filename
+    rename("temp.bin", "BookingsInfo.bin");
+
+    if (!found)
+    {
+        printf(red"\nBooking not found!\n");
+    }
+
+    return 0;
 }
 
 
@@ -526,7 +584,6 @@ int displayTicket(char name[], int num_of_seats, int train_num, float charges) {
 /*                        BOOKING HISTORY MENU                       */
 /*********************************************************************/
 
-
 int bookHistory() {
     system("cls");
 
@@ -541,23 +598,19 @@ int bookHistory() {
     printf(cyan"                      Booking History\n");
     printf(yellow"               ==============================\n\n");
 
-    printf(cyan"   Name\t\tSeats\t\t Train No.\t\tCharges\n");
-    printf(pink"   -------------------------------------------------------------\n"green);
+    printf(cyan"   Name\t\t  Seats\t\t Train No.\tCharges\n");
+    printf(pink"  -------------------------------------------------------------\n"green);
 
     // Read and display all tickets
     Information read_info;
-    while (fread(&read_info.name, sizeof(read_info.name), 1, fp) &&
-        fread(&read_info.num_of_seats, sizeof(read_info.num_of_seats), 1, fp) &&
-        fread(&read_info.train, sizeof(read_info.train), 1, fp) == 1) {
-        // Calculate charges for each record
-        float charges = charge(read_info.train, read_info.num_of_seats);
-        printf("   %-20s%-8d%-8d%-8.2f\n", read_info.name, read_info.num_of_seats, read_info.train, charges);
+    while (fread(&read_info, sizeof(Information), 1, fp) == 1) {
+        // Display each booking
+        printf("  %-30s%-10d%-12d%.2f\n", read_info.name, read_info.num_of_seats, read_info.train, read_info.charges);
     }
 
     fclose(fp);
 
     // Loop For Input 
-
     int option;
     do {
         printf(yellow"\nPress 1 to Return To Main Menu > ");
@@ -587,8 +640,61 @@ int bookHistory() {
 /*                         DELETE BOOKING MENU                       */
 /*********************************************************************/
 
-int deleteTicket() {             // Cancel Booking
+int deleteTicket() {
     system("cls");
-    printf("This is the delete ticket page");
-}
+    printf(yellow"=======================\n");
+    printf(cyan"   Cancel Booking\n");
+    printf(yellow"=======================\n\n");
 
+    char name[30];
+    int train_num;
+
+    // Prompt user for ticket details to be deleted
+    printf(yellow"Enter name: ");
+    printf(white);
+    scanf("%s", name);
+
+    printf(yellow"Enter train number: ");
+    printf(white);
+    scanf("%d", &train_num);
+
+    // Open the binary file for reading and a temporary file for writing
+    FILE* fp = fopen("BookingsInfo.bin", "rb");
+    FILE* temp_fp = fopen("temp.bin", "wb");
+
+    if (fp == NULL || temp_fp == NULL)
+    {
+        printf("Error opening file!\n");
+        return 1;
+    }
+
+    // Read each record from the binary file
+    Information read_info;
+    int found = 0;
+    while (fread(&read_info, sizeof(Information), 1, fp) == 1) {
+        // If the record matches the ticket to be deleted, skip it
+        if (strcmp(read_info.name, name) == 0 && read_info.train == train_num) {
+            found = 1;
+            printf(yellow"\nBooking found and cancelled.\n");
+            continue;
+        }
+
+        // Otherwise, write it to the temporary file
+        fwrite(&read_info, sizeof(Information), 1, temp_fp);
+    }
+
+    fclose(fp);
+    fclose(temp_fp);
+
+    // Delete the original file
+
+    remove("BookingsInfo.bin");
+
+    // Rename the temporary file to the original filename
+    rename("temp.bin", "BookingsInfo.bin");
+
+    if (!found) {
+        printf(red"\nBooking not found!\n");
+    }
+    return 0;
+}

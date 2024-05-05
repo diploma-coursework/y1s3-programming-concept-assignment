@@ -8,7 +8,7 @@
 
 int main() {
 	char mainmenuSelection;
-
+	
 	while (1) {
 		system("cls");
 		printf(
