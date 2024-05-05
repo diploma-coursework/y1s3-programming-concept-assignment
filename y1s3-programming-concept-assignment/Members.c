@@ -44,6 +44,7 @@ int membermain()
 
 	do
 	{
+		clearScreen();
 		// Display menu
 		printf("\nWelcome to XXX Train Station Company\n");
 		printf("1. Register\n");
@@ -72,7 +73,7 @@ int membermain()
 			break;
 		case 3:
 			printf("Exiting program...\n");
-			exit(0);
+			main();
 			break;
 		default:
 			printf("Invalid option. Please try again.\n");
