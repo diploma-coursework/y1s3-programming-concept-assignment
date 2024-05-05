@@ -93,5 +93,11 @@
     <Text Include="staffInfo.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="tempfile.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="backup MemberInfo.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>
