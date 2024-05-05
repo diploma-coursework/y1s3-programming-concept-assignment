@@ -28,16 +28,19 @@ int modifyProfile(const char* currentUser, const char* password);
 int deleteProfile(const char* username, const char* password);
 int clearInputBuffer();
 
+//clear screen
 int clearScreen()
 {
 	system("cls");
 }
 
+//clear excess input
 int clearInputBuffer() {
 	int c;
 	while ((c = getchar()) != '\n' && c != EOF);
 }
 
+//main page of member/customer
 int membermain()
 {
 	int option;
@@ -83,6 +86,7 @@ int membermain()
 	return 0;
 }
 
+//verify whether login information is correct
 int verificationStatus(const char* username, const char* password)
 {
 	int success = 0;
@@ -117,6 +121,7 @@ int verificationStatus(const char* username, const char* password)
 	return 0; // Return failure
 }
 
+//view options after login into member's main page
 int viewPage(const char* username, const char* password)
 {
 	int option;
@@ -176,6 +181,7 @@ int viewPage(const char* username, const char* password)
 	} while (option < 1 || option >6);
 }
 
+//view personal information of customer
 int viewProfile(const char* username, const char* password)
 {
 	FILE* filePtr;
@@ -219,6 +225,7 @@ int viewProfile(const char* username, const char* password)
 	viewPage(username, password);
 }
 
+//search for customer profile
 int findProfile(const char* currentUser) {
 	FILE* filePtr;
 	Members member;
@@ -249,6 +256,7 @@ int findProfile(const char* currentUser) {
 	return 0; // Return failure
 }
 
+//modify the information of customer profile
 int modifyProfile(const char* currentUser, const char* password) {
 	Members member;
 
@@ -356,6 +364,7 @@ int modifyProfile(const char* currentUser, const char* password) {
 	memloginpage();
 }
 
+//delete customer profile
 int deleteProfile(const char* username, const char* password)
 {
 	FILE* filePtr;
@@ -417,6 +426,7 @@ int deleteProfile(const char* username, const char* password)
 	main();
 }
 
+//login page for customer
 int memloginpage()
 {
 	char uname[30], psw[30];
@@ -440,6 +450,7 @@ int memloginpage()
 	viewPage(uname, psw);
 }
 
+//register page for customer
 int memregisterpage()
 {
 	FILE* memptr;
