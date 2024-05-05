@@ -9,7 +9,7 @@
 #include "StaffUtils.h"
 #include "GeneralStructs.h"
 #include "GeneralUtils.h"
-//#include "TrainSchedulingModule.h"
+#include "TrainSchedulingModule.h"
 #include "GeneralUtils.h"
 
 // staff main
