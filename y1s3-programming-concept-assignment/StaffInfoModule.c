@@ -9,7 +9,7 @@
 #include "StaffUtils.h"
 #include "GeneralStructs.h"
 #include "GeneralUtils.h"
-//#include "TrainSchedulingModule.h"
+#include "TrainSchedulingModule.h"
 #include "GeneralUtils.h"
 
 // staff main
@@ -790,9 +790,9 @@ int staffScheduling(const char* name) {
 		if (scanf(" %d", &schedule.choice) == 1) {
 			printf("\n"reset);
 			switch (schedule.choice) {
-			case 1: /*scheduleTrainMenu();*/ valid = true; break;
-			case 2: /*paginateAllTrainScheduleRecordsMenu();*/ valid = true; break;
-			case 3: /*removeTrainScheduleRecordMenu();*/ valid = true; break;
+			case 1: scheduleTrainMenu(); valid = true; break;
+			case 2: paginateAllTrainScheduleRecordsMenu(); valid = true; break;
+			case 3: removeTrainScheduleRecordMenu(); valid = true; break;
 			case 4: staffloginmain(name); valid = true; break;
 			case 5: return 0; break;
 			default: printf("\n\033[1;31mInvalid number entered!\033[1;0m\n========================================\n"); break;
