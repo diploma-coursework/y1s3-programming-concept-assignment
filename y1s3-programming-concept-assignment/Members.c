@@ -267,85 +267,87 @@ int modifyProfile(const char* currentUser, const char* password) {
 
 	clearScreen();
 	printf("\nHello, welcome to profile modify.\n");
-	printf("Enter the number corresponding to the field you want to modify:\n");
-	printf("1. Name(Must)\n");
-	printf("2. Username\n");
-	printf("3. IC\n");
-	printf("4. Email\n");
-	printf("5. Address\n");
-	printf("6. Password(Must)\n");
-	printf("7. Backup Password\n");
-	printf("8. Save Changes and Exit\n");
 
-	int choice;
-	do {
-		printf("\nEnter your choice: ");
-		scanf("%d", &choice);
-		clearInputBuffer(); // Clear the input buffer to prevent issues with subsequent input
-
-		switch (choice) {
-		case 1:
-			printf("Enter new name: ");
-			scanf("%s", member.mName);
-			break;
-		case 2:
-			printf("Enter new username: ");
-			scanf("%s", member.mUsername);
-			break;
-		case 3:
-			printf("Enter new IC: ");
-			scanf("%s", member.mIC);
-			break;
-		case 4:
-			printf("Enter new email: ");
-			scanf("%s", member.mEmail);
-			break;
-		case 5:
-			printf("Enter new address: ");
-			scanf("%s", member.mAddress);
-			break;
-		case 6:
-			printf("Enter new password: ");
-			scanf("%s", member.mPassword);
-			break;
-		case 7:
-			printf("Enter new backup password: ");
-			scanf("%s", member.mBackupPassword);
-			break;
-		case 8:
-			// Save changes and exit the loop
-			break;
-		default:
-			printf("Invalid choice. Please enter a number between 1 and 8.\n");
-			break;
-		}
-	} while (choice != 8);
-
-	system("pause");
-	clearScreen();
-
-	// Modify the profile in the file
+	// Read the existing profile information from the file
 	FILE* originalFile = fopen("memberinfo.txt", "r");
-	FILE* tempFile = fopen("tempefile.txt", "w");
-
-	if (originalFile == NULL || tempFile == NULL) {
+	if (originalFile == NULL) {
 		printf("Error: Unable to open files for modification.\n");
 		return -1;
 	}
 
+	// Copy the existing profile information to a temporary file
+	FILE* tempFile = fopen("tempfile.txt", "w");
+	if (tempFile == NULL) {
+		printf("Error: Unable to create temporary file.\n");
+		fclose(originalFile);
+		return -1;
+	}
+
+	// Read and copy the profile information line by line
 	while (fscanf(originalFile, "%[^|]|%[^|]|%[^|]|%[^|]|%[^|]|%[^|]|%[^|\n]\n",
 		member.mName, member.mPassword, member.mUsername, member.mIC,
 		member.mEmail, member.mAddress, member.mBackupPassword) == 7) {
-		if (strcmp(member.mUsername, currentUser) != 0 && strcmp(member.mPassword, password) != 0) {
-			// Write modified profile data to the temporary file
-			fprintf(tempFile, "%s|%s|%s|%s|%s|%s|%s\n", member.mName, member.mPassword, member.mUsername, member.mIC,
-				member.mEmail, member.mAddress, member.mBackupPassword);
+		// Check if the current line corresponds to the user's profile
+		if (strcmp(member.mUsername, currentUser) == 0 && strcmp(member.mPassword, password) == 0) {
+			int choice;
+			printf("Enter the number corresponding to the field you want to modify:\n");
+			printf("1. Name\n");
+			printf("2. Username(Must)\n");
+			printf("3. IC\n");
+			printf("4. Email\n");
+			printf("5. Address\n");
+			printf("6. Password(Must)\n");
+			printf("7. Backup Password\n");
+			printf("8. Save Changes and Exit\n");
+
+			do {
+				printf("\nEnter your choice: ");
+				scanf("%d", &choice);
+				clearInputBuffer();
+
+				switch (choice) {
+				case 1:
+					printf("Enter new name: ");
+					scanf("%s", member.mName);
+					break;
+				case 2:
+					printf("Enter new username: ");
+					scanf("%s", member.mUsername);
+					break;
+				case 3:
+					printf("Enter new IC: ");
+					scanf("%s", member.mIC);
+					break;
+				case 4:
+					printf("Enter new email: ");
+					scanf("%s", member.mEmail);
+					break;
+				case 5:
+					printf("Enter new address: ");
+					scanf("%s", member.mAddress);
+					break;
+				case 6:
+					printf("Enter new password: ");
+					scanf("%s", member.mPassword);
+					break;
+				case 7:
+					printf("Enter new backup password: ");
+					scanf("%s", member.mBackupPassword);
+					break;
+				case 8:
+					// Save changes and exit the loop
+					break;
+				default:
+					printf("Invalid choice. Please enter a number between 1 and 8.\n");
+					break;
+				}
+			} while (choice != 8);
 		}
-		else {
-			// Write profile data as it is to the temporary file
-			fprintf(tempFile, "%s|%s|%s|%s|%s|%s|%s\n", member.mName, member.mPassword, member.mUsername, member.mIC,
-				member.mEmail, member.mAddress, member.mBackupPassword);
-		}
+
+		// Write the profile information to the temporary file
+		fprintf(tempFile, "%s|%s|%s|%s|%s|%s|%s\n",
+			member.mName, member.mPassword, member.mUsername, member.mIC,
+			member.mEmail, member.mAddress, member.mBackupPassword);
 	}
 
 	fclose(originalFile);
@@ -359,9 +361,11 @@ int modifyProfile(const char* currentUser, const char* password) {
 
 	printf("\nChanges saved successfully.\n");
 	system("pause");
-	return 1; // Return success
 
+	clearScreen();
 	memloginpage();
+
+	return 1; // Return success
 }
 
 //delete customer profile

@@ -458,115 +458,180 @@ int staffDeletion(const char* name) {
 }
 
 // Modify the staff name and password, **id cannot be modify
-int modifyProfile(const char* currentUser, const char* password) {
-	Members member;
+int staffModification(const char* name) {
 
-	// Check if the profile exists
-	if (!findProfile(currentUser)) {
-		return 0; // Return failure if profile not found
+	struct menu mod;
+	struct staff modi;
+	struct Date currentDate = getCurrentDate();
+	struct Time currentTime = getCurrentTime();
+	FILE* fpr, * fp, *fmod;
+	char Modiid[10], ModiPosition[100], orig_name[50], orig_pass[50];
+	found = false;
+
+	if ((fpr = fopen("staffInfo.txt", "r")) == NULL || (fp = fopen("temp.txt", "w")) == NULL || (fmod = fopen("records.txt", "a")) == NULL) {
+		printf("AN ERROR OCCUR PLEASE TRY AGAIN!");
+		return;
 	}
+	do {
+		system("cls");
 
-	clearScreen();
-	printf("\nHello, welcome to profile modify.\n");
+		printf(blue"Staff modification menu\n\n"reset);
+		printf(green"NOTE! If you don't want to modify the certain data field please press (ENTER) to skip\n\n"reset);
+		printf(green"Enter the staff ID you want to modify: ");
+		scanf(" %s", Modiid);
+		printf("\n"reset);
+		getchar();
+		
+		while (fscanf(fpr, "%[^,], %[^,], %[^,], %[^,], %d, %d, %[^\n]\n", modi.id, modi.name, modi.pass, ModiPosition, &modi.salary, &modi.age, modi.phone) != EOF) {
+			if (strcmp(modi.id, Modiid) == 0) {
+				found = true;
 
-	// Read the existing profile information from the file
-	FILE* originalFile = fopen("memberinfo.txt", "r");
-	if (originalFile == NULL) {
-		printf("Error: Unable to open files for modification.\n");
-		return -1;
-	}
+				char orig_name[50], orig_pass[50], orig_phone[50];
+				enum Position orig_position = modi.position;
+				int orig_salary = modi.salary;
+				int orig_age = modi.age;
+				strcpy(orig_phone, modi.phone);
+				strcpy(orig_name, modi.name);
+				strcpy(orig_pass, modi.pass);
 
-	// Copy the existing profile information to a temporary file
-	FILE* tempFile = fopen("tempfile.txt", "w");
-	if (tempFile == NULL) {
-		printf("Error: Unable to create temporary file.\n");
-		fclose(originalFile);
-		return -1;
-	}
-
-	// Read and copy the profile information line by line
-	while (fscanf(originalFile, "%[^|]|%[^|]|%[^|]|%[^|]|%[^|]|%[^|]|%[^|\n]\n",
-		member.mName, member.mPassword, member.mUsername, member.mIC,
-		member.mEmail, member.mAddress, member.mBackupPassword) == 7) {
-		// Check if the current line corresponds to the user's profile
-		if (strcmp(member.mUsername, currentUser) == 0 && strcmp(member.mPassword, password) == 0) {
-			int choice;
-			printf("Enter the number corresponding to the field you want to modify:\n");
-			printf("1. Name\n");
-			printf("2. Username(Must)\n");
-			printf("3. IC\n");
-			printf("4. Email\n");
-			printf("5. Address\n");
-			printf("6. Password(Must)\n");
-			printf("7. Backup Password\n");
-			printf("8. Save Changes and Exit\n");
-
-			do {
-				printf("\nEnter your choice: ");
-				scanf("%d", &choice);
-				clearInputBuffer();
-
-				switch (choice) {
-				case 1:
-					printf("Enter new name: ");
-					scanf("%s", member.mName);
-					break;
-				case 2:
-					printf("Enter new username: ");
-					scanf("%s", member.mUsername);
-					break;
-				case 3:
-					printf("Enter new IC: ");
-					scanf("%s", member.mIC);
-					break;
-				case 4:
-					printf("Enter new email: ");
-					scanf("%s", member.mEmail);
-					break;
-				case 5:
-					printf("Enter new address: ");
-					scanf("%s", member.mAddress);
-					break;
-				case 6:
-					printf("Enter new password: ");
-					scanf("%s", member.mPassword);
-					break;
-				case 7:
-					printf("Enter new backup password: ");
-					scanf("%s", member.mBackupPassword);
-					break;
-				case 8:
-					// Save changes and exit the loop
-					break;
-				default:
-					printf("Invalid choice. Please enter a number between 1 and 8.\n");
-					break;
+				// Modify the information
+				printf(green"Enter new name (Press Enter to skip): ");
+				fgets(modi.name, sizeof(modi.name), stdin);
+				modi.name[strcspn(modi.name, "\n")] = '\0'; // Remove newline character
+				if (modi.name[0] == '\0') {
+					// If the input string is empty, skip modifying the name
+					strcpy(modi.name, orig_name);
+					printf("\n");
 				}
-			} while (choice != 8);
+				else if (strlen(modi.name) >= 40) {
+					printf(red "\nYOUR NAME IS TOO LONG\n" reset);
+					continue;
+				}
+				printf("Enter new pass (Press Enter to skip): ");
+				fgets(modi.pass, sizeof(modi.pass), stdin);
+				modi.pass[strcspn(modi.pass, "\n")] = '\0'; // Remove newline character
+				if (modi.pass[0] == '\0') {
+					// If the input string is empty, skip modifying the password
+					strcpy(modi.pass, orig_pass);
+					printf("\n");
+				}
+				else if (strlen(modi.pass) < 4) {
+					printf(red "\nTHE PASSWORD LENGTH MUST BE AT LEAST 4 CHARACTERS!\n===========================================\n" reset);
+					continue;
+				}
+
+				printf(green"Enter new position (0-9) (Press Enter to skip)\n\n");
+				displayposition();
+				char input[100];
+				fgets(input, sizeof(input), stdin);
+				if (input[0] == '\n') {
+					// If the input string is empty (user pressed Enter), skip modifying the position
+					modi.position = orig_position;
+					printf("\n");
+				}
+				else {
+					int newPosition;
+					if (sscanf(input, " %d", &newPosition) != 1 || newPosition < 0 || newPosition >= NUM_POSITIONS) {
+						printf(red"Invalid input! Position must be a number between 0 and 9.\n"reset);
+						printf("\n");
+						continue;
+					}
+					else {
+						modi.position = (enum Position)newPosition;
+						positionString(modi.position);
+						printf("\n");
+					}
+				}
+
+				printf(green"Enter new salary (Press Enter to skip): ");
+				fgets(input, sizeof(input), stdin);
+				if (input[0] == '\n') {
+					// If the input string is empty (user pressed Enter), skip modifying the salary
+					modi.salary = orig_salary;
+					printf("\n");
+				}
+				else {
+					if (sscanf(input, " %d", &modi.salary) != 1 || modi.salary < 0) {
+						printf(red"Invalid input! Salary must be a non-negative number.\n"reset);
+						printf("\n");
+						continue;
+					}
+				}
+				printf("\n");
+				printf(green"Enter new age (Press Enter to skip): ");
+				fgets(input, sizeof(input), stdin);
+				if (input[0] == '\n') {
+					// If the input string is empty (user pressed Enter), skip modifying the age
+					printf("\n");
+					modi.age = orig_age;
+				}
+				else {
+					if (sscanf(input, " %d", &modi.age) != 1 || modi.age < 18) {
+						printf(red"Invalid input! Age must be a number greater than or equal to 18.\n"reset);
+						printf("\n");
+						continue;
+					}
+				}
+
+				printf(green"Enter new phone number (Malaysia format, e.g., 0123456789) (Press Enter to skip): ");
+				fgets(modi.phone, sizeof(modi.phone), stdin);
+				modi.phone[strcspn(modi.phone, "\n")] = '\0'; // Remove newline character
+				if (modi.phone[0] == '\0') {
+					// If the input string is empty (user pressed Enter), skip modifying the phone number
+					strcpy(modi.phone, orig_phone);
+					printf("\n");
+				}
+				else {
+					if (!isValidPhoneNumber(modi.phone)) {
+						printf(red"Invalid phone number\n"reset);
+						continue;
+					}
+				}
+			}
+			fprintf(fp, "%s, %s, %s, %s, %d, %d, %s\n", modi.id, strcmp(modi.name, "-") != 0 ? modi.name : "-", strcmp(modi.pass, "-") != 0 ? modi.pass : "-", strcmp(ModiPosition, "-") != 0 ? ModiPosition : "-", modi.salary, modi.age, strcmp(modi.phone, "-") != 0 ? modi.phone : "-");
+			fprintf(fmod, "Staff record with ID %s was Modified by %s on %d-%02d-%02d at %02d:%02d\n", Modiid, name, currentDate.day, currentDate.month, currentDate.year, currentTime.hour, currentTime.minute);
+		}
+		fclose(fpr);
+		fclose(fp);
+		fclose(fmod);
+
+		if (found) {
+			// Remove the old file and rename the temp file
+			remove("staffInfo.txt");
+			rename("temp.txt", "staffInfo.txt");
+			printf(green"Staff information modified successfully!\n"reset);
+		}
+		else {
+			printf(red"\n");
+			printf("Staff ID is not found!\n"reset);
 		}
 
-		// Write the profile information to the temporary file
-		fprintf(tempFile, "%s|%s|%s|%s|%s|%s|%s\n",
-			member.mName, member.mPassword, member.mUsername, member.mIC,
-			member.mEmail, member.mAddress, member.mBackupPassword);
-	}
-
-	fclose(originalFile);
-	fclose(tempFile);
-
-	// Remove the original file
-	remove("memberinfo.txt");
-
-	// Rename the temporary file to the original file name
-	rename("tempfile.txt", "memberinfo.txt");
-
-	printf("\nChanges saved successfully.\n");
-	system("pause");
-
-	clearScreen();
-	memloginpage();
-
-	return 1; // Return success
+		do {
+			printf(yellow"\nEnter a number (1) to continue modification, Enter (2) to go back: ");
+			if (scanf(" %d", &mod.choice) == 1) {
+				printf(reset);
+				switch (mod.choice) {
+				case 1:
+					valid = true;
+					break;
+				case 2:
+					staffloginmain(name);
+					valid = true;
+					break;
+				default:
+					printf("\n\033[1;31mInvalid number entered!\033[1;0m\n");
+					printf("========================================\n");
+					break;
+				}
+			}
+			else {
+				while (getchar() != '\n');
+				printf(red"\nInvalid input! Please enter a valid number.\n"reset);
+				printf("===========================================\n");
+				continue;
+			}
+		} while (!valid);
+	} while (mod.choice == 1);
 }
 
 //display staff report
