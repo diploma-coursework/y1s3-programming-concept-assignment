@@ -7,3 +7,5 @@
 #define red "\033[1;31m"
 #define reset "\033[0m"
 #define bold "\033[1;0m"
+#define cyan "\033[1;36m"
+#define pink "\033[1;35m"  
