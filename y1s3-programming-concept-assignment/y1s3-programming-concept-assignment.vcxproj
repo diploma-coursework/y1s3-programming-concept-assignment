@@ -153,6 +153,7 @@
     <None Include="TrainSchedules.dat" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="backup MemberInfo.txt" />
     <Text Include="MemberInfo.txt" />
     <Text Include="records.txt" />
     <Text Include="staffInfo.txt" />
