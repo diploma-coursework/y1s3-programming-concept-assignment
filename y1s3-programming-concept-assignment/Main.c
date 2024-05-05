@@ -1,21 +1,45 @@
 #include <stdio.h>
+#include <stdlib.h>
+
+#include "Color.h"
 #include "StaffInfoModule.h"
-//#include "TicketModule.h"
-#include "TrainSchedulingModule.h"
+
 
 int main() {
-    //staffmain();
-	member();
-	//Ticket();
-	//scheduleTrainMenu();
-	//scheduleTrainMenu();
-	//paginateTrainScheduleRecordsMenu();
-	//removeTrainScheduleRecordMenu();
+	char mainmenuSelection;
 
-	/*
-	char seatsSelectionInfo[2][4];
-	chooseTrainScheduleSeatMenu(1713696786, 2, seatsSelectionInfo);
-	printf("%s, %s selected within the menu.\n", seatsSelectionInfo[0], seatsSelectionInfo[1]);
-	system("pause");
-	*/
+	while (1) {
+		system("cls");
+		printf(
+			yellow"+---------------------------------------------+\n"
+			"|                                             |\n"
+			"|  Welcome to the Train Ticketing System:     |\n"
+			"|                                             |\n"
+			"+---------------------------------------------+\n\n"reset
+			blue"1"reset" - Member\n"
+			blue"2"reset" - Staff\n"
+			blue"0"reset" - Exit\n\n"
+			"Enter your account type selection: "green
+		);
+		scanf(" %c", &mainmenuSelection);
+
+		switch (mainmenuSelection) {
+			case '1':
+				//membermain
+				break;
+			case '2':
+				staffmain();
+				break;
+			case '0':
+				system("cls");
+				printf(yellow"Thank you for using the train ticketing system. Wishing you a pleasant journey and hope to serve you again soon!\n"reset);
+				return 0;
+			default:
+				printf(red"Invalid selection, please try again.\n"reset);
+				system("pause");
+		}
+	}
+
+	
+
 }

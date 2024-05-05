@@ -29,8 +29,7 @@ bool scheduleTrainMenu() {
 		"+------------------------+\n"
 		"|  Schedule a Train:     |\n"
 		"+------------------------+\n\n"
-		"Please enter the details for the following.\n"
-	);
+		"Please enter the details for the following.\n");
 	
 	displayTrainStations();
 	printf("Departure station: ");
@@ -83,7 +82,7 @@ bool scheduleTrainMenu() {
  */
 
 
-void paginateTrainScheduleRecordsMenu() {
+void paginateAllTrainScheduleRecordsMenu() {
 	int numOfRecords = getNumberOfScheduleRecordsInFile();
 	if (numOfRecords == 0) {
 		printf(
@@ -131,8 +130,7 @@ void paginateTrainScheduleRecordsMenu() {
 /**
  * Remove a train schedule with given id
  */
-
-
+ 
 bool removeTrainScheduleRecordMenu() {
 	int recordId;
 	char confirmRemoval;

@@ -50,7 +50,7 @@
     <ClInclude Include="SystemEnums.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Ticket_struct.h">
+    <ClInclude Include="BookingStruct.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TicketModule.h">
@@ -62,7 +62,10 @@
     <ClInclude Include="TrainSchedulingModuleUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="staff_def.h">
+    <ClInclude Include="StaffUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Color.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -73,12 +76,12 @@
     <None Include="TicketBookings.dat">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="BookingsInfo.bin">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="MemberInfo.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="staffInfo.txt">
       <Filter>Resource Files</Filter>
     </Text>
     <Text Include="temporaryfile.txt">
@@ -87,7 +90,7 @@
     <Text Include="records.txt">
       <Filter>Resource Files</Filter>
     </Text>
-    <Text Include="temp.txt">
+    <Text Include="staffInfo.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>
