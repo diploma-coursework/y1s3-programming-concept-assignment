@@ -167,8 +167,9 @@ int viewPage(const char* username, const char* password)
 			clearScreen();
 		case 6:
 			clearScreen();
-			printf("Have a nice day");
-			exit(-1);
+			printf("Have a nice day\n");
+			system("pause");
+			main();
 			break;
 		}
 
