@@ -7,6 +7,7 @@
 
 #define MAX_COACH_SEATS 60
 
+
 int getNumberOfScheduleRecordsInFile() {
 	FILE* filePtr = fopen("TrainSchedules.dat", "rb");
 	if (filePtr == NULL) {

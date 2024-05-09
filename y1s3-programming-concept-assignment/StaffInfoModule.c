@@ -8,9 +8,7 @@
 #include "Color.h"
 #include "StaffUtils.h"
 #include "GeneralStructs.h"
-#include "GeneralUtils.h"
 #include "TrainSchedulingModule.h"
-#include "GeneralUtils.h"
 
 // staff main
 void staffmain() {
@@ -507,6 +505,8 @@ int staffModification(const char* name) {
 					printf(red "\nYOUR NAME IS TOO LONG\n" reset);
 					continue;
 				}
+
+				printf("\n");
 				printf("Enter new pass (Press Enter to skip): ");
 				fgets(modi.pass, sizeof(modi.pass), stdin);
 				modi.pass[strcspn(modi.pass, "\n")] = '\0'; // Remove newline character
@@ -519,7 +519,7 @@ int staffModification(const char* name) {
 					printf(red "\nTHE PASSWORD LENGTH MUST BE AT LEAST 4 CHARACTERS!\n===========================================\n" reset);
 					continue;
 				}
-
+				printf("\n");
 				printf(green"Enter new position (0-9) (Press Enter to skip)\n\n");
 				displayposition();
 				char input[100];
@@ -572,7 +572,7 @@ int staffModification(const char* name) {
 						continue;
 					}
 				}
-
+				printf("\n");
 				printf(green"Enter new phone number (Malaysia format, e.g., 0123456789) (Press Enter to skip): ");
 				fgets(modi.phone, sizeof(modi.phone), stdin);
 				modi.phone[strcspn(modi.phone, "\n")] = '\0'; // Remove newline character
@@ -709,7 +709,6 @@ int staffsearching(const char* name) {
 	char searchid[10];
 	struct staff search;
 	struct menu searchstaff;
-	bool found = false;
 	bool continue_searching = true;
 	char position_String[100];
 
@@ -722,26 +721,29 @@ int staffsearching(const char* name) {
 	}
 
 	do {
+		bool found = false;
 		system("cls"); 
 
 		printf(blue"Welcome to Staff searching %s!\n"reset, name);
 		printf(green"\nEnter the staff Id to search for it's informations >");
 		scanf(" %s"reset, searchid);
 
+		rewind(fpr);
 		while (fscanf(fpr, " %[^,], %[^,], %[^,], %[^,], %d, %d, %[^\n]\n", search.id, search.name, search.pass, position_String, &search.salary, &search.age, search.phone) != EOF) {
 			if (strcmp(searchid, search.id) == 0) {
 				search.position = getPositionEnum(position_String);
 				printf("\nThe ID you searched for (%s) is found!\n\n", searchid);
 				printf("Staff ID          : %s\nStaff Name        : %s\nStaff Password    : %s\nStaff Position    : %s\nStaff Salary      : RM%d\nStaff Age         : %d\nStaff Phone Number: %s\n", search.id, search.name, search.pass, positionString(search.position), search.salary, search.age, search.phone);
-				found = 1;
+				found = true;
 				break;
 			}
 		}
 		if (!found) {
 			printf(red"RESULT FOR THE %s IS NOT FOUND, PLEASE TRY AGAIN!\n"reset, searchid);
 		}
-		fclose(fpr);
 
+		fclose(fpr);
+		bool valid = false;
 		do {
 			printf(green"\nENTER (1) TO GO TO BACK\nENTER (2) TO CONTINUE SEARCHING FOR THE INFORMATION\nENTER (3) TO EXIT THE PROGRAM\n\n>");
 			if (scanf(" %d", &searchstaff.choice) == 1) {
@@ -757,7 +759,6 @@ int staffsearching(const char* name) {
 					break;
 				case 3:
 					return 0;
-					break;
 				default:
 					printf(red"INVALID NUMBER ENTERED, PLEASE TRY AGAIN!\n"reset);
 					printf("=========================================\n");
@@ -768,10 +769,8 @@ int staffsearching(const char* name) {
 				while (getchar() != '\n');
 				printf(red"\nInvalid input! Please enter a valid number.\n"reset);
 				printf("===========================================\n");
-				continue;
 			}
 		} while (!valid);
-
 	} while (continue_searching);
 }
 

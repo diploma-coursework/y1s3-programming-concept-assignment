@@ -127,10 +127,12 @@ void paginateAllTrainScheduleRecordsMenu() {
 	free(records);
 }
 
+
 /**
  * Remove a train schedule with given id
  */
  
+
 bool removeTrainScheduleRecordMenu() {
 	int recordId;
 	char confirmRemoval;
